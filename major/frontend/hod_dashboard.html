@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOD Dashboard</title>
+    <link rel="stylesheet" href="hod_dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://www.vvitu.ac.in/src/assets/images/VVIT_logo.png" alt="VVIT Logo" class="logo">
+                <h3>HOD Panel</h3>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#dashboard" class="nav-link" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#students" class="nav-link" onclick="showSection('students')">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Add Students</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#pending" class="nav-link" onclick="showSection('pending')">
+                        <i class="fas fa-clock"></i>
+                        <span>Pending Approval</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#approved" class="nav-link" onclick="showSection('approved')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Approved Students</span>
+                    </a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a href="#forwarded" class="nav-link" onclick="showSection('forwarded')">
+                        <i class="fas fa-share"></i>
+                        <span>Forwarded to Dean</span>
+                    </a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="#syllabus" class="nav-link" onclick="showSection('syllabus')">
+                        <i class="fas fa-book"></i>
+                        <span>Syllabus</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#reports" class="nav-link" onclick="showSection('reports')">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#attendance" class="nav-link" onclick="showSection('attendance')">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Attendance Tracking</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <a href="hod_login.html" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>HOD Dashboard</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search students...">
+                    </div>
+                    
+                    <div class="hod-profile">
+                        <div class="notifications">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">5</span>
+                        </div>
+                        <div class="profile-info">
+                            <img src="https://i.pinimg.com/736x/bc/16/87/bc16874bbc5e5a43d1aeb61938df9064.jpg" alt="HOD" class="profile-img">
+                            <span>HOD - Computer Science</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Content Sections -->
+                <div class="content-sections">
+                    <!-- Dashboard Section -->
+                    <div id="dashboard-section" class="section active">
+                        <!-- Stats Cards -->
+                        <div class="stats-grid">
+                            <div class="stat-card" onclick="showAllStudents()" style="cursor: pointer;">
+                                <div class="stat-icon students">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>Total Students</h3>
+                                    <p class="stat-number">156</p>
+                                    <span class="stat-change positive">+8 this month</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>Pending Approval</h3>
+                                    <p class="stat-number">12</p>
+                                    <span class="stat-change warning">Needs attention</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon approved">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>Approved</h3>
+                                    <p class="stat-number">134</p>
+                                    <span class="stat-change positive">+5 this week</span>
+                                </div>
+                            </div>
+                            
+                            <!-- <!-- <div class="stat-card">
+                                <div class="stat-icon forwarded">
+                                    <i class="fas fa-share"></i>
+                                </div>
+                                <!-- <div class="stat-info">
+                                    <h3>Forwarded to Dean</h3>
+                                    <p class="stat-number">89</p>
+                                    <span class="stat-change neutral">Awaiting response</span>
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="quick-actions">
+                            <h2>Quick Actions</h2>
+                            <div class="action-buttons">
+                                <button class="action-btn" onclick="showSection('students')">
+                                    <i class="fas fa-user-plus"></i>
+                                    Add New Student
+                                </button>
+                                <button class="action-btn" onclick="bulkUpload()">
+                                    <i class="fas fa-upload"></i>
+                                    Bulk Upload
+                                </button>
+                                <button class="action-btn" onclick="exportData()">
+                                    <i class="fas fa-download"></i>
+                                    Export Data
+                                </button>
+                                <button class="action-btn" onclick="generateReport()">
+                                    <i class="fas fa-file-export"></i>
+                                    Generate Report
+                                </button>
+                                <button class="action-btn" onclick="showSection('syllabus')">
+                                    <i class="fas fa-book"></i>
+                                    Manage Syllabus
+                                </button>
+                                <button class="action-btn" onclick="showSection('reports')">
+                                    <i class="fas fa-file-alt"></i>
+                                    Generate Reports
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Add Students Section -->
+                    <div id="students-section" class="section">
+                        <div class="section-header">
+                            <h2>Add New Student</h2>
+                            <p>Fill in the student details below</p>
+                        </div>
+                        
+                        <div class="student-form">
+                            <form id="addStudentForm">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Student Name</label>
+                                        <input type="text" id="studentName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Roll Number</label>
+                                        <input type="text" id="rollNumber" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" id="studentEmail" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input type="tel" id="studentPhone" required>
+                                    </div>
+                                                                            <div class="form-group">
+                                            <label>Department</label>
+                                            <select id="department" required>
+                                                <option value="">Select Department</option>
+                                                <option value="cse">Computer Science Engineering</option>
+                                                <option value="ece">Electronics & Communication</option>
+                                                <option value="me">Mechanical Engineering</option>
+                                                <option value="ce">Civil Engineering</option>
+                                                <option value="aids">AIDS</option>
+                                                <option value="aiml">AIML</option>
+                                                <option value="cic">CIC - Cyber Security</option>
+                                                <option value="csm">CSM - Computer Science with Machine Learning</option>
+                                                <option value="cso">CSO - Computer Science with Internet of Things</option>
+                                                <option value="eee">EEE</option>
+                                            </select>
+                                        </div>
+                                    <div class="form-group">
+                                        <label>Year</label>
+                                        <select id="year" required>
+                                            <option value="">Select Year</option>
+                                            <option value="1">1st Year</option>
+                                            <option value="2">2nd Year</option>
+                                            <option value="3">3rd Year</option>
+                                            <option value="4">4th Year</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="submit-btn">
+                                        <i class="fas fa-save"></i>
+                                        Add Student
+                                    </button>
+                                    <button type="button" class="clear-btn" onclick="clearForm()">
+                                        <i class="fas fa-eraser"></i>
+                                        Clear Form
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Pending Approval Section -->
+                    <div id="pending-section" class="section">
+                        <div class="section-header">
+                            <h2>Pending Approval</h2>
+                            <p>Students awaiting your approval</p>
+                        </div>
+                        
+                        <div class="students-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Roll No</th>
+                                        <th>Department</th>
+                                        <th>Year</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pendingTableBody">
+                                    <!-- Data will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Approved Students Section -->
+                    <div id="approved-section" class="section">
+                        <div class="section-header">
+                            <h2>Approved Students</h2>
+                            <p>Students approved by you</p>
+                        </div>
+                        
+                        <div class="students-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Roll No</th>
+                                        <th>Department</th>
+                                        <th>Year</th>
+                                        <th>Approval Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="approvedTableBody">
+                                    <!-- Data will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                                         <!-- Forwarded to Dean Section -->
+                     <div id="forwarded-section" class="section">
+                         <div class="section-header">
+                             <h2>Forwarded to Dean</h2>
+                             <p>Students forwarded for dean approval</p>
+                         </div>
+                         
+                         <div class="students-table">
+                             <table>
+                                 <thead>
+                                     <tr>
+                                         <th>Name</th>
+                                         <th>Roll No</th>
+                                         <th>Department</th>
+                                         <th>Year</th>
+                                         <th>Forwarded Date</th>
+                                         <th>Dean Status</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody id="forwardedTableBody">
+                                     <!-- Data will be populated by JavaScript -->
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
+
+                     <!-- Syllabus Management Section -->
+                     <div id="syllabus-section" class="section">
+                         <div class="section-header">
+                             <h2>Syllabus Management</h2>
+                             <p>Manage course syllabi for your department</p>
+                         </div>
+                         
+                         <div class="syllabus-content">
+                             <!-- Add New Syllabus Form -->
+                             <div class="syllabus-form">
+                                 <h3>Add New Syllabus</h3>
+                                 <form id="addSyllabusForm">
+                                     <div class="form-grid">
+                                         <div class="form-group">
+                                             <label>Course Name</label>
+                                             <input type="text" id="courseName" required>
+                                         </div>
+                                         <div class="form-group">
+                                             <label>Course Code</label>
+                                             <input type="text" id="courseCode" required>
+                                         </div>
+                                         <div class="form-group">
+                                             <label>Department</label>
+                                             <select id="syllabusDepartment" required>
+                                                 <option value="">Select Department</option>
+                                                 <option value="cse">Computer Science Engineering</option>
+                                                 <option value="ece">Electronics & Communication</option>
+                                                 <option value="me">Mechanical Engineering</option>
+                                                 <option value="ce">Civil Engineering</option>
+                                                 <option value="aids">AIDS</option>
+                                                 <option value="aiml">AIML</option>
+                                                 <option value="cic">CIC - Cyber Security</option>
+                                                 <option value="csm">CSM - Computer Science with Machine Learning</option>
+                                                 <option value="cso">CSO - Computer Science with Internet of Things</option>
+                                                 <option value="eee">EEE</option>
+                                             </select>
+                                         </div>
+                                         <div class="form-group">
+                                             <label>Year</label>
+                                             <select id="syllabusYear" required>
+                                                 <option value="">Select Year</option>
+                                                 <option value="1">1st Year</option>
+                                                 <option value="2">2nd Year</option>
+                                                 <option value="3">3rd Year</option>
+                                                 <option value="4">4th Year</option>
+                                             </select>
+                                         </div>
+                                         <div class="form-group">
+                                             <label>Semester</label>
+                                             <select id="semester" required>
+                                                 <option value="">Select Semester</option>
+                                                 <option value="1">Semester 1</option>
+                                                 <option value="2">Semester 2</option>
+                                                 <option value="3">Semester 3</option>
+                                                 <option value="4">Semester 4</option>
+                                                 <option value="5">Semester 5</option>
+                                                 <option value="6">Semester 6</option>
+                                                 <option value="7">Semester 7</option>
+                                                 <option value="8">Semester 8</option>
+                                             </select>
+                                         </div>
+                                         <div class="form-group">
+                                             <label>Credits</label>
+                                             <input type="number" id="credits" min="1" max="6" required>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="form-group full-width">
+                                         <label>Syllabus Description</label>
+                                         <textarea id="syllabusDescription" rows="4" placeholder="Enter detailed syllabus content, topics, and learning objectives..."></textarea>
+                                     </div>
+                                     
+                                     <div class="form-actions">
+                                         <button type="submit" class="submit-btn">
+                                             <i class="fas fa-save"></i>
+                                             Add Syllabus
+                                         </button>
+                                         <button type="button" class="clear-btn" onclick="clearSyllabusForm()">
+                                             <i class="fas fa-eraser"></i>
+                                             Clear Form
+                                         </button>
+                                     </div>
+                                 </form>
+                             </div>
+                             
+                             <!-- Syllabus List -->
+                             <div class="syllabus-list">
+                                 <h3>Current Syllabi</h3>
+                                 <div class="syllabus-table">
+                                     <table>
+                                         <thead>
+                                             <tr>
+                                                 <th>Course Name</th>
+                                                 <th>Course Code</th>
+                                                 <th>Department</th>
+                                                 <th>Year</th>
+                                                 <th>Semester</th>
+                                                 <th>Credits</th>
+                                                 <th>Status</th>
+                                                 <th>Actions</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody id="syllabusTableBody">
+                                             <!-- Data will be populated by JavaScript -->
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+                     <!-- Reports Section -->
+                     <div id="reports-section" class="section">
+                         <div class="section-header">
+                             <h2>Reports & Analytics</h2>
+                             <p>Generate comprehensive reports and view department analytics</p>
+                         </div>
+                         
+                         <div class="reports-content">
+                             <!-- Report Types -->
+                             <div class="report-types">
+                                 <h3>Available Reports</h3>
+                                 <div class="report-grid">
+                                     <div class="report-card">
+                                         <div class="report-icon">
+                                             <i class="fas fa-user-graduate"></i>
+                                         </div>
+                                         <h4>Student Reports</h4>
+                                         <p>Generate reports on student enrollment, performance, and statistics</p>
+                                         <div class="report-actions">
+                                             <button class="report-btn primary" onclick="generateStudentReport()">
+                                                 <i class="fas fa-file-pdf"></i>
+                                                 Generate PDF
+                                             </button>
+                                             <button class="report-btn secondary" onclick="generateStudentExcel()">
+                                                 <i class="fas fa-file-excel"></i>
+                                                 Export Excel
+                                             </button>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="report-card">
+                                         <div class="report-icon">
+                                             <i class="fas fa-book"></i>
+                                         </div>
+                                         <h4>Syllabus Reports</h4>
+                                         <p>Generate reports on course syllabi, subjects, and curriculum coverage</p>
+                                         <div class="report-actions">
+                                             <button class="report-btn primary" onclick="generateSyllabusReport()">
+                                                 <i class="fas fa-file-pdf"></i>
+                                                 Generate PDF
+                                             </button>
+                                             <button class="report-btn secondary" onclick="generateSyllabusExcel()">
+                                                 <i class="fas fa-file-excel"></i>
+                                                 Export Excel
+                                             </button>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="report-card">
+                                         <div class="report-icon">
+                                             <i class="fas fa-chart-line"></i>
+                                         </div>
+                                         <h4>Analytics Report</h4>
+                                         <p>View department performance analytics and trends</p>
+                                         <div class="report-actions">
+                                             <button class="report-btn primary" onclick="generateAnalyticsReport()">
+                                                 <i class="fas fa-chart-bar"></i>
+                                                 View Analytics
+                                             </button>
+                                             <button class="report-btn secondary" onclick="exportAnalytics()">
+                                                 <i class="fas fa-download"></i>
+                                                 Export Data
+                                             </button>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="report-card">
+                                         <div class="report-icon">
+                                             <i class="fas fa-clock"></i>
+                                         </div>
+                                         <h4>Approval Reports</h4>
+                                         <p>Track approval workflows and pending applications</p>
+                                         <div class="report-actions">
+                                             <button class="report-btn primary" onclick="generateApprovalReport()">
+                                                 <i class="fas fa-file-pdf"></i>
+                                                 Generate PDF
+                                             </button>
+                                             <button class="report-btn secondary" onclick="generateApprovalExcel()">
+                                                 <i class="fas fa-file-excel"></i>
+                                                 Export Excel
+                                             </button>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                             
+                             <!-- Report Filters -->
+                             <div class="report-filters">
+                                 <h3>Report Filters</h3>
+                                 <div class="filter-form">
+                                     <div class="filter-grid">
+                                         <div class="filter-group">
+                                             <label>Department</label>
+                                             <select id="reportDepartment">
+                                                 <option value="">All Departments</option>
+                                                 <option value="cse">Computer Science Engineering</option>
+                                                 <option value="ece">Electronics & Communication</option>
+                                                 <option value="me">Mechanical Engineering</option>
+                                                 <option value="ce">Civil Engineering</option>
+                                                 <option value="aids">AIDS</option>
+                                                 <option value="aiml">AIML</option>
+                                                 <option value="cic">CIC - Cyber Security</option>
+                                                 <option value="csm">CSM - Computer Science with Machine Learning</option>
+                                                 <option value="cso">CSO - Computer Science with Internet of Things</option>
+                                                 <option value="eee">EEE</option>
+                                             </select>
+                                         </div>
+                                         <div class="filter-group">
+                                             <label>Year</label>
+                                             <select id="reportYear">
+                                                 <option value="">All Years</option>
+                                                 <option value="1">1st Year</option>
+                                                 <option value="2">2nd Year</option>
+                                                 <option value="3">3rd Year</option>
+                                                 <option value="4">4th Year</option>
+                                             </select>
+                                         </div>
+                                         <div class="filter-group">
+                                             <label>Date Range</label>
+                                             <select id="reportDateRange">
+                                                 <option value="7">Last 7 days</option>
+                                                 <option value="30">Last 30 days</option>
+                                                 <option value="90">Last 3 months</option>
+                                                 <option value="365">Last year</option>
+                                                 <option value="custom">Custom range</option>
+                                             </select>
+                                         </div>
+                                         <div class="filter-group">
+                                             <label>Report Type</label>
+                                             <select id="reportType">
+                                                 <option value="summary">Summary Report</option>
+                                                 <option value="detailed">Detailed Report</option>
+                                                 <option value="comparative">Comparative Report</option>
+                                             </select>
+                                         </div>
+                                     </div>
+                                     <div class="filter-actions">
+                                         <button class="filter-btn" onclick="applyFilters()">
+                                             <i class="fas fa-filter"></i>
+                                             Apply Filters
+                                         </button>
+                                         <button class="filter-btn secondary" onclick="clearFilters()">
+                                             <i class="fas fa-eraser"></i>
+                                             Clear Filters
+                                         </button>
+                                     </div>
+                                 </div>
+                             </div>
+                             
+                             <!-- Recent Reports -->
+                             <div class="recent-reports">
+                                 <h3>Recent Reports</h3>
+                                 <div class="reports-table">
+                                     <table>
+                                         <thead>
+                                             <tr>
+                                                 <th>Report Name</th>
+                                                 <th>Type</th>
+                                                 <th>Generated Date</th>
+                                                 <th>Status</th>
+                                                 <th>Actions</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody id="recentReportsTableBody">
+                                             <!-- Data will be populated by JavaScript -->
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     
+                     <!-- All Students Section -->
+                     <div id="all-students-section" class="section">
+                         <div class="section-header">
+                             <h2>All Students</h2>
+                             <p>Complete list of all students sorted by roll number</p>
+                         </div>
+                         
+                         <div class="all-students-content">
+                             <div class="students-summary">
+                                 <div class="summary-card">
+                                     <h3>Total Students</h3>
+                                     <p id="totalStudentsCount">0</p>
+                                 </div>
+                                 <div class="summary-card">
+                                     <h3>Departments</h3>
+                                     <p id="totalDepartments">0</p>
+                                 </div>
+                                 <div class="summary-card">
+                                     <h3>Years</h3>
+                                     <p id="totalYears">0</p>
+                                 </div>
+                             </div>
+                             
+                             <div class="students-table-container">
+                                 <div class="table-header">
+                                     <h3>Student List (Sorted by Roll Number)</h3>
+                                     <div class="table-actions">
+                                         <button class="action-btn-small" onclick="exportAllStudents()">
+                                             <i class="fas fa-download"></i>
+                                             Export
+                                         </button>
+                                         <button class="action-btn-small" onclick="printAllStudents()">
+                                             <i class="fas fa-print"></i>
+                                             Print
+                                         </button>
+                                     </div>
+                                 </div>
+                                 <div class="table-container">
+                                     <table class="data-table">
+                                         <thead>
+                                             <tr>
+                                                 <th>Roll Number</th>
+                                                 <th>Student Name</th>
+                                                 <th>Department</th>
+                                                 <th>Year</th>
+                                                 <th>Email</th>
+                                                 <th>Phone</th>
+                                                 <th>Status</th>
+                                                 <th>Registration Date</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody id="allStudentsTableBody">
+                                             <!-- Data will be populated by JavaScript -->
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+                     <!-- Attendance Tracking Section -->
+                     <div id="attendance-section" class="section">
+                         <div class="section-header">
+                             <h2>Attendance Tracking</h2>
+                             <p>Monitor and manage student and teacher attendance across departments</p>
+                         </div>
+                         
+                         <div class="attendance-content">
+                             <!-- Attendance Tabs -->
+                             <div class="attendance-tabs">
+                                 <button class="tab-btn active" onclick="showAttendanceTab('overview')">
+                                     <i class="fas fa-chart-pie"></i>
+                                     Overview
+                                 </button>
+                                 <button class="tab-btn" onclick="showAttendanceTab('students')">
+                                     <i class="fas fa-user-graduate"></i>
+                                     Student Attendance
+                                 </button>
+                                 <button class="tab-btn" onclick="showAttendanceTab('teachers')">
+                                     <i class="fas fa-chalkboard-teacher"></i>
+                                     Teacher Attendance
+                                 </button>
+                                 <button class="tab-btn" onclick="showAttendanceTab('reports')">
+                                     <i class="fas fa-file-alt"></i>
+                                     Attendance Reports
+                                 </button>
+                                 <button class="tab-btn" onclick="showAttendanceTab('analytics')">
+                                     <i class="fas fa-chart-line"></i>
+                                     Analytics
+                                 </button>
+                             </div>
+
+                             <!-- Overview Tab -->
+                             <div id="overview-tab" class="tab-content active">
+                                 <div class="overview-stats">
+                                     <div class="overview-card">
+                                         <div class="overview-icon students">
+                                             <i class="fas fa-user-graduate"></i>
+                                         </div>
+                                         <div class="overview-info">
+                                             <h3>Student Attendance</h3>
+                                             <p class="overview-number">87.5%</p>
+                                             <span class="overview-change positive">+2.3% this week</span>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="overview-card">
+                                         <div class="overview-icon teachers">
+                                             <i class="fas fa-chalkboard-teacher"></i>
+                                         </div>
+                                         <div class="overview-info">
+                                             <h3>Teacher Attendance</h3>
+                                             <p class="overview-number">94.2%</p>
+                                             <span class="overview-change positive">+1.1% this week</span>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="overview-card">
+                                         <div class="overview-icon departments">
+                                             <i class="fas fa-building"></i>
+                                         </div>
+                                         <div class="overview-info">
+                                             <h3>Departments</h3>
+                                             <p class="overview-number">10</p>
+                                             <span class="overview-change neutral">All active</span>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="overview-card">
+                                         <div class="overview-icon alerts">
+                                             <i class="fas fa-exclamation-triangle"></i>
+                                         </div>
+                                         <div class="overview-info">
+                                             <h3>Low Attendance Alerts</h3>
+                                             <p class="overview-number">8</p>
+                                             <span class="overview-change warning">Needs attention</span>
+                                         </div>
+                                     </div>
+                                 </div>
+
+                                 <div class="recent-attendance">
+                                     <h3>Recent Attendance Activity</h3>
+                                     <div class="activity-list">
+                                         <div class="activity-item">
+                                             <div class="activity-icon present">
+                                                 <i class="fas fa-check"></i>
+                                             </div>
+                                             <div class="activity-info">
+                                                 <h4>CS001 - John Doe</h4>
+                                                 <p>Present in Data Structures (Period 1)</p>
+                                                 <span class="activity-time">2 hours ago</span>
+                                             </div>
+                                         </div>
+                                         
+                                         <div class="activity-item">
+                                             <div class="activity-icon absent">
+                                                 <i class="fas fa-times"></i>
+                                             </div>
+                                             <div class="activity-info">
+                                                 <h4>ECE002 - Robert Miller</h4>
+                                                 <p>Absent in Digital Electronics (Period 3)</p>
+                                                 <span class="activity-time">3 hours ago</span>
+                                             </div>
+                                         </div>
+                                         
+                                         <div class="activity-item">
+                                             <div class="activity-icon teacher">
+                                                 <i class="fas fa-chalkboard-teacher"></i>
+                                             </div>
+                                             <div class="activity-info">
+                                                 <h4>Dr. Sarah Wilson</h4>
+                                                 <p>Present for Database Management class</p>
+                                                 <span class="activity-time">4 hours ago</span>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+
+                             <!-- Student Attendance Tab -->
+                             <div id="students-tab" class="tab-content">
+                                 <div class="attendance-controls">
+                                     <div class="control-group">
+                                         <label>Department:</label>
+                                         <select id="studentDeptFilter">
+                                             <option value="">All Departments</option>
+                                             <option value="CSE">Computer Science Engineering</option>
+                                             <option value="ECE">Electronics & Communication</option>
+                                             <option value="ME">Mechanical Engineering</option>
+                                             <option value="CE">Civil Engineering</option>
+                                             <option value="AIDS">AIDS</option>
+                                             <option value="AIML">AIML</option>
+                                             <option value="CIC">CIC - Cyber Security</option>
+                                             <option value="CSM">CSM - Computer Science with Machine Learning</option>
+                                             <option value="CSO">CSO - Computer Science with Internet of Things</option>
+                                             <option value="EEE">EEE</option>
+                                         </select>
+                                     </div>
+                                     <div class="control-group">
+                                         <label>Year:</label>
+                                         <select id="studentYearFilter">
+                                             <option value="">All Years</option>
+                                             <option value="1">1st Year</option>
+                                             <option value="2">2nd Year</option>
+                                             <option value="3">3rd Year</option>
+                                             <option value="4">4th Year</option>
+                                         </select>
+                                     </div>
+                                     <div class="control-group">
+                                         <label>Date:</label>
+                                         <input type="date" id="studentDateFilter" value="">
+                                     </div>
+                                     <button class="filter-btn" onclick="filterStudentAttendance()">
+                                         <i class="fas fa-filter"></i>
+                                         Filter
+                                     </button>
+                                 </div>
+
+                                 <div class="student-attendance-table">
+                                     <table>
+                                         <thead>
+                                             <tr>
+                                                 <th>Roll No</th>
+                                                 <th>Student Name</th>
+                                                 <th>Department</th>
+                                                 <th>Year</th>
+                                                 <th>Period 1</th>
+                                                 <th>Period 2</th>
+                                                 <th>Period 3</th>
+                                                 <th>Period 4</th>
+                                                 <th>Period 5</th>
+                                                 <th>Period 6</th>
+                                                 <th>Daily %</th>
+                                                 <th>Monthly %</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody id="studentAttendanceTableBody">
+                                             <!-- Data will be populated by JavaScript -->
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+
+                             <!-- Teacher Attendance Tab -->
+                             <div id="teachers-tab" class="tab-content">
+                                 <div class="attendance-controls">
+                                     <div class="control-group">
+                                         <label>Department:</label>
+                                         <select id="teacherDeptFilter">
+                                             <option value="">All Departments</option>
+                                             <option value="CSE">Computer Science Engineering</option>
+                                             <option value="ECE">Electronics & Communication</option>
+                                             <option value="ME">Mechanical Engineering</option>
+                                             <option value="CE">Civil Engineering</option>
+                                             <option value="AIDS">AIDS</option>
+                                             <option value="AIML">AIML</option>
+                                             <option value="CIC">CIC - Cyber Security</option>
+                                             <option value="CSM">CSM - Computer Science with Machine Learning</option>
+                                             <option value="CSO">CSO - Computer Science with Internet of Things</option>
+                                             <option value="EEE">EEE</option>
+                                         </select>
+                                     </div>
+                                     <div class="control-group">
+                                         <label>Date:</label>
+                                         <input type="date" id="teacherDateFilter" value="">
+                                     </div>
+                                     <button class="filter-btn" onclick="filterTeacherAttendance()">
+                                         <i class="fas fa-filter"></i>
+                                         Filter
+                                     </button>
+                                 </div>
+
+                                 <div class="teacher-attendance-table">
+                                     <table>
+                                         <thead>
+                                             <tr>
+                                                 <th>Teacher ID</th>
+                                                 <th>Teacher Name</th>
+                                                 <th>Department</th>
+                                                 <th>Subject</th>
+                                                 <th>Period 1</th>
+                                                 <th>Period 2</th>
+                                                 <th>Period 3</th>
+                                                 <th>Period 4</th>
+                                                 <th>Period 5</th>
+                                                 <th>Period 6</th>
+                                                 <th>Daily %</th>
+                                                 <th>Monthly %</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody id="teacherAttendanceTableBody">
+                                             <!-- Data will be populated by JavaScript -->
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+
+                             <!-- Attendance Reports Tab -->
+                             <div id="reports-tab" class="tab-content">
+                                 <div class="report-controls">
+                                     <div class="control-group">
+                                         <label>Report Type:</label>
+                                         <select id="reportTypeFilter">
+                                             <option value="daily">Daily Report</option>
+                                             <option value="weekly">Weekly Report</option>
+                                             <option value="monthly">Monthly Report</option>
+                                             <option value="semester">Semester Report</option>
+                                         </select>
+                                     </div>
+                                     <div class="control-group">
+                                         <label>Department:</label>
+                                         <select id="reportDeptFilter">
+                                             <option value="">All Departments</option>
+                                             <option value="CSE">Computer Science Engineering</option>
+                                             <option value="ECE">Electronics & Communication</option>
+                                             <option value="ME">Mechanical Engineering</option>
+                                             <option value="CE">Civil Engineering</option>
+                                             <option value="AIDS">AIDS</option>
+                                             <option value="AIML">AIML</option>
+                                             <option value="CIC">CIC - Cyber Security</option>
+                                             <option value="CSM">CSM - Computer Science with Machine Learning</option>
+                                             <option value="CSO">CSO - Computer Science with Internet of Things</option>
+                                             <option value="EEE">EEE</option>
+                                         </select>
+                                     </div>
+                                     <div class="control-group">
+                                         <label>Date Range:</label>
+                                         <input type="date" id="reportStartDate" value="">
+                                         <span>to</span>
+                                         <input type="date" id="reportEndDate" value="">
+                                     </div>
+                                     <div class="report-actions">
+                                         <button class="generate-btn" onclick="generateAttendanceReport()">
+                                             <i class="fas fa-file-pdf"></i>
+                                             Generate Report
+                                         </button>
+                                         <button class="export-btn" onclick="exportAttendanceReport()">
+                                             <i class="fas fa-download"></i>
+                                             Export Excel
+                                         </button>
+                                     </div>
+                                 </div>
+
+                                 <div class="report-preview">
+                                     <h3>Report Preview</h3>
+                                     <div class="report-summary">
+                                         <div class="summary-item">
+                                             <h4>Total Students</h4>
+                                             <p>156</p>
+                                         </div>
+                                         <div class="summary-item">
+                                             <h4>Average Attendance</h4>
+                                             <p>87.5%</p>
+                                         </div>
+                                         <div class="summary-item">
+                                             <h4>Low Attendance (< 75%)</h4>
+                                             <p>12 students</p>
+                                         </div>
+                                         <div class="summary-item">
+                                             <h4>Perfect Attendance</h4>
+                                             <p>23 students</p>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+
+                             <!-- Analytics Tab -->
+                             <div id="analytics-tab" class="tab-content">
+                                 <div class="analytics-grid">
+                                     <div class="analytics-card">
+                                         <h3>Attendance Trends</h3>
+                                         <div class="trend-chart">
+                                             <div class="chart-placeholder">
+                                                 <i class="fas fa-chart-line"></i>
+                                                 <p>Attendance trend over the last 30 days</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="analytics-card">
+                                         <h3>Department Comparison</h3>
+                                         <div class="comparison-chart">
+                                             <div class="chart-placeholder">
+                                                 <i class="fas fa-chart-bar"></i>
+                                                 <p>Attendance comparison across departments</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="analytics-card">
+                                         <h3>Year-wise Analysis</h3>
+                                         <div class="year-chart">
+                                             <div class="chart-placeholder">
+                                                 <i class="fas fa-chart-pie"></i>
+                                                 <p>Attendance distribution by year</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="analytics-card">
+                                         <h3>Teacher Performance</h3>
+                                         <div class="teacher-chart">
+                                             <div class="chart-placeholder">
+                                                 <i class="fas fa-chart-area"></i>
+                                                 <p>Teacher attendance and performance metrics</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sample data for demonstration
+        let students = [
+            { id: 1, name: "John Doe", rollNo: "CS001", email: "john.doe@email.com", phone: "9876543210", department: "CSE", year: "2", status: "pending", date: "2024-01-15" },
+            { id: 2, name: "Jane Smith", rollNo: "CS002", email: "jane.smith@email.com", phone: "9876543211", department: "CSE", year: "3", status: "approved", date: "2024-01-10" },
+            { id: 3, name: "Mike Johnson", rollNo: "CS003", email: "mike.johnson@email.com", phone: "9876543212", department: "CSE", year: "1", status: "forwarded", date: "2024-01-08" },
+            { id: 4, name: "Sarah Wilson", rollNo: "CS004", email: "sarah.wilson@email.com", phone: "9876543213", department: "CSE", year: "4", status: "approved", date: "2024-01-05" },
+            { id: 5, name: "David Brown", rollNo: "CS005", email: "david.brown@email.com", phone: "9876543214", department: "CSE", year: "2", status: "pending", date: "2024-01-12" },
+            { id: 6, name: "Emily Davis", rollNo: "ECE001", email: "emily.davis@email.com", phone: "9876543215", department: "ECE", year: "3", status: "approved", date: "2024-01-03" },
+            { id: 7, name: "Robert Miller", rollNo: "ECE002", email: "robert.miller@email.com", phone: "9876543216", department: "ECE", year: "1", status: "forwarded", date: "2024-01-07" },
+            { id: 8, name: "Lisa Garcia", rollNo: "ME001", email: "lisa.garcia@email.com", phone: "9876543217", department: "ME", year: "4", status: "approved", date: "2024-01-02" },
+            { id: 9, name: "James Rodriguez", rollNo: "ME002", email: "james.rodriguez@email.com", phone: "9876543218", department: "ME", year: "2", status: "pending", date: "2024-01-09" },
+            { id: 10, name: "Maria Martinez", rollNo: "AIDS001", email: "maria.martinez@email.com", phone: "9876543219", department: "AIDS", year: "1", status: "approved", date: "2024-01-01" },
+            { id: 11, name: "Thomas Anderson", rollNo: "AIML001", email: "thomas.anderson@email.com", phone: "9876543220", department: "AIML", year: "3", status: "forwarded", date: "2024-01-06" },
+            { id: 12, name: "Jennifer Taylor", rollNo: "CIC001", email: "jennifer.taylor@email.com", phone: "9876543221", department: "CIC - Cyber Security", year: "2", status: "approved", date: "2024-01-04" },
+            { id: 13, name: "Christopher Lee", rollNo: "CSM001", email: "christopher.lee@email.com", phone: "9876543222", department: "CSM - Computer Science with Machine Learning", year: "4", status: "pending", date: "2024-01-11" },
+            { id: 14, name: "Amanda White", rollNo: "CSO001", email: "amanda.white@email.com", phone: "9876543223", department: "CSO - Computer Science with Internet of Things", year: "1", status: "approved", date: "2024-01-13" },
+            { id: 15, name: "Daniel Clark", rollNo: "EEE001", email: "daniel.clark@email.com", phone: "9876543224", department: "EEE", year: "3", status: "forwarded", date: "2024-01-14" },
+            { id: 16, name: "Alex Thompson", rollNo: "CS006", email: "alex.thompson@email.com", phone: "9876543225", department: "CSE", year: "1", status: "approved", date: "2024-01-16" },
+            { id: 17, name: "Sophie Chen", rollNo: "CS007", email: "sophie.chen@email.com", phone: "9876543226", department: "CSE", year: "4", status: "pending", date: "2024-01-17" },
+            { id: 18, name: "Ryan Williams", rollNo: "CS008", email: "ryan.williams@email.com", phone: "9876543227", department: "CSE", year: "3", status: "forwarded", date: "2024-01-18" },
+            { id: 19, name: "Emma Davis", rollNo: "CS009", email: "emma.davis@email.com", phone: "9876543228", department: "CSE", year: "2", status: "approved", date: "2024-01-19" },
+            { id: 20, name: "Michael Johnson", rollNo: "CS010", email: "michael.johnson@email.com", phone: "9876543229", department: "CSE", year: "1", status: "pending", date: "2024-01-20" },
+            { id: 21, name: "Priya Patel", rollNo: "ECE003", email: "priya.patel@email.com", phone: "9876543230", department: "ECE", year: "2", status: "approved", date: "2024-01-21" },
+            { id: 22, name: "Kevin Zhang", rollNo: "ECE004", email: "kevin.zhang@email.com", phone: "9876543231", department: "ECE", year: "4", status: "forwarded", date: "2024-01-22" },
+            { id: 23, name: "Rachel Green", rollNo: "ECE005", email: "rachel.green@email.com", phone: "9876543232", department: "ECE", year: "1", status: "approved", date: "2024-01-23" },
+            { id: 24, name: "Carlos Lopez", rollNo: "ECE006", email: "carlos.lopez@email.com", phone: "9876543233", department: "ECE", year: "3", status: "pending", date: "2024-01-24" },
+            { id: 25, name: "Aisha Khan", rollNo: "ECE007", email: "aisha.khan@email.com", phone: "9876543234", department: "ECE", year: "2", status: "forwarded", date: "2024-01-25" },
+            { id: 26, name: "Brandon Wilson", rollNo: "ME003", email: "brandon.wilson@email.com", phone: "9876543235", department: "ME", year: "3", status: "approved", date: "2024-01-26" },
+            { id: 27, name: "Nina Singh", rollNo: "ME004", email: "nina.singh@email.com", phone: "9876543236", department: "ME", year: "1", status: "pending", date: "2024-01-27" },
+            { id: 28, name: "Tyler Brown", rollNo: "ME005", email: "tyler.brown@email.com", phone: "9876543237", department: "ME", year: "4", status: "forwarded", date: "2024-01-28" },
+            { id: 29, name: "Zara Ahmed", rollNo: "ME006", email: "zara.ahmed@email.com", phone: "9876543238", department: "ME", year: "2", status: "approved", date: "2024-01-29" },
+            { id: 30, name: "Jordan Lee", rollNo: "ME007", email: "jordan.lee@email.com", phone: "9876543239", department: "ME", year: "1", status: "pending", date: "2024-01-30" },
+            { id: 31, name: "Maya Patel", rollNo: "AIDS002", email: "maya.patel@email.com", phone: "9876543240", department: "AIDS", year: "2", status: "approved", date: "2024-02-01" },
+            { id: 32, name: "Connor Murphy", rollNo: "AIDS003", email: "connor.murphy@email.com", phone: "9876543241", department: "AIDS", year: "3", status: "forwarded", date: "2024-02-02" },
+            { id: 33, name: "Lily Wang", rollNo: "AIDS004", email: "lily.wang@email.com", phone: "9876543242", department: "AIDS", year: "4", status: "approved", date: "2024-02-03" },
+            { id: 34, name: "Ethan Davis", rollNo: "AIDS005", email: "ethan.davis@email.com", phone: "9876543243", department: "AIDS", year: "1", status: "pending", date: "2024-02-04" },
+            { id: 35, name: "Sofia Rodriguez", rollNo: "AIML002", email: "sofia.rodriguez@email.com", phone: "9876543244", department: "AIML", year: "2", status: "approved", date: "2024-02-05" },
+            { id: 36, name: "Nathan Kim", rollNo: "AIML003", email: "nathan.kim@email.com", phone: "9876543245", department: "AIML", year: "4", status: "forwarded", date: "2024-02-06" },
+            { id: 37, name: "Isabella Martinez", rollNo: "AIML004", email: "isabella.martinez@email.com", phone: "9876543246", department: "AIML", year: "1", status: "approved", date: "2024-02-07" },
+            { id: 38, name: "Owen Thompson", rollNo: "AIML005", email: "owen.thompson@email.com", phone: "9876543247", department: "AIML", year: "3", status: "pending", date: "2024-02-08" },
+            { id: 39, name: "Ava Johnson", rollNo: "CIC002", email: "ava.johnson@email.com", phone: "9876543248", department: "CIC - Cyber Security", year: "1", status: "approved", date: "2024-02-09" },
+            { id: 40, name: "Lucas Garcia", rollNo: "CIC003", email: "lucas.garcia@email.com", phone: "9876543249", department: "CIC - Cyber Security", year: "3", status: "forwarded", date: "2024-02-10" },
+            { id: 41, name: "Chloe Brown", rollNo: "CIC004", email: "chloe.brown@email.com", phone: "9876543250", department: "CIC - Cyber Security", year: "2", status: "approved", date: "2024-02-11" },
+            { id: 42, name: "Mason Wilson", rollNo: "CIC005", email: "mason.wilson@email.com", phone: "9876543251", department: "CIC - Cyber Security", year: "4", status: "pending", date: "2024-02-12" },
+            { id: 43, name: "Harper Lee", rollNo: "CSM002", email: "harper.lee@email.com", phone: "9876543252", department: "CSM - Computer Science with Machine Learning", year: "2", status: "approved", date: "2024-02-13" },
+            { id: 44, name: "Eli Anderson", rollNo: "CSM003", email: "eli.anderson@email.com", phone: "9876543253", department: "CSM - Computer Science with Machine Learning", year: "1", status: "forwarded", date: "2024-02-14" },
+            { id: 45, name: "Scarlett Taylor", rollNo: "CSM004", email: "scarlett.taylor@email.com", phone: "9876543254", department: "CSM - Computer Science with Machine Learning", year: "3", status: "approved", date: "2024-02-15" },
+            { id: 46, name: "Leo Martinez", rollNo: "CSM005", email: "leo.martinez@email.com", phone: "9876543255", department: "CSM - Computer Science with Machine Learning", year: "4", status: "pending", date: "2024-02-16" },
+            { id: 47, name: "Grace White", rollNo: "CSO002", email: "grace.white@email.com", phone: "9876543256", department: "CSO - Computer Science with Internet of Things", year: "2", status: "approved", date: "2024-02-17" },
+            { id: 48, name: "Henry Clark", rollNo: "CSO003", email: "henry.clark@email.com", phone: "9876543257", department: "CSO - Computer Science with Internet of Things", year: "4", status: "forwarded", date: "2024-02-18" },
+            { id: 49, name: "Luna Davis", rollNo: "CSO004", email: "luna.davis@email.com", phone: "9876543258", department: "CSO - Computer Science with Internet of Things", year: "1", status: "approved", date: "2024-02-19" },
+            { id: 50, name: "Sebastian Miller", rollNo: "CSO005", email: "sebastian.miller@email.com", phone: "9876543259", department: "CSO - Computer Science with Internet of Things", year: "3", status: "pending", date: "2024-02-20" },
+            { id: 51, name: "Victoria Johnson", rollNo: "EEE002", email: "victoria.johnson@email.com", phone: "9876543260", department: "EEE", year: "2", status: "approved", date: "2024-02-21" },
+            { id: 52, name: "Adrian Smith", rollNo: "EEE003", email: "adrian.smith@email.com", phone: "9876543261", department: "EEE", year: "1", status: "forwarded", date: "2024-02-22" },
+            { id: 53, name: "Penelope Brown", rollNo: "EEE004", email: "penelope.brown@email.com", phone: "9876543262", department: "EEE", year: "4", status: "approved", date: "2024-02-23" },
+            { id: 54, name: "Gabriel Wilson", rollNo: "EEE005", email: "gabriel.wilson@email.com", phone: "9876543263", department: "EEE", year: "3", status: "pending", date: "2024-02-24" },
+            { id: 55, name: "Riley Davis", rollNo: "CE001", email: "riley.davis@email.com", phone: "9876543264", department: "CE", year: "1", status: "approved", date: "2024-02-25" },
+            { id: 56, name: "Nora Johnson", rollNo: "CE002", email: "nora.johnson@email.com", phone: "9876543265", department: "CE", year: "2", status: "forwarded", date: "2024-02-26" },
+            { id: 57, name: "Xavier Brown", rollNo: "CE003", email: "xavier.brown@email.com", phone: "9876543266", department: "CE", year: "3", status: "approved", date: "2024-02-27" },
+            { id: 58, name: "Eleanor Wilson", rollNo: "CE004", email: "eleanor.wilson@email.com", phone: "9876543267", department: "CE", year: "4", status: "pending", date: "2024-02-28" },
+            { id: 59, name: "Caleb Martinez", rollNo: "CE005", email: "caleb.martinez@email.com", phone: "9876543268", department: "CE", year: "1", status: "forwarded", date: "2024-03-01" },
+            { id: 60, name: "Hazel Taylor", rollNo: "CS011", email: "hazel.taylor@email.com", phone: "9876543269", department: "CSE", year: "3", status: "approved", date: "2024-03-02" },
+            { id: 61, name: "Oliver Anderson", rollNo: "CS012", email: "oliver.anderson@email.com", phone: "9876543270", department: "CSE", year: "2", status: "pending", date: "2024-03-03" },
+            { id: 62, name: "Mia Thompson", rollNo: "CS013", email: "mia.thompson@email.com", phone: "9876543271", department: "CSE", year: "4", status: "forwarded", date: "2024-03-04" },
+            { id: 63, name: "Noah Williams", rollNo: "CS014", email: "noah.williams@email.com", phone: "9876543272", department: "CSE", year: "1", status: "approved", date: "2024-03-05" },
+            { id: 64, name: "Aria Johnson", rollNo: "CS015", email: "aria.johnson@email.com", phone: "9876543273", department: "CSE", year: "3", status: "pending", date: "2024-03-06" },
+            { id: 65, name: "Ethan Brown", rollNo: "ECE008", email: "ethan.brown@email.com", phone: "9876543274", department: "ECE", year: "2", status: "approved", date: "2024-03-07" },
+            { id: 66, name: "Zoe Davis", rollNo: "ECE009", email: "zoe.davis@email.com", phone: "9876543275", department: "ECE", year: "4", status: "forwarded", date: "2024-03-08" },
+            { id: 67, name: "Liam Wilson", rollNo: "ECE010", email: "liam.wilson@email.com", phone: "9876543276", department: "ECE", year: "1", status: "approved", date: "2024-03-09" },
+            { id: 68, name: "Layla Martinez", rollNo: "ECE011", email: "layla.martinez@email.com", phone: "9876543277", department: "ECE", year: "3", status: "pending", date: "2024-03-10" },
+            { id: 69, name: "Benjamin Taylor", rollNo: "ECE012", email: "benjamin.taylor@email.com", phone: "9876543278", department: "ECE", year: "2", status: "forwarded", date: "2024-03-11" },
+            { id: 70, name: "Sofia Anderson", rollNo: "ME008", email: "sofia.anderson@email.com", phone: "9876543279", department: "ME", year: "3", status: "approved", date: "2024-03-12" },
+            { id: 71, name: "Jackson Thompson", rollNo: "ME009", email: "jackson.thompson@email.com", phone: "9876543280", department: "ME", year: "1", status: "pending", date: "2024-03-13" },
+            { id: 72, name: "Avery Williams", rollNo: "ME010", email: "avery.williams@email.com", phone: "9876543281", department: "ME", year: "4", status: "forwarded", date: "2024-03-14" },
+            { id: 73, name: "Logan Johnson", rollNo: "ME011", email: "logan.johnson@email.com", phone: "9876543282", department: "ME", year: "2", status: "approved", date: "2024-03-15" },
+            { id: 74, name: "Evelyn Brown", rollNo: "ME012", email: "evelyn.brown@email.com", phone: "9876543283", department: "ME", year: "1", status: "pending", date: "2024-03-16" },
+            { id: 75, name: "Mason Davis", rollNo: "AIDS006", email: "mason.davis@email.com", phone: "9876543284", department: "AIDS", year: "3", status: "approved", date: "2024-03-17" },
+            { id: 76, name: "Ella Wilson", rollNo: "AIDS007", email: "ella.wilson@email.com", phone: "9876543285", department: "AIDS", year: "2", status: "forwarded", date: "2024-03-18" },
+            { id: 77, name: "Owen Martinez", rollNo: "AIDS008", email: "owen.martinez@email.com", phone: "9876543286", department: "AIDS", year: "4", status: "approved", date: "2024-03-19" },
+            { id: 78, name: "Scarlett Taylor", rollNo: "AIDS009", email: "scarlett.taylor@email.com", phone: "9876543287", department: "AIDS", year: "1", status: "pending", date: "2024-03-20" },
+            { id: 79, name: "Grayson Anderson", rollNo: "AIDS010", email: "grayson.anderson@email.com", phone: "9876543288", department: "AIDS", year: "3", status: "forwarded", date: "2024-03-21" },
+            { id: 80, name: "Chloe Thompson", rollNo: "AIML006", email: "chloe.thompson@email.com", phone: "9876543289", department: "AIML", year: "2", status: "approved", date: "2024-03-22" },
+            { id: 81, name: "Carter Williams", rollNo: "AIML007", email: "carter.williams@email.com", phone: "9876543290", department: "AIML", year: "4", status: "pending", date: "2024-03-23" },
+            { id: 82, name: "Penelope Johnson", rollNo: "AIML008", email: "penelope.johnson@email.com", phone: "9876543291", department: "AIML", year: "1", status: "forwarded", date: "2024-03-24" },
+            { id: 83, name: "Jayden Brown", rollNo: "AIML009", email: "jayden.brown@email.com", phone: "9876543292", department: "AIML", year: "3", status: "approved", date: "2024-03-25" },
+            { id: 84, name: "Luna Davis", rollNo: "AIML010", email: "luna.davis@email.com", phone: "9876543293", department: "AIML", year: "2", status: "pending", date: "2024-03-26" },
+            { id: 85, name: "Leo Wilson", rollNo: "CIC006", email: "leo.wilson@email.com", phone: "9876543294", department: "CIC - Cyber Security", year: "3", status: "approved", date: "2024-03-27" },
+            { id: 86, name: "Aria Martinez", rollNo: "CIC007", email: "aria.martinez@email.com", phone: "9876543295", department: "CIC - Cyber Security", year: "1", status: "forwarded", date: "2024-03-28" },
+            { id: 87, name: "Hudson Taylor", rollNo: "CIC008", email: "hudson.taylor@email.com", phone: "9876543296", department: "CIC - Cyber Security", year: "4", status: "approved", date: "2024-03-29" },
+            { id: 88, name: "Nova Anderson", rollNo: "CIC009", email: "nova.anderson@email.com", phone: "9876543297", department: "CIC - Cyber Security", year: "2", status: "pending", date: "2024-03-30" },
+            { id: 89, name: "Sebastian Thompson", rollNo: "CIC010", email: "sebastian.thompson@email.com", phone: "9876543298", department: "CIC - Cyber Security", year: "3", status: "forwarded", date: "2024-04-01" },
+            { id: 90, name: "Isla Williams", rollNo: "CSM006", email: "isla.williams@email.com", phone: "9876543299", department: "CSM - Computer Science with Machine Learning", year: "1", status: "approved", date: "2024-04-02" },
+            { id: 91, name: "Jack Johnson", rollNo: "CSM007", email: "jack.johnson@email.com", phone: "9876543300", department: "CSM - Computer Science with Machine Learning", year: "4", status: "pending", date: "2024-04-03" },
+            { id: 92, name: "Lily Brown", rollNo: "CSM008", email: "lily.brown@email.com", phone: "9876543301", department: "CSM - Computer Science with Machine Learning", year: "2", status: "forwarded", date: "2024-04-04" },
+            { id: 93, name: "Theodore Davis", rollNo: "CSM009", email: "theodore.davis@email.com", phone: "9876543302", department: "CSM - Computer Science with Machine Learning", year: "3", status: "approved", date: "2024-04-05" },
+            { id: 94, name: "Violet Wilson", rollNo: "CSM010", email: "violet.wilson@email.com", phone: "9876543303", department: "CSM - Computer Science with Machine Learning", year: "1", status: "pending", date: "2024-04-06" },
+            { id: 95, name: "Dylan Martinez", rollNo: "CSO006", email: "dylan.martinez@email.com", phone: "9876543304", department: "CSO - Computer Science with Internet of Things", year: "4", status: "approved", date: "2024-04-07" },
+            { id: 96, name: "Stella Taylor", rollNo: "CSO007", email: "stella.taylor@email.com", phone: "9876543305", department: "CSO - Computer Science with Internet of Things", year: "2", status: "forwarded", date: "2024-04-08" },
+            { id: 97, name: "Nathan Anderson", rollNo: "CSO008", email: "nathan.anderson@email.com", phone: "9876543306", department: "CSO - Computer Science with Internet of Things", year: "1", status: "approved", date: "2024-04-09" },
+            { id: 98, name: "Bella Thompson", rollNo: "CSO009", email: "bella.thompson@email.com", phone: "9876543307", department: "CSO - Computer Science with Internet of Things", year: "3", status: "pending", date: "2024-04-10" },
+            { id: 99, name: "Isaac Williams", rollNo: "CSO010", email: "isaac.williams@email.com", phone: "9876543308", department: "CSO - Computer Science with Internet of Things", year: "2", status: "forwarded", date: "2024-04-11" },
+            { id: 100, name: "Lucy Johnson", rollNo: "EEE006", email: "lucy.johnson@email.com", phone: "9876543309", department: "EEE", year: "1", status: "approved", date: "2024-04-12" }
+        ];
+
+        // Sample syllabus data
+        let syllabi = [
+            { 
+                id: 1, 
+                courseName: "Data Structures", 
+                courseCode: "CS201", 
+                department: "CSE", 
+                year: "2", 
+                semester: "3", 
+                credits: 4, 
+                description: "Fundamental data structures including arrays, linked lists, stacks, queues, trees, and graphs.",
+                status: "active",
+                date: "2024-01-10"
+            },
+            { 
+                id: 2, 
+                courseName: "Database Management", 
+                courseCode: "CS301", 
+                department: "CSE", 
+                year: "3", 
+                semester: "5", 
+                credits: 3, 
+                description: "Database design, SQL, normalization, and database administration.",
+                status: "active",
+                date: "2024-01-08"
+            },
+            { 
+                id: 3, 
+                courseName: "Computer Networks", 
+                courseCode: "CS401", 
+                department: "CSE", 
+                year: "4", 
+                semester: "7", 
+                credits: 4, 
+                description: "Network protocols, architecture, and communication systems.",
+                status: "draft",
+                date: "2024-01-05"
+            }
+        ];
+
+        // Sample reports data
+        let recentReports = [
+            { id: 1, name: "Student Enrollment Report", type: "Student", date: "2024-01-15", status: "completed" },
+            { id: 2, name: "Syllabus Coverage Report", type: "Syllabus", date: "2024-01-14", status: "completed" },
+            { id: 3, name: "Department Analytics", type: "Analytics", date: "2024-01-13", status: "completed" },
+            { id: 4, name: "Approval Workflow Report", type: "Approval", date: "2024-01-12", status: "completed" }
+        ];
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        }
+
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find and activate the correct nav item
+            const navItems = document.querySelectorAll('.nav-link');
+            navItems.forEach(item => {
+                if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(sectionName)) {
+                    item.parentElement.classList.add('active');
+                }
+            });
+            
+            // Load data for the section
+            loadSectionData(sectionName);
+        }
+
+        function loadSectionData(sectionName) {
+            switch(sectionName) {
+                case 'pending':
+                    loadPendingStudents();
+                    break;
+                case 'approved':
+                    loadApprovedStudents();
+                    break;
+                case 'forwarded':
+                    loadForwardedStudents();
+                    break;
+                case 'syllabus':
+                    loadSyllabi();
+                    break;
+                case 'reports':
+                    loadRecentReports();
+                    break;
+            }
+        }
+
+        function loadPendingStudents() {
+            const tbody = document.getElementById('pendingTableBody');
+            const pendingStudents = students.filter(s => s.status === 'pending');
+            
+            tbody.innerHTML = pendingStudents.map(student => `
+                <tr>
+                    <td>${student.name}</td>
+                    <td>${student.rollNo}</td>
+                    <td>${student.department}</td>
+                    <td>${student.year}</td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>
+                        <button class="action-btn-small approve" onclick="approveStudent(${student.id})">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="action-btn-small reject" onclick="rejectStudent(${student.id})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadApprovedStudents() {
+            const tbody = document.getElementById('approvedTableBody');
+            const approvedStudents = students.filter(s => s.status === 'approved');
+            
+            tbody.innerHTML = approvedStudents.map(student => `
+                <tr>
+                    <td>${student.name}</td>
+                    <td>${student.rollNo}</td>
+                    <td>${student.department}</td>
+                    <td>${student.year}</td>
+                    <td>${student.date}</td>
+                    <td>
+                        <button class="action-btn-small forward" onclick="forwardStudent(${student.id})">
+                            <i class="fas fa-share"></i> Forward
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadForwardedStudents() {
+            const tbody = document.getElementById('forwardedTableBody');
+            const forwardedStudents = students.filter(s => s.status === 'forwarded');
+            
+            tbody.innerHTML = forwardedStudents.map(student => `
+                <tr>
+                    <td>${student.name}</td>
+                    <td>${student.rollNo}</td>
+                    <td>${student.department}</td>
+                    <td>${student.year}</td>
+                    <td>${student.date}</td>
+                    <td><span class="status forwarded">Forwarded</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function approveStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (student) {
+                student.status = 'approved';
+                student.date = new Date().toISOString().split('T')[0];
+                alert(`Student ${student.name} approved successfully!`);
+                loadSectionData('pending');
+            }
+        }
+
+        function rejectStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (student) {
+                students = students.filter(s => s.id !== id);
+                alert(`Student ${student.name} rejected and removed.`);
+                loadSectionData('pending');
+            }
+        }
+
+        function forwardStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (student) {
+                student.status = 'forwarded';
+                student.date = new Date().toISOString().split('T')[0];
+                alert(`Student ${student.name} forwarded to Admin successfully!`);
+                loadSectionData('approved');
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('addStudentForm').reset();
+        }
+
+        function bulkUpload() {
+            alert('Bulk Upload functionality - This would allow uploading multiple students via CSV/Excel file');
+        }
+
+        function generateReport() {
+            alert('Generate Report functionality - This would create a comprehensive report of all students');
+        }
+
+        function exportData() {
+            alert('Export Data functionality - This would export student data to Excel/PDF format');
+        }
+
+        // Syllabus Management Functions
+        function loadSyllabi() {
+            const tbody = document.getElementById('syllabusTableBody');
+            
+            tbody.innerHTML = syllabi.map(syllabus => `
+                <tr>
+                    <td>${syllabus.courseName}</td>
+                    <td>${syllabus.courseCode}</td>
+                    <td>${syllabus.department}</td>
+                    <td>${syllabus.year}</td>
+                    <td>${syllabus.semester}</td>
+                    <td>${syllabus.credits}</td>
+                    <td><span class="status ${syllabus.status}">${syllabus.status.charAt(0).toUpperCase() + syllabus.status.slice(1)}</span></td>
+                    <td>
+                        <button class="action-btn-small view" onclick="viewSyllabus(${syllabus.id})" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn-small edit" onclick="editSyllabus(${syllabus.id})" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn-small delete" onclick="deleteSyllabus(${syllabus.id})" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function clearSyllabusForm() {
+            document.getElementById('addSyllabusForm').reset();
+        }
+
+        function viewSyllabus(id) {
+            const syllabus = syllabi.find(s => s.id === id);
+            if (syllabus) {
+                alert(`Syllabus Details:\n\nCourse: ${syllabus.courseName}\nCode: ${syllabus.courseCode}\nDepartment: ${syllabus.department}\nYear: ${syllabus.year}\nSemester: ${syllabus.semester}\nCredits: ${syllabus.credits}\nStatus: ${syllabus.status}\n\nDescription:\n${syllabus.description}`);
+            }
+        }
+
+        function editSyllabus(id) {
+            const syllabus = syllabi.find(s => s.id === id);
+            if (syllabus) {
+                alert(`Edit Syllabus functionality - This would open an edit form for ${syllabus.courseName}`);
+            }
+        }
+
+        function deleteSyllabus(id) {
+            const syllabus = syllabi.find(s => s.id === id);
+            if (syllabus && confirm(`Are you sure you want to delete the syllabus for ${syllabus.courseName}?`)) {
+                syllabi = syllabi.filter(s => s.id !== id);
+                alert(`Syllabus for ${syllabus.courseName} deleted successfully!`);
+                loadSyllabi();
+            }
+        }
+
+        // Reports Functions
+        function loadRecentReports() {
+            const tbody = document.getElementById('recentReportsTableBody');
+            if (tbody) {
+                tbody.innerHTML = recentReports.map(report => `
+                    <tr>
+                        <td>${report.name}</td>
+                        <td>${report.type}</td>
+                        <td>${report.date}</td>
+                        <td><span class="status ${report.status}">${report.status.charAt(0).toUpperCase() + report.status.slice(1)}</span></td>
+                        <td>
+                            <button class="action-btn-small view" onclick="viewReport(${report.id})" title="View Report">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn-small download" onclick="downloadReport(${report.id})" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        // Report Generation Functions
+        function generateStudentReport() {
+            alert('Student Report functionality - This would generate a comprehensive PDF report of all student data including enrollment statistics, department-wise distribution, and performance metrics.');
+        }
+
+        function generateStudentExcel() {
+            alert('Student Excel Export functionality - This would export all student data to an Excel file with multiple sheets for different views.');
+        }
+
+        function generateSyllabusReport() {
+            alert('Syllabus Report functionality - This would generate a detailed PDF report of all syllabi including course coverage, credit distribution, and subject-wise breakdown for all 4 years.');
+        }
+
+        function generateSyllabusExcel() {
+            alert('Syllabus Excel Export functionality - This would export all syllabus data to an Excel file with year-wise and subject-wise organization.');
+        }
+
+        function generateAnalyticsReport() {
+            alert('Analytics Report functionality - This would show interactive charts and graphs displaying department performance, enrollment trends, and comparative analytics.');
+        }
+
+        function exportAnalytics() {
+            alert('Analytics Export functionality - This would export analytics data in various formats (CSV, JSON, Excel) for further analysis.');
+        }
+
+        function generateApprovalReport() {
+            alert('Approval Report functionality - This would generate a detailed report of all approval workflows, pending applications, and approval statistics.');
+        }
+
+        function generateApprovalExcel() {
+            alert('Approval Excel Export functionality - This would export approval workflow data to an Excel file with status tracking.');
+        }
+
+        function viewReport(id) {
+            const report = recentReports.find(r => r.id === id);
+            if (report) {
+                alert(`View Report functionality - This would open a detailed view of the ${report.name} with full content and formatting.`);
+            }
+        }
+
+        function downloadReport(id) {
+            const report = recentReports.find(r => r.id === id);
+            if (report) {
+                alert(`Download Report functionality - This would download the ${report.name} in PDF format.`);
+            }
+        }
+
+        function applyFilters() {
+            const department = document.getElementById('reportDepartment').value;
+            const year = document.getElementById('reportYear').value;
+            const dateRange = document.getElementById('reportDateRange').value;
+            const reportType = document.getElementById('reportType').value;
+            
+            alert(`Apply Filters functionality - This would apply the selected filters:\nDepartment: ${department || 'All'}\nYear: ${year || 'All'}\nDate Range: ${dateRange} days\nReport Type: ${reportType}`);
+        }
+
+        function clearFilters() {
+            document.getElementById('reportDepartment').value = '';
+            document.getElementById('reportYear').value = '';
+            document.getElementById('reportDateRange').value = '7';
+            document.getElementById('reportType').value = 'summary';
+            alert('Filters cleared successfully!');
+        }
+
+        // All Students Functions
+        function showAllStudents() {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show all students section
+            document.getElementById('all-students-section').classList.add('active');
+            
+            // Load and display all students
+            loadAllStudents();
+        }
+
+        function loadAllStudents() {
+            // Sort students by roll number
+            const sortedStudents = [...students].sort((a, b) => {
+                // Extract numeric part from roll number for proper sorting
+                const aNum = parseInt(a.rollNo.replace(/\D/g, ''));
+                const bNum = parseInt(b.rollNo.replace(/\D/g, ''));
+                return aNum - bNum;
+            });
+
+            // Update summary cards
+            document.getElementById('totalStudentsCount').textContent = sortedStudents.length;
+            
+            const departments = new Set(sortedStudents.map(s => s.department));
+            document.getElementById('totalDepartments').textContent = departments.size;
+            
+            const years = new Set(sortedStudents.map(s => s.year));
+            document.getElementById('totalYears').textContent = years.size;
+
+            // Populate table
+            const tbody = document.getElementById('allStudentsTableBody');
+            tbody.innerHTML = sortedStudents.map(student => `
+                <tr>
+                    <td><strong>${student.rollNo}</strong></td>
+                    <td>${student.name}</td>
+                    <td>${student.department}</td>
+                    <td>${student.year}</td>
+                    <td>${student.email || 'N/A'}</td>
+                    <td>${student.phone || 'N/A'}</td>
+                    <td><span class="status ${student.status}">${student.status.charAt(0).toUpperCase() + student.status.slice(1)}</span></td>
+                    <td>${student.date}</td>
+                </tr>
+            `).join('');
+        }
+
+        function exportAllStudents() {
+            const sortedStudents = [...students].sort((a, b) => {
+                const aNum = parseInt(a.rollNo.replace(/\D/g, ''));
+                const bNum = parseInt(b.rollNo.replace(/\D/g, ''));
+                return aNum - bNum;
+            });
+            
+            alert(`Export All Students functionality - This would export ${sortedStudents.length} students to Excel/CSV format, sorted by roll number.`);
+        }
+
+        function printAllStudents() {
+            alert('Print All Students functionality - This would open a print-friendly view of all students sorted by roll number.');
+        }
+
+        // Form submission
+        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newStudent = {
+                id: students.length + 1,
+                name: document.getElementById('studentName').value,
+                rollNo: document.getElementById('rollNumber').value,
+                email: document.getElementById('studentEmail').value,
+                phone: document.getElementById('studentPhone').value,
+                department: document.getElementById('department').value,
+                year: document.getElementById('year').value,
+                status: 'pending',
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            students.push(newStudent);
+            alert('Student added successfully!');
+            clearForm();
+            loadSectionData('pending');
+        });
+
+        // Syllabus form submission
+        document.getElementById('addSyllabusForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newSyllabus = {
+                id: syllabi.length + 1,
+                courseName: document.getElementById('courseName').value,
+                courseCode: document.getElementById('courseCode').value,
+                department: document.getElementById('syllabusDepartment').value,
+                year: document.getElementById('syllabusYear').value,
+                semester: document.getElementById('semester').value,
+                credits: parseInt(document.getElementById('credits').value),
+                description: document.getElementById('syllabusDescription').value,
+                status: 'draft',
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            syllabi.push(newSyllabus);
+            alert('Syllabus added successfully!');
+            clearSyllabusForm();
+            loadSyllabi();
+        });
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('dashboard');
+            
+            // Set default dates for attendance filters
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('studentDateFilter').value = today;
+            document.getElementById('teacherDateFilter').value = today;
+            document.getElementById('reportStartDate').value = today;
+            document.getElementById('reportEndDate').value = today;
+        });
+
+        // Sample attendance data
+        let studentAttendanceData = [
+            {
+                rollNo: 'CS001', name: 'John Doe', department: 'CSE', year: '2',
+                periods: { p1: 'present', p2: 'present', p3: 'present', p4: 'present', p5: 'present', p6: 'present' },
+                dailyPercent: 100, monthlyPercent: 87.5
+            },
+            {
+                rollNo: 'CS002', name: 'Jane Smith', department: 'CSE', year: '3',
+                periods: { p1: 'present', p2: 'present', p3: 'absent', p4: 'present', p5: 'present', p6: 'present' },
+                dailyPercent: 83.3, monthlyPercent: 91.2
+            },
+            {
+                rollNo: 'ECE001', name: 'Emily Davis', department: 'ECE', year: '3',
+                periods: { p1: 'present', p2: 'present', p3: 'present', p4: 'present', p5: 'present', p6: 'present' },
+                dailyPercent: 100, monthlyPercent: 94.8
+            },
+            {
+                rollNo: 'ECE002', name: 'Robert Miller', department: 'ECE', year: '1',
+                periods: { p1: 'present', p2: 'present', p3: 'absent', p4: 'absent', p5: 'present', p6: 'present' },
+                dailyPercent: 66.7, monthlyPercent: 78.3
+            },
+            {
+                rollNo: 'ME001', name: 'Lisa Garcia', department: 'ME', year: '4',
+                periods: { p1: 'present', p2: 'present', p3: 'present', p4: 'present', p5: 'present', p6: 'present' },
+                dailyPercent: 100, monthlyPercent: 96.1
+            }
+        ];
+
+        let teacherAttendanceData = [
+            {
+                teacherId: 'T001', name: 'Dr. Sarah Wilson', department: 'CSE', subject: 'Database Management',
+                periods: { p1: 'present', p2: 'present', p3: 'present', p4: 'present', p5: 'present', p6: 'present' },
+                dailyPercent: 100, monthlyPercent: 98.5
+            },
+            {
+                teacherId: 'T002', name: 'Prof. Michael Brown', department: 'ECE', subject: 'Digital Electronics',
+                periods: { p1: 'present', p2: 'present', p3: 'present', p4: 'present', p5: 'present', p6: 'present' },
+                dailyPercent: 100, monthlyPercent: 97.2
+            },
+            {
+                teacherId: 'T003', name: 'Dr. Jennifer Lee', department: 'ME', subject: 'Thermodynamics',
+                periods: { p1: 'present', p2: 'present', p3: 'present', p4: 'present', p5: 'present', p6: 'present' },
+                dailyPercent: 100, monthlyPercent: 99.1
+            },
+            {
+                teacherId: 'T004', name: 'Prof. David Chen', department: 'CSE', subject: 'Data Structures',
+                periods: { p1: 'present', p2: 'present', p3: 'present', p4: 'present', p5: 'present', p6: 'present' },
+                dailyPercent: 100, monthlyPercent: 96.8
+            }
+        ];
+
+        // Attendance Tab Functions
+        function showAttendanceTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Load data for the tab
+            loadAttendanceTabData(tabName);
+        }
+
+        function loadAttendanceTabData(tabName) {
+            switch(tabName) {
+                case 'students':
+                    loadStudentAttendanceData();
+                    break;
+                case 'teachers':
+                    loadTeacherAttendanceData();
+                    break;
+                case 'reports':
+                    loadAttendanceReportPreview();
+                    break;
+                case 'analytics':
+                    loadAttendanceAnalytics();
+                    break;
+            }
+        }
+
+        function loadStudentAttendanceData() {
+            const tbody = document.getElementById('studentAttendanceTableBody');
+            
+            tbody.innerHTML = studentAttendanceData.map(student => `
+                <tr>
+                    <td><strong>${student.rollNo}</strong></td>
+                    <td>${student.name}</td>
+                    <td>${student.department}</td>
+                    <td>${student.year}</td>
+                    <td><span class="status ${student.periods.p1}">${student.periods.p1}</span></td>
+                    <td><span class="status ${student.periods.p2}">${student.periods.p2}</span></td>
+                    <td><span class="status ${student.periods.p3}">${student.periods.p3}</span></td>
+                    <td><span class="status ${student.periods.p4}">${student.periods.p4}</span></td>
+                    <td><span class="status ${student.periods.p5}">${student.periods.p5}</span></td>
+                    <td><span class="status ${student.periods.p6}">${student.periods.p6}</span></td>
+                    <td><span class="percent ${student.dailyPercent >= 75 ? 'good' : 'low'}">${student.dailyPercent}%</span></td>
+                    <td><span class="percent ${student.monthlyPercent >= 75 ? 'good' : 'low'}">${student.monthlyPercent}%</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function loadTeacherAttendanceData() {
+            const tbody = document.getElementById('teacherAttendanceTableBody');
+            
+            tbody.innerHTML = teacherAttendanceData.map(teacher => `
+                <tr>
+                    <td><strong>${teacher.teacherId}</strong></td>
+                    <td>${teacher.name}</td>
+                    <td>${teacher.department}</td>
+                    <td>${teacher.subject}</td>
+                    <td><span class="status ${teacher.periods.p1}">${teacher.periods.p1}</span></td>
+                    <td><span class="status ${teacher.periods.p2}">${teacher.periods.p2}</span></td>
+                    <td><span class="status ${teacher.periods.p3}">${teacher.periods.p3}</span></td>
+                    <td><span class="status ${teacher.periods.p4}">${teacher.periods.p4}</span></td>
+                    <td><span class="status ${teacher.periods.p5}">${teacher.periods.p5}</span></td>
+                    <td><span class="status ${teacher.periods.p6}">${teacher.periods.p6}</span></td>
+                    <td><span class="percent ${teacher.dailyPercent >= 75 ? 'good' : 'low'}">${teacher.dailyPercent}%</span></td>
+                    <td><span class="percent ${teacher.monthlyPercent >= 75 ? 'good' : 'low'}">${teacher.monthlyPercent}%</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function loadAttendanceReportPreview() {
+            // This would load preview data for attendance reports
+            console.log('Loading attendance report preview...');
+        }
+
+        function loadAttendanceAnalytics() {
+            // This would load analytics data and charts
+            console.log('Loading attendance analytics...');
+        }
+
+        function filterStudentAttendance() {
+            const department = document.getElementById('studentDeptFilter').value;
+            const year = document.getElementById('studentYearFilter').value;
+            const date = document.getElementById('studentDateFilter').value;
+            
+            // Filter logic would be implemented here
+            console.log(`Filtering student attendance: Dept=${department}, Year=${year}, Date=${date}`);
+            
+            // For now, just reload the data
+            loadStudentAttendanceData();
+        }
+
+        function filterTeacherAttendance() {
+            const department = document.getElementById('teacherDeptFilter').value;
+            const date = document.getElementById('teacherDateFilter').value;
+            
+            // Filter logic would be implemented here
+            console.log(`Filtering teacher attendance: Dept=${department}, Date=${date}`);
+            
+            // For now, just reload the data
+            loadTeacherAttendanceData();
+        }
+
+        function generateAttendanceReport() {
+            const reportType = document.getElementById('reportTypeFilter').value;
+            const department = document.getElementById('reportDeptFilter').value;
+            const startDate = document.getElementById('reportStartDate').value;
+            const endDate = document.getElementById('reportEndDate').value;
+            
+            alert(`Generating ${reportType} attendance report for ${department || 'all departments'} from ${startDate} to ${endDate}`);
+        }
+
+        function exportAttendanceReport() {
+            const reportType = document.getElementById('reportTypeFilter').value;
+            const department = document.getElementById('reportDeptFilter').value;
+            const startDate = document.getElementById('reportStartDate').value;
+            const endDate = document.getElementById('reportEndDate').value;
+            
+            alert(`Exporting ${reportType} attendance report for ${department || 'all departments'} from ${startDate} to ${endDate} to Excel format`);
+        }
+    </script>
+</body>
+</html> 

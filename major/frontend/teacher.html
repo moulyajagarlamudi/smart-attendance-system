@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Dashboard</title>
+  <link rel="stylesheet" href="teacher_dashboard.css" />
+  <style>
+    body {
+      background: linear-gradient(120deg, #f0f7ff 60%, #5a96e4 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .teacher-dashboard-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+    .teacher-sidebar {
+      width: 220px;
+      background: linear-gradient(160deg, #7c3aed 60%, #6366f1 100%);
+      color: #fff;
+      padding: 36px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .sidebar-title {
+      font-size: 1.3em;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .sidebar-logo {
+      width: 100px; /* Adjust as needed */
+      height: 100px; /* Adjust as needed */
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .sidebar-logo-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .teacher-sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+    .teacher-sidebar ul li {
+      padding: 12px 32px 12px 20px;
+      color: #fff;
+      font-size: 1.08em;
+      cursor: pointer;
+      border-left: 4px solid transparent;
+      transition: background 0.2s, border 0.2s, color 0.2s;
+      border-radius: 0 20px 20px 0;
+      margin-bottom: 4px;
+    }
+    .teacher-sidebar ul li a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+    }
+    .teacher-sidebar ul li:hover {
+      background: rgba(255,255,255,0.18);
+      border-left: 4px solid #2563eb;
+    }
+    .teacher-dashboard-container {
+      flex: 1;
+      max-width: 1100px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+      padding: 36px 40px 32px 40px;
+    }
+    .dashboard-title {
+      color: #2563eb;
+      font-size: 2em;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 32px;
+      letter-spacing: 1px;
+    }
+    .dashboard-section {
+      margin-bottom: 36px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #e0e7ef;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .dashboard-section:last-child {
+      border-bottom: none;
+    }
+    .section-icon {
+      font-size: 2.2em;
+      margin-right: 18px;
+      color: #2563eb;
+      flex-shrink: 0;
+      width: 48px;
+      text-align: center;
+    }
+    .section-content {
+      flex: 1;
+    }
+    .section-title {
+      font-size: 1.25em;
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    .section-list {
+      margin: 0 0 10px 0;
+      padding-left: 18px;
+      color: #444;
+      font-size: 1.08em;
+    }
+    .section-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .section-actions button, .section-actions a {
+      background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+    }
+    .section-actions button:hover, .section-actions a:hover {
+      background: linear-gradient(90deg, #1e40af 60%, #3b82f6 100%);
+      transform: translateY(-2px) scale(1.04);
+    }
+    .attendance-modal-table { table-layout: fixed; width: 100%; }
+    .attendance-modal-table th, .attendance-modal-table td { overflow: visible; white-space: normal; text-overflow: unset; }
+  </style>
+</head>
+<body>
+  <div class="teacher-dashboard-layout">
+    <aside class="teacher-sidebar">
+      <div class="sidebar-logo">
+        <img src="https://www.vvitu.ac.in/src/assets/images/VVIT_logo.png" alt="VVIT Logo" class="sidebar-logo-img">
+      </div>
+      <div class="sidebar-title">Teacher Menu</div>
+      <ul>
+        <li><a href="newtchrattendeance.html">Attendance</a></li>
+        <li><a href="tchrassignment.html">Assignments</a></li>
+        <li><a href="tchrannouncements.html">Announcements</a></li>
+        <li><a href="tchrmarklist.html">Mark List</a></li>
+        <li><a href="tchrperformance.html">Student Performance</a></li>
+        <li><a href="tchrtt.html">Time Table</a></li>
+        <li><a href="teacher_login.html">Log out</a></li>
+      </ul>
+    </aside>
+    <div class="teacher-dashboard-container">
+      <div class="dashboard-title"> Teacher Dashboard</div>
+      <div class="mentor-quote" style="background:#f0f7ff; border-radius:12px; box-shadow:0 2px 8px rgba(37,99,235,0.07); padding:24px 28px; margin-bottom:32px; text-align:center;">
+        <h2 style="color:#2563eb; font-size:1.6em; margin-bottom:10px;">"Welcome, Mentor!"</h2>
+        <div style="font-size:1.1em; color:#444; margin-bottom:10px;">
+          Empower your teaching journey with a seamless dashboard — track attendance, upload assignments, manage schedules, and monitor student performance with ease.
+        </div>
+        <div style="font-size:1.05em; color:#555;">
+          Guide every student with insight, lead with clarity, and shape the leaders of tomorrow — one lesson, one click at a time.
+        </div>
+      </div>
+      <!-- Removed dashboard sections for A, B, and C -->
+    </div>
+  </div>
+  <div id="attendanceReportModalA" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:12px; max-width:600px; width:90vw; margin:auto; margin-top:60px; padding:32px; box-shadow:0 8px 30px rgba(0,0,0,0.18); position:relative;">
+      <button onclick="document.getElementById('attendanceReportModalA').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+      <h2>Latest Attendance Report - Section A</h2>
+      <div id="attendanceReportContentA">Loading...</div>
+    </div>
+  </div>
+  <div id="attendanceReportModalB" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:12px; max-width:600px; width:90vw; margin:auto; margin-top:60px; padding:32px; box-shadow:0 8px 30px rgba(0,0,0,0.18); position:relative;">
+      <button onclick="document.getElementById('attendanceReportModalB').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+      <h2>Latest Attendance Report - Section B</h2>
+      <div id="attendanceReportContentB">Loading...</div>
+    </div>
+  </div>
+  <div id="attendanceReportModalC" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:12px; max-width:600px; width:90vw; margin:auto; margin-top:60px; padding:32px; box-shadow:0 8px 30px rgba(0,0,0,0.18); position:relative;">
+      <button onclick="document.getElementById('attendanceReportModalC').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+      <h2>Latest Attendance Report - Section C</h2>
+      <div id="attendanceReportContentC">Loading...</div>
+    </div>
+  </div>
+  <div id="generateReportModalA" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:12px; max-width:400px; width:90vw; margin:auto; margin-top:60px; padding:32px; box-shadow:0 8px 30px rgba(0,0,0,0.18); position:relative;">
+      <button onclick="document.getElementById('generateReportModalA').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+      <h2>Section A - Attendance Summary</h2>
+      <div id="generateReportContentA">Loading...</div>
+    </div>
+  </div>
+  <div id="generateReportModalB" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:12px; max-width:400px; width:90vw; margin:auto; margin-top:60px; padding:32px; box-shadow:0 8px 30px rgba(0,0,0,0.18); position:relative;">
+      <button onclick="document.getElementById('generateReportModalB').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+      <h2>Section B - Attendance Summary</h2>
+      <div id="generateReportContentB">Loading...</div>
+    </div>
+  </div>
+  <div id="generateReportModalC" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:12px; max-width:400px; width:90vw; margin:auto; margin-top:60px; padding:32px; box-shadow:0 8px 30px rgba(0,0,0,0.18); position:relative;">
+      <button onclick="document.getElementById('generateReportModalC').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+      <h2>Section C - Attendance Summary</h2>
+      <div id="generateReportContentC">Loading...</div>
+    </div>
+  </div>
+  <div id="markAttendanceModalA" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:12px; max-width:700px; width:95vw; margin:auto; margin-top:40px; padding:32px; box-shadow:0 8px 30px rgba(0,0,0,0.18); position:relative;">
+      <button onclick="document.getElementById('markAttendanceModalA').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+      <h2>Mark Attendance - Section A</h2>
+      <form id="attendanceFormA">
+        <div style="margin-bottom:16px;display:flex;gap:16px;align-items:center;">
+          <label for="dateInputA"><strong>Date:</strong></label>
+          <input type="date" id="dateInputA" name="date" min="2025-07-01" max="2026-07-31" style="padding:6px 12px;font-size:1em;">
+        </div>
+        <table class="attendance-modal-table">
+          <colgroup>
+            <col style="width: 18%"><col style="width: 42%"><col style="width: 20%"><col style="width: 20%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Roll No</th>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Name</th>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Present</th>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Absent</th>
+            </tr>
+          </thead>
+          <tbody id="attendanceTableBodyA"></tbody>
+        </table>
+        <button type="submit" style="background:linear-gradient(90deg,#2563eb 60%,#60a5fa 100%);color:#fff;border:none;border-radius:6px;padding:10px 24px;font-size:1em;font-weight:600;cursor:pointer;">Submit Attendance</button>
+      </form>
+      <div id="attendanceSubmitMsgA" style="margin-top:18px;color:#22c55e;font-weight:600;"></div>
+    </div>
+  </div>
+  <div id="markAttendanceModalB" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:12px; max-width:700px; width:95vw; margin:auto; margin-top:40px; padding:32px; box-shadow:0 8px 30px rgba(0,0,0,0.18); position:relative;">
+      <button onclick="document.getElementById('markAttendanceModalB').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+      <h2>Mark Attendance - Section B</h2>
+      <form id="attendanceFormB">
+        <div style="margin-bottom:16px;display:flex;gap:16px;align-items:center;">
+          <label for="dateInputB"><strong>Date:</strong></label>
+          <input type="date" id="dateInputB" name="date" min="2025-07-01" max="2026-07-31" style="padding:6px 12px;font-size:1em;">
+        </div>
+        <table class="attendance-modal-table">
+          <colgroup>
+            <col style="width: 18%"><col style="width: 42%"><col style="width: 20%"><col style="width: 20%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Roll No</th>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Name</th>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Present</th>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Absent</th>
+            </tr>
+          </thead>
+          <tbody id="attendanceTableBodyB"></tbody>
+        </table>
+        <button type="submit" style="background:linear-gradient(90deg,#2563eb 60%,#60a5fa 100%);color:#fff;border:none;border-radius:6px;padding:10px 24px;font-size:1em;font-weight:600;cursor:pointer;">Submit Attendance</button>
+      </form>
+      <div id="attendanceSubmitMsgB" style="margin-top:18px;color:#22c55e;font-weight:600;"></div>
+    </div>
+  </div>
+  <div id="markAttendanceModalC" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:12px; max-width:700px; width:95vw; margin:auto; margin-top:40px; padding:32px; box-shadow:0 8px 30px rgba(0,0,0,0.18); position:relative;">
+      <button onclick="document.getElementById('markAttendanceModalC').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+      <h2>Mark Attendance - Section C</h2>
+      <form id="attendanceFormC">
+        <div style="margin-bottom:16px;display:flex;gap:16px;align-items:center;">
+          <label for="dateInputC"><strong>Date:</strong></label>
+          <input type="date" id="dateInputC" name="date" min="2025-07-01" max="2026-07-31" style="padding:6px 12px;font-size:1em;">
+        </div>
+        <table class="attendance-modal-table">
+          <colgroup>
+            <col style="width: 18%"><col style="width: 42%"><col style="width: 20%"><col style="width: 20%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Roll No</th>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Name</th>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Present</th>
+              <th style="padding:8px; border-bottom:1px solid #ccc;">Absent</th>
+            </tr>
+          </thead>
+          <tbody id="attendanceTableBodyC"></tbody>
+        </table>
+        <button type="submit" style="background:linear-gradient(90deg,#2563eb 60%,#60a5fa 100%);color:#fff;border:none;border-radius:6px;padding:10px 24px;font-size:1em;font-weight:600;cursor:pointer;">Submit Attendance</button>
+      </form>
+      <div id="attendanceSubmitMsgC" style="margin-top:18px;color:#22c55e;font-weight:600;"></div>
+    </div>
+  </div>
+  <script>
+    // Section A student names (original list)
+    const studentNamesA = [
+      "Aarav Sharma", "Aanya Mehta", "Rohan Verma", "Sneha Reddy", "Karan Kapoor", "Priya Nair", "Aditya Iyer", "Anjali Desai", "Vivek Choudhary", "Meera Joshi",
+      "Aryan Malhotra", "Isha Patil", "Nikhil Saxena", "Swathi Bansal", "Rahul Rao", "Kavya Bhatt", "Manish Agarwal", "Divya Shetty", "Sagar Tripathi", "Neha Dubey",
+      "Arjun Sinha", "Pooja Yadav", "Harsh Kulkarni", "Shruti Jain", "Siddharth Menon", "Ritu Chatterjee", "Yash Goel", "Tanya Pillai", "Suraj Bhatia", "Bhavya Rathi",
+      "Om Salunkhe", "Nivedita Basu", "Raj Thakur", "Keerthi Ranganathan", "Tushar Khandelwal", "Vaishnavi Dey", "Varun Joshi", "Rhea Anand", "Sameer Khatri", "Ananya Sengupta",
+      "Dhruv Ghosh", "Jhanvi Nayak", "Abhay Barot", "Sanjana Mishra", "Shreyas Pawar", "Aishwarya Shukla", "Vinay Solanki", "Trisha Das", "Kunal Bhargava", "Srishti Lohia",
+      "Rohit Tiwari", "Malvika Kohli", "Tejas Sawant", "Harini Iyer", "Akash Jadhav", "Ishita Vyas", "Pranav Krishnan", "Nikita Mahajan", "Ayush Dugar", "Sakshi Rawat"
+    ];
+    // Section B student names (new list)
+    const studentNamesB = [
+      "Ritesh Pandey", "Tanvi Kulkarni", "Arnav Bhaskar", "Bhavana Naik", "Kshitij Mathur", "Roshni Chopra", "Devesh Sehgal", "Lavanya Narayan", "Nishant Kohli", "Simran Bedi",
+      "Aniket Dubey", "Mitali Sinha", "Ishaan Borkar", "Kritika Joshi", "Pratyush Sharma", "Niharika Rao", "Tanish Jain", "Charvi Deshmukh", "Mohit Gaur", "Aarti Shah",
+      "Anshul Bansal", "Deepika Rathi", "Parth Tyagi", "Ria Khandelwal", "Devansh Bhagat", "Shraddha Vohra", "Lakshya Rathore", "Tanya Lamba", "Veer Saxena", "Anvi Mishra",
+      "Mayank Kapoor", "Ishani Dubey", "Harshit Mehra", "Snehal Bhave", "Arush Kamat", "Krupa Trivedi", "Rudra Rajput", "Manvi Shankar", "Chirag Shekhawat", "Gayathri Josyula",
+      "Rajeev Hegde", "Anusha Pillai", "Samar Chauhan", "Deeksha Kurian", "Neil Vardhan", "Poonam Bhattacharya", "Kartikeya Dutta", "Rupal Parekh", "Avinash Srivastava", "Shalini Bhattacharjee",
+      "Adarsh Nambiar", "Vaidehi Chaudhary", "Siddhant Lokhande", "Meenal Gokhale", "Nilesh Barve", "Arpita Mazumdar", "Ritvik Bhosale", "Sanika Phadke", "Pranay Daruwala", "Juhi Waghela"
+    ];    // Section C student names (new list)
+    const studentNamesC = [
+      "Amitabh Kiran", "Shreya Balan", "Kavin Narayanan", "Pritika Suresh", "Nandan Bhargav", "Vani Kothari", "Arjit Dasgupta", "Devika Namboodiri", "Raghav Deshmukh", "Shraya Shenoy",
+      "Sarvesh Lakhani", "Anika Bhave", "Tanmay Acharya", "Sneha Venkatesh", "Aarush Bagchi", "Palak Dhingra", "Hriday Ojha", "Rachana Pathak", "Mihir Choksi", "Sonal Narula",
+      "Aayush Lohia", "Medha Purohit", "Krish Shah", "Anaya Mhatre", "Rayan Nair", "Ashika Ramesh", "Chinmay Taneja", "Prachi Sawhney", "Atharv Dixit", "Vaibhavi Reddy",
+      "Nirav Shinde", "Disha D’Souza", "Ansh Mehra", "Ishita Talwar", "Vihaan Parikh", "Amrita Kaul", "Abhinav Bhutia", "Tanya Sehgal", "Sarthak Handa", "Neelima Iqbal",
+      "Omkar Sen", "Vidhi Mohta", "Darshan Jeswani", "Saanvi Chabbra", "Rithvik Ahuja", "Manya Thakkar", "Jayant Bafna", "Harshita Saraf", "Tejaswin Gohil", "Anuradha Vinod",
+      "Shaurya Kadam", "Navya Bhonsle", "Ayaan Kazi", "Malavika Mohan", "Zaid Baig", "Nisha Sardar", "Raghunandan Jain", "Priyanshi Agarwal", "Sudhanshu Tyagi", "Kshama Pillay"
+    ];
+
+    // Add View Attendance modal logic for A, B, C
+    function showAttendanceModal(section, studentNames) {
+      const modal = document.getElementById(`attendanceReportModal${section}`);
+      const content = document.getElementById(`attendanceReportContent${section}`);
+      let data = null;
+      try {
+        data = JSON.parse(localStorage.getItem(`latestAttendance${section}`));
+      } catch (e) {}
+      if (!data || (!data.present && !data.absent)) {
+        content.innerHTML = `<strong>No attendance records found for Section ${section}. Please submit attendance first.</strong>`;
+      } else {
+        let present = data.present || [];
+        let absent = data.absent || [];
+        if (!Array.isArray(present) && typeof data === 'object') {
+          present = [];
+          absent = [];
+          Object.keys(data).forEach(roll => {
+            const idx = parseInt(roll.replace(/^[A-Z]/, '')) - 1;
+            const name = studentNames[idx] || roll;
+            if ((data[roll] || '').toLowerCase() === 'present') present.push({ roll, name });
+            else if ((data[roll] || '').toLowerCase() === 'absent') absent.push({ roll, name });
+          });
+        }
+        // Merge present and absent for a full list
+        let all = [...present.map(s => ({...s, status: 'present'})), ...absent.map(s => ({...s, status: 'absent'}))];
+        all.sort((a, b) => a.roll.localeCompare(b.roll));
+        let table = arr => `
+          <table class="attendance-modal-table" style="margin-bottom:18px;">
+            <thead>
+              <tr><th>Sl No.</th><th>Roll Number</th><th>Name of the Student</th><th>Present</th><th>Absent</th></tr>
+            </thead>
+            <tbody>
+              ${arr.map((s, i) => `<tr><td>${i+1}</td><td style='font-weight:bold;'>${s.roll}</td><td>${s.name}</td><td style='text-align:center;'><input type='radio' disabled ${s.status==='present'?'checked':''}></td><td style='text-align:center;'><input type='radio' disabled ${s.status==='absent'?'checked':''}></td></tr>`).join('')}
+            </tbody>
+          </table>
+        `;
+        content.innerHTML = table(all);
+      }
+      modal.style.display = 'flex';
+    }
+    document.getElementById('viewAttendanceReportBtnA').onclick = function() { showAttendanceModal('A', studentNamesA); };
+    document.getElementById('viewAttendanceReportBtnB').onclick = function() { showAttendanceModal('B', studentNamesB); };
+    document.getElementById('viewAttendanceReportBtnC').onclick = function() { showAttendanceModal('C', studentNamesC); };
+    document.getElementById('generateReportBtnA').onclick = function() {
+      const modal = document.getElementById('generateReportModalA');
+      const content = document.getElementById('generateReportContentA');
+      // Gather all attendance records for this section from July 2025 to July 2026
+      let totalDays = 0, totalPresent = 0, totalAbsent = 0;
+      let daysWithData = 0;
+      let html = '<div style="max-height:70vh;overflow-y:auto">';
+      for (let m = 0; m < 12; m++) {
+        let monthDate = new Date(2025, 6 + m, 1);
+        let year = monthDate.getFullYear();
+        let month = monthDate.getMonth();
+        let daysInMonth = new Date(year, month + 1, 0).getDate();
+        let firstDay = new Date(year, month, 1).getDay();
+        html += `<table style='width:100%;border-collapse:collapse;text-align:center;margin-bottom:24px;'>`;
+        html += `<tr><th colspan='7' style='font-size:1.1em;padding:8px 0;'>${monthDate.toLocaleString('default', { month: 'long' })} ${year}</th></tr>`;
+        html += '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+        let day = 1;
+        for (let week = 0; week < 6; week++) {
+          html += '<tr>';
+          for (let d = 0; d < 7; d++) {
+            if ((week === 0 && d < firstDay) || day > daysInMonth) {
+              html += '<td style="padding:8px;border:1px solid #eee;background:#f3f4f6;"></td>';
+            } else {
+              const key = `attendanceA_${year}-${(month+1).toString().padStart(2,'0')}-${day.toString().padStart(2,'0')}`;
+              let data = null;
+              try { data = JSON.parse(localStorage.getItem(key)); } catch(e){}
+              if (data && data.present && data.absent) {
+                html += `<td style='padding:8px;border:1px solid #eee;'><strong>${day}</strong><br>Present: ${data.present.length}<br>Absent: ${data.absent.length}</td>`;
+                totalDays++;
+                totalPresent += data.present.length;
+                totalAbsent += data.absent.length;
+                daysWithData++;
+              } else {
+                html += `<td style='padding:8px;border:1px solid #eee;color:#aaa;'><strong>${day}</strong><br>No Data</td>`;
+              }
+              day++;
+            }
+          }
+          html += '</tr>';
+          if (day > daysInMonth) break;
+        }
+        html += '</table>';
+      }
+      html += '</div>';
+      let avgPresent = daysWithData ? (totalPresent / daysWithData).toFixed(2) : 0;
+      let avgAbsent = daysWithData ? (totalAbsent / daysWithData).toFixed(2) : 0;
+      let percent = daysWithData ? ((totalPresent / (daysWithData * 60)) * 100).toFixed(2) : 0;
+      let summary = `<div style='margin-bottom:18px;'><strong>Summary for Section A (July 2025 - July 2026):</strong><br>
+          Days Marked: ${daysWithData}<br>
+          Average Present: ${avgPresent}<br>
+          Average Absent: ${avgAbsent}<br>
+          Attendance Percentage: ${percent}%<br></div>`;
+      content.innerHTML = summary + html;
+      modal.style.display = 'flex';
+    };
+    document.getElementById('generateReportBtnB').onclick = function() {
+      const modal = document.getElementById('generateReportModalB');
+      const content = document.getElementById('generateReportContentB');
+      let totalDays = 0, totalPresent = 0, totalAbsent = 0;
+      let daysWithData = 0;
+      let html = '<div style="max-height:70vh;overflow-y:auto">';
+      for (let m = 0; m < 12; m++) {
+        let monthDate = new Date(2025, 6 + m, 1);
+        let year = monthDate.getFullYear();
+        let month = monthDate.getMonth();
+        let daysInMonth = new Date(year, month + 1, 0).getDate();
+        let firstDay = new Date(year, month, 1).getDay();
+        html += `<table style='width:100%;border-collapse:collapse;text-align:center;margin-bottom:24px;'>`;
+        html += `<tr><th colspan='7' style='font-size:1.1em;padding:8px 0;'>${monthDate.toLocaleString('default', { month: 'long' })} ${year}</th></tr>`;
+        html += '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+        let day = 1;
+        for (let week = 0; week < 6; week++) {
+          html += '<tr>';
+          for (let d = 0; d < 7; d++) {
+            if ((week === 0 && d < firstDay) || day > daysInMonth) {
+              html += '<td style="padding:8px;border:1px solid #eee;background:#f3f4f6;"></td>';
+            } else {
+              const key = `attendanceB_${year}-${(month+1).toString().padStart(2,'0')}-${day.toString().padStart(2,'0')}`;
+              let data = null;
+              try { data = JSON.parse(localStorage.getItem(key)); } catch(e){}
+              if (data && data.present && data.absent) {
+                html += `<td style='padding:8px;border:1px solid #eee;'><strong>${day}</strong><br>Present: ${data.present.length}<br>Absent: ${data.absent.length}</td>`;
+                totalDays++;
+                totalPresent += data.present.length;
+                totalAbsent += data.absent.length;
+                daysWithData++;
+              } else {
+                html += `<td style='padding:8px;border:1px solid #eee;color:#aaa;'><strong>${day}</strong><br>No Data</td>`;
+              }
+              day++;
+            }
+          }
+          html += '</tr>';
+          if (day > daysInMonth) break;
+        }
+        html += '</table>';
+      }
+      html += '</div>';
+      let avgPresent = daysWithData ? (totalPresent / daysWithData).toFixed(2) : 0;
+      let avgAbsent = daysWithData ? (totalAbsent / daysWithData).toFixed(2) : 0;
+      let percent = daysWithData ? ((totalPresent / (daysWithData * 60)) * 100).toFixed(2) : 0;
+      let summary = `<div style='margin-bottom:18px;'><strong>Summary for Section B (July 2025 - July 2026):</strong><br>
+          Days Marked: ${daysWithData}<br>
+          Average Present: ${avgPresent}<br>
+          Average Absent: ${avgAbsent}<br>
+          Attendance Percentage: ${percent}%<br></div>`;
+      content.innerHTML = summary + html;
+      modal.style.display = 'flex';
+    };
+    document.getElementById('generateReportBtnC').onclick = function() {
+      const modal = document.getElementById('generateReportModalC');
+      const content = document.getElementById('generateReportContentC');
+      let totalDays = 0, totalPresent = 0, totalAbsent = 0;
+      let daysWithData = 0;
+      let html = '<div style="max-height:70vh;overflow-y:auto">';
+      for (let m = 0; m < 12; m++) {
+        let monthDate = new Date(2025, 6 + m, 1);
+        let year = monthDate.getFullYear();
+        let month = monthDate.getMonth();
+        let daysInMonth = new Date(year, month + 1, 0).getDate();
+        let firstDay = new Date(year, month, 1).getDay();
+        html += `<table style='width:100%;border-collapse:collapse;text-align:center;margin-bottom:24px;'>`;
+        html += `<tr><th colspan='7' style='font-size:1.1em;padding:8px 0;'>${monthDate.toLocaleString('default', { month: 'long' })} ${year}</th></tr>`;
+        html += '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+        let day = 1;
+        for (let week = 0; week < 6; week++) {
+          html += '<tr>';
+          for (let d = 0; d < 7; d++) {
+            if ((week === 0 && d < firstDay) || day > daysInMonth) {
+              html += '<td style="padding:8px;border:1px solid #eee;background:#f3f4f6;"></td>';
+            } else {
+              const key = `attendanceC_${year}-${(month+1).toString().padStart(2,'0')}-${day.toString().padStart(2,'0')}`;
+              let data = null;
+              try { data = JSON.parse(localStorage.getItem(key)); } catch(e){}
+              if (data && data.present && data.absent) {
+                html += `<td style='padding:8px;border:1px solid #eee;'><strong>${day}</strong><br>Present: ${data.present.length}<br>Absent: ${data.absent.length}</td>`;
+                totalDays++;
+                totalPresent += data.present.length;
+                totalAbsent += data.absent.length;
+                daysWithData++;
+              } else {
+                html += `<td style='padding:8px;border:1px solid #eee;color:#aaa;'><strong>${day}</strong><br>No Data</td>`;
+              }
+              day++;
+            }
+          }
+          html += '</tr>';
+          if (day > daysInMonth) break;
+        }
+        html += '</table>';
+      }
+      html += '</div>';
+      let avgPresent = daysWithData ? (totalPresent / daysWithData).toFixed(2) : 0;
+      let avgAbsent = daysWithData ? (totalAbsent / daysWithData).toFixed(2) : 0;
+      let percent = daysWithData ? ((totalPresent / (daysWithData * 60)) * 100).toFixed(2) : 0;
+      let summary = `<div style='margin-bottom:18px;'><strong>Summary for Section C (July 2025 - July 2026):</strong><br>
+          Days Marked: ${daysWithData}<br>
+          Average Present: ${avgPresent}<br>
+          Average Absent: ${avgAbsent}<br>
+          Attendance Percentage: ${percent}%<br></div>`;
+      content.innerHTML = summary + html;
+      modal.style.display = 'flex';
+    };
+    // Mark Attendance Modal for Section A
+    function openMarkAttendanceA() {
+      // Set today's date as default
+      document.getElementById('dateInputA').value = new Date().toISOString().split('T')[0];
+      // Render table
+      const tbody = document.getElementById('attendanceTableBodyA');
+      tbody.innerHTML = '';
+      studentNamesA.forEach((name, idx) => {
+        const roll = `A${(idx+1).toString().padStart(3,'0')}`;
+        const row = document.createElement('tr');
+        row.innerHTML = '<td style="padding:8px; border-bottom:1px solid #eee;">' + roll + '</td>' +
+                '<td style="padding:8px; border-bottom:1px solid #eee;">' + name + '</td>' +
+                '<td style="padding:8px; border-bottom:1px solid #eee; text-align:center;"><input type="radio" name="attendance-' + roll + '" value="present" required></td>' +
+                '<td style="padding:8px; border-bottom:1px solid #eee; text-align:center;"><input type="radio" name="attendance-' + roll + '" value="absent"></td>';
+        tbody.appendChild(row);
+      });
+      document.getElementById('attendanceSubmitMsgA').innerText = '';
+      document.getElementById('markAttendanceModalA').style.display = 'flex';
+    }
+    document.querySelector('#attendance-a .section-actions button').onclick = function(e) {
+      e.preventDefault();
+      openMarkAttendanceA();
+    };
+    document.getElementById('attendanceFormA').onsubmit = function(e) {
+      e.preventDefault();
+      const date = document.getElementById('dateInputA').value;
+      const present = [], absent = [];
+      studentNamesA.forEach((name, idx) => {
+        const roll = `A${(idx+1).toString().padStart(3,'0')}`;
+        const val = document.querySelector(`input[name='attendance-${roll}']:checked`);
+        if (val && val.value === 'present') present.push({ roll, name });
+        else absent.push({ roll, name });
+      });
+      localStorage.setItem(`attendanceA_${date}`, JSON.stringify({ present, absent }));
+      localStorage.setItem('latestAttendanceA', JSON.stringify({ present, absent }));
+      document.getElementById('attendanceSubmitMsgA').innerText = 'Attendance submitted!';
+      setTimeout(() => { document.getElementById('markAttendanceModalA').style.display = 'none'; }, 1200);
+    };
+    // Mark Attendance Modal for Section B
+    function openMarkAttendanceB() {
+      document.getElementById('dateInputB').value = new Date().toISOString().split('T')[0];
+      const tbody = document.getElementById('attendanceTableBodyB');
+      tbody.innerHTML = '';
+      studentNamesB.forEach((name, idx) => {
+        const roll = `B${(idx+1).toString().padStart(3,'0')}`;
+        const row = document.createElement('tr');
+        row.innerHTML = '<td style="padding:8px; border-bottom:1px solid #eee;">' + roll + '</td>' +
+                '<td style="padding:8px; border-bottom:1px solid #eee;">' + name + '</td>' +
+                '<td style="padding:8px; border-bottom:1px solid #eee; text-align:center;"><input type="radio" name="attendance-' + roll + '" value="present" required></td>' +
+                '<td style="padding:8px; border-bottom:1px solid #eee; text-align:center;"><input type="radio" name="attendance-' + roll + '" value="absent"></td>';
+        tbody.appendChild(row);
+      });
+      document.getElementById('attendanceSubmitMsgB').innerText = '';
+      document.getElementById('markAttendanceModalB').style.display = 'flex';
+    }
+    document.querySelector('#attendance-b .section-actions button').onclick = function(e) {
+      e.preventDefault();
+      openMarkAttendanceB();
+    };
+    document.getElementById('attendanceFormB').onsubmit = function(e) {
+      e.preventDefault();
+      const date = document.getElementById('dateInputB').value;
+      const present = [], absent = [];
+      studentNamesB.forEach((name, idx) => {
+        const roll = `B${(idx+1).toString().padStart(3,'0')}`;
+        const val = document.querySelector(`input[name='attendance-${roll}']:checked`);
+        if (val && val.value === 'present') present.push({ roll, name });
+        else absent.push({ roll, name });
+      });
+      localStorage.setItem(`attendanceB_${date}`, JSON.stringify({ present, absent }));
+      localStorage.setItem('latestAttendanceB', JSON.stringify({ present, absent }));
+      document.getElementById('attendanceSubmitMsgB').innerText = 'Attendance submitted!';
+      setTimeout(() => { document.getElementById('markAttendanceModalB').style.display = 'none'; }, 1200);
+    };
+    // Mark Attendance Modal for Section C
+    function openMarkAttendanceC() {
+      document.getElementById('dateInputC').value = new Date().toISOString().split('T')[0];
+      const tbody = document.getElementById('attendanceTableBodyC');
+      tbody.innerHTML = '';
+      studentNamesC.forEach((name, idx) => {
+        const roll = `C${(idx+1).toString().padStart(3,'0')}`;
+        const row = document.createElement('tr');
+        row.innerHTML = '<td style="padding:8px; border-bottom:1px solid #eee;">' + roll + '</td>' +
+                '<td style="padding:8px; border-bottom:1px solid #eee;">' + name + '</td>' +
+                '<td style="padding:8px; border-bottom:1px solid #eee; text-align:center;"><input type="radio" name="attendance-' + roll + '" value="present" required></td>' +
+                '<td style="padding:8px; border-bottom:1px solid #eee; text-align:center;"><input type="radio" name="attendance-' + roll + '" value="absent"></td>';
+        tbody.appendChild(row);
+      });
+      document.getElementById('attendanceSubmitMsgC').innerText = '';
+      document.getElementById('markAttendanceModalC').style.display = 'flex';
+    }
+    document.querySelector('#attendance-c .section-actions button').onclick = function(e) {
+      e.preventDefault();
+      openMarkAttendanceC();
+    };
+    document.getElementById('attendanceFormC').onsubmit = function(e) {
+      e.preventDefault();
+      const date = document.getElementById('dateInputC').value;
+      const present = [], absent = [];
+      studentNamesC.forEach((name, idx) => {
+        const roll = `C${(idx+1).toString().padStart(3,'0')}`;
+        const val = document.querySelector(`input[name='attendance-${roll}']:checked`);
+        if (val && val.value === 'present') present.push({ roll, name });
+        else absent.push({ roll, name });
+      });
+      localStorage.setItem(`attendanceC_${date}`, JSON.stringify({ present, absent }));
+      localStorage.setItem('latestAttendanceC', JSON.stringify({ present, absent }));
+      document.getElementById('attendanceSubmitMsgC').innerText = 'Attendance submitted!';
+      setTimeout(() => { document.getElementById('markAttendanceModalC').style.display = 'none'; }, 1200);
+    };
+  </script>
+</body>
+</html> 

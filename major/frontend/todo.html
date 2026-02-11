@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To-Do List by Subject</title>
+<link rel="stylesheet" href="studentdashboard.css" />
+<link rel="stylesheet" href="index.html" />
+  <style>
+    body {
+      background: linear-gradient(120deg, #f0f7ff 60%, #dbeafe 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .todo-container {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+      padding: 40px 44px 32px 44px;
+      max-width: 650px;
+      width: 100%;
+    }
+    .todo-container h2 {
+      color: #2563eb;
+      text-align: center;
+      margin-bottom: 32px;
+      font-size: 2em;
+      letter-spacing: 1px;
+    }
+    .subject-section {
+      margin-bottom: 36px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #e0e7ef;
+    }
+    .subject-section:last-child {
+      border-bottom: none;
+    }
+    .subject-title {
+      color: #2563eb;
+      font-size: 1.25em;
+      font-weight: 700;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+    }
+    .task-list {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 10px;
+    }
+    .task-list li {
+      background: linear-gradient(90deg, #e0f2fe 60%, #dbeafe 100%);
+      color: #2563eb;
+      border-radius: 8px;
+      padding: 10px 18px;
+      margin-bottom: 8px;
+      font-size: 1.08em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+      transition: background 0.18s, color 0.18s;
+      cursor: pointer;
+      position: relative;
+    }
+    .task-list li:hover {
+      background: linear-gradient(90deg, #bae6fd 60%, #a5b4fc 100%);
+      color: #1e40af;
+    }
+    .task-list li.completed {
+      text-decoration: line-through;
+      color: #94a3b8;
+      background: #f1f5f9;
+    }
+    .checkmark {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      background: #fff;
+      transition: background 0.2s, border 0.2s;
+      cursor: pointer;
+    }
+    .task-list li.completed .checkmark {
+      background: #2563eb;
+      border-color: #2563eb;
+    }
+    .checkmark svg {
+      display: none;
+    }
+    .task-list li.completed .checkmark svg {
+      display: block;
+      color: #fff;
+    }
+    .add-task-form {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .add-task-form input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1.5px solid #2563eb;
+      border-radius: 6px;
+      font-size: 1em;
+      background: #f0f7ff;
+      transition: border 0.2s;
+    }
+    .add-task-form input[type="text"]:focus {
+      border: 2px solid #2563eb;
+      outline: none;
+    }
+    .add-task-form button {
+      background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 22px;
+      font-size: 1.08em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+    }
+    .add-task-form button:hover {
+      background: linear-gradient(90deg, #1e40af 60%, #3b82f6 100%);
+      transform: translateY(-2px) scale(1.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-container">
+    <h2>To-Do List (Subject Wise)</h2>
+    <div class="subject-section" id="subject-math">
+      <div class="subject-title">Mathematics</div>
+      <ul class="task-list" id="tasks-math">
+        <li onclick="toggleComplete(this)"><span class="checkmark"></span>Complete Assignment 1</li>
+        <li onclick="toggleComplete(this)"><span class="checkmark"></span>Revise Chapter 3</li>
+      </ul>
+      <form class="add-task-form" onsubmit="return addTask('math', event)">
+        <input type="text" placeholder="Add new task..." />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+    <div class="subject-section" id="subject-physics">
+      <div class="subject-title">Physics</div>
+      <ul class="task-list" id="tasks-physics">
+        <li onclick="toggleComplete(this)"><span class="checkmark"></span>Lab Report Submission</li>
+      </ul>
+      <form class="add-task-form" onsubmit="return addTask('physics', event)">
+        <input type="text" placeholder="Add new task..." />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+    <div class="subject-section" id="subject-chemistry">
+      <div class="subject-title">Chemistry</div>
+      <ul class="task-list" id="tasks-chemistry">
+        <li onclick="toggleComplete(this)"><span class="checkmark"></span>Prepare for Lab Test</li>
+        <li onclick="toggleComplete(this)"><span class="checkmark"></span>Read Chapter 5</li>
+      </ul>
+      <form class="add-task-form" onsubmit="return addTask('chemistry', event)">
+        <input type="text" placeholder="Add new task..." />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+    <div class="subject-section" id="subject-english">
+      <div class="subject-title">English</div>
+      <ul class="task-list" id="tasks-english">
+        <li onclick="toggleComplete(this)"><span class="checkmark"></span>Essay on Technology</li>
+      </ul>
+      <form class="add-task-form" onsubmit="return addTask('english', event)">
+        <input type="text" placeholder="Add new task..." />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+    <div class="subject-section" id="subject-cs">
+      <div class="subject-title">Computer Science</div>
+      <ul class="task-list" id="tasks-cs">
+        <li onclick="toggleComplete(this)"><span class="checkmark"></span>Finish Project Proposal</li>
+        <li onclick="toggleComplete(this)"><span class="checkmark"></span>Practice Coding Problems</li>
+      </ul>
+      <form class="add-task-form" onsubmit="return addTask('cs', event)">
+        <input type="text" placeholder="Add new task..." />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    function addTask(subject, event) {
+      event.preventDefault();
+      const form = event.target;
+      const input = form.querySelector('input[type="text"]');
+      const value = input.value.trim();
+      if (value) {
+        const ul = document.getElementById('tasks-' + subject);
+        const li = document.createElement('li');
+        li.innerHTML = '<span class="checkmark"></span>' + value;
+        li.onclick = function() { toggleComplete(li); };
+        ul.appendChild(li);
+        input.value = '';
+      }
+      return false;
+    }
+    function toggleComplete(li) {
+      li.classList.toggle('completed');
+      // Add checkmark SVG if completed
+      const checkmark = li.querySelector('.checkmark');
+      if (li.classList.contains('completed')) {
+        if (!checkmark.querySelector('svg')) {
+          checkmark.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 16 16"><path d="M4 8.5l3 3 5-5"/></svg>';
+        }
+      } else {
+        checkmark.innerHTML = '';
+      }
+    }
+  </script>
+</body>
+</html> 

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Time Table</title>
+  <link rel="stylesheet" href="teacher_dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', Arial, sans-serif; background: linear-gradient(120deg, #f0f7ff 60%, #dbeafe 100%); min-height: 100vh; }
+    .tt-container { max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.10); padding: 36px 40px 32px 40px; }
+    .tt-title { color: #2563eb; font-size: 2em; font-weight: 700; text-align: center; margin-bottom: 32px; letter-spacing: 1px; }
+    .tt-tabs { display: flex; gap: 12px; margin-bottom: 24px; justify-content: center; }
+    .tt-tab { padding: 10px 28px; border-radius: 8px 8px 0 0; background: #f0f7ff; color: #2563eb; font-weight: 600; cursor: pointer; border: none; font-size: 1.1em; transition: background 0.2s, color 0.2s; }
+    .tt-tab.active { background: #2563eb; color: #fff; }
+    .tt-section { display: none; }
+    .tt-section.active { display: block; }
+    .tt-table-card { background: #f9fafb; border-radius: 12px; box-shadow: 0 2px 8px rgba(37,99,235,0.07); padding: 0; margin-top: 18px; overflow-x: auto; }
+    .tt-table { width: 100%; border-collapse: collapse; font-family: 'Inter', Arial, sans-serif; }
+    .tt-table th, .tt-table td { padding: 10px 18px; border-bottom: 1px solid #e0e7ef; text-align: center; font-size: 1em; }
+    .tt-table th { background: #f0f7ff; color: #2563eb; font-weight: 700; position: sticky; top: 0; z-index: 1; }
+    .tt-table tr:last-child td { border-bottom: none; }
+    @media (max-width: 900px) { .tt-container { padding: 18px 4vw 18px 4vw; } }
+  </style>
+</head>
+<body>
+  <div class="tt-container">
+    <div class="tt-title">Section Time Tables</div>
+    <div class="tt-tabs">
+      <button class="tt-tab active" data-section="A">Section A</button>
+      <button class="tt-tab" data-section="B">Section B</button>
+      <button class="tt-tab" data-section="C">Section C</button>
+    </div>
+    <div class="tt-section active" id="ttA">
+      <div class="tt-table-card">
+        <table class="tt-table">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Period 1<br><span style='font-weight:400;font-size:0.95em;'>9:00-10:00</span></th>
+              <th>Period 2<br><span style='font-weight:400;font-size:0.95em;'>10:00-11:00</span></th>
+              <th>Period 3<br><span style='font-weight:400;font-size:0.95em;'>11:15-12:15</span></th>
+              <th>Period 4<br><span style='font-weight:400;font-size:0.95em;'>12:15-1:15</span></th>
+              <th>Period 5<br><span style='font-weight:400;font-size:0.95em;'>2:00-3:00</span></th>
+              <th>Project<br><span style='font-weight:400;font-size:0.95em;'>3:00-4:00</span></th>
+            </tr>
+          </thead>
+          <tbody id="ttBodyA"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tt-section" id="ttB">
+      <div class="tt-table-card">
+        <table class="tt-table">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Period 1<br><span style='font-weight:400;font-size:0.95em;'>9:00-10:00</span></th>
+              <th>Period 2<br><span style='font-weight:400;font-size:0.95em;'>10:00-11:00</span></th>
+              <th>Period 3<br><span style='font-weight:400;font-size:0.95em;'>11:15-12:15</span></th>
+              <th>Period 4<br><span style='font-weight:400;font-size:0.95em;'>12:15-1:15</span></th>
+              <th>Period 5<br><span style='font-weight:400;font-size:0.95em;'>2:00-3:00</span></th>
+              <th>Project<br><span style='font-weight:400;font-size:0.95em;'>3:00-4:00</span></th>
+            </tr>
+          </thead>
+          <tbody id="ttBodyB"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tt-section" id="ttC">
+      <div class="tt-table-card">
+        <table class="tt-table">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Period 1<br><span style='font-weight:400;font-size:0.95em;'>9:00-10:00</span></th>
+              <th>Period 2<br><span style='font-weight:400;font-size:0.95em;'>10:00-11:00</span></th>
+              <th>Period 3<br><span style='font-weight:400;font-size:0.95em;'>11:15-12:15</span></th>
+              <th>Period 4<br><span style='font-weight:400;font-size:0.95em;'>12:15-1:15</span></th>
+              <th>Period 5<br><span style='font-weight:400;font-size:0.95em;'>2:00-3:00</span></th>
+              <th>Project<br><span style='font-weight:400;font-size:0.95em;'>3:00-4:00</span></th>
+            </tr>
+          </thead>
+          <tbody id="ttBodyC"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Subjects
+    const subjects = [
+      "Machine Learning", "Deep Learning", "Block Chain", "Big Data", "Cyber Security Essentials"
+    ];
+    // Example time tables for each section
+    const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const ttA = [
+      [subjects[0], subjects[1], subjects[2], subjects[3], subjects[4], "Project"],
+      [subjects[1], subjects[2], subjects[3], subjects[4], subjects[0], "Project"],
+      [subjects[2], subjects[3], subjects[4], subjects[0], subjects[1], "Project"],
+      [subjects[3], subjects[4], subjects[0], subjects[1], subjects[2], "Project"],
+      [subjects[4], subjects[0], subjects[1], subjects[2], subjects[3], "Project"],
+      [subjects[0], subjects[2], subjects[4], subjects[1], subjects[3], "Project"]
+    ];
+    const ttB = [
+      [subjects[1], subjects[2], subjects[3], subjects[4], subjects[0], "Project"],
+      [subjects[2], subjects[3], subjects[4], subjects[0], subjects[1], "Project"],
+      [subjects[3], subjects[4], subjects[0], subjects[1], subjects[2], "Project"],
+      [subjects[4], subjects[0], subjects[1], subjects[2], subjects[3], "Project"],
+      [subjects[0], subjects[1], subjects[2], subjects[3], subjects[4], "Project"],
+      [subjects[1], subjects[3], subjects[0], subjects[2], subjects[4], "Project"]
+    ];
+    const ttC = [
+      [subjects[2], subjects[3], subjects[4], subjects[0], subjects[1], "Project"],
+      [subjects[3], subjects[4], subjects[0], subjects[1], subjects[2], "Project"],
+      [subjects[4], subjects[0], subjects[1], subjects[2], subjects[3], "Project"],
+      [subjects[0], subjects[1], subjects[2], subjects[3], subjects[4], "Project"],
+      [subjects[1], subjects[2], subjects[3], subjects[4], subjects[0], "Project"],
+      [subjects[2], subjects[4], subjects[1], subjects[3], subjects[0], "Project"]
+    ];
+    function renderTT(section, data) {
+      const tbody = document.getElementById('ttBody' + section);
+      tbody.innerHTML = '';
+      days.forEach((day, i) => {
+        tbody.innerHTML += `<tr><td>${day}</td>` + data[i].map(sub => `<td>${sub}</td>`).join('') + '</tr>';
+      });
+    }
+    renderTT('A', ttA);
+    renderTT('B', ttB);
+    renderTT('C', ttC);
+    // Tab switching logic
+    document.querySelectorAll('.tt-tab').forEach(tab => {
+      tab.onclick = function() {
+        document.querySelectorAll('.tt-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tt-section').forEach(s => s.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tt' + tab.dataset.section).classList.add('active');
+      };
+    });
+  </script>
+</body>
+</html> 

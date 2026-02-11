@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management - College Management System</title>
+    <link rel="stylesheet" href="students.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="uni.jpg" alt="College Logo" class="logo">
+                <h2>Admin Panel</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="admindashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                <li class="nav-item active"><a href="students.html"><i class="fas fa-user-graduate"></i><span>Students</span></a></li>
+                <li class="nav-item"><a href="teachers.html"><i class="fas fa-chalkboard-teacher"></i><span>Teachers</span></a></li>
+                <li class="nav-item"><a href="courses.html"><i class="fas fa-book"></i><span>Courses</span></a></li>
+                <li class="nav-item"><a href="attendance.html"><i class="fas fa-calendar-check"></i><span>Attendance</span></a></li>
+                <li class="nav-item"><a href="results.html"><i class="fas fa-chart-line"></i><span>Results</span></a></li>
+                <li class="nav-item"><a href="announcements.html"><i class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="nav-item"><a href="reports.html"><i class="fas fa-file-alt"></i><span>Reports</span></a></li>
+                <li class="nav-item"><a href="settings.html"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="login.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                    <h1>Student Management</h1>
+                </div>
+                <div class="header-right">
+                    <button class="add-btn" onclick="openAddModal()">
+                        <i class="fas fa-plus"></i> Add Student
+                    </button>
+                </div>
+            </header>
+
+            <!-- Filters and Search -->
+            <div class="filters-section">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search students...">
+                </div>
+                <div class="filters">
+                    <select id="departmentFilter">
+                        <option value="">All Departments</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Electrical Engineering">Electrical Engineering</option>
+                        <option value="Mechanical Engineering">Mechanical Engineering</option>
+                        <option value="Civil Engineering">Civil Engineering</option>
+                    </select>
+                    <select id="yearFilter">
+                        <option value="">All Years</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
+                    <button class="filter-btn" onclick="applyFilters()">
+                        <i class="fas fa-filter"></i> Apply Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Students Table -->
+            <div class="table-container">
+                <table class="students-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Year</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <!-- Sample data -->
+                        <tr>
+                            <td>ST001</td>
+                            <td>John Doe</td>
+                            <td>john.doe@college.edu</td>
+                            <td>Computer Science</td>
+                            <td>3rd Year</td>
+                            <td>+1 234-567-8900</td>
+                            <td><span class="status active">Active</span></td>
+                            <td>
+                                <button class="action-btn edit" onclick="editStudent('ST001')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteStudent('ST001')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ST002</td>
+                            <td>Jane Smith</td>
+                            <td>jane.smith@college.edu</td>
+                            <td>Electrical Engineering</td>
+                            <td>2nd Year</td>
+                            <td>+1 234-567-8901</td>
+                            <td><span class="status active">Active</span></td>
+                            <td>
+                                <button class="action-btn edit" onclick="editStudent('ST002')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteStudent('ST002')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ST003</td>
+                            <td>Mike Johnson</td>
+                            <td>mike.johnson@college.edu</td>
+                            <td>Mechanical Engineering</td>
+                            <td>4th Year</td>
+                            <td>+1 234-567-8902</td>
+                            <td><span class="status inactive">Inactive</span></td>
+                            <td>
+                                <button class="action-btn edit" onclick="editStudent('ST003')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteStudent('ST003')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Student Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Student</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="studentForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" id="studentId" name="studentId" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentName">Full Name</label>
+                        <input type="text" id="studentName" name="studentName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="studentEmail">Email</label>
+                        <input type="email" id="studentEmail" name="studentEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPhone">Phone</label>
+                        <input type="tel" id="studentPhone" name="studentPhone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="studentDepartment">Department</label>
+                        <select id="studentDepartment" name="studentDepartment" required>
+                            <option value="">Select Department</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentYear">Year</label>
+                        <select id="studentYear" name="studentYear" required>
+                            <option value="">Select Year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="studentStatus">Status</label>
+                    <select id="studentStatus" name="studentStatus" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="students.js"></script>
+</body>
+</html> 

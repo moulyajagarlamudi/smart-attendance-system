@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VVIT Attendance Portal</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      background: url('vvit_background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    /* Dark transparent overlay */
+    .overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 0;
+    }
+
+    /* Center container */
+    .center-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .center-content h1 {
+      font-size: 2.8em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .center-content p {
+      font-size: 1.2em;
+      margin: 8px 0 30px;
+    }
+
+    /* Cards container */
+    .login-gift-cards-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    /* Gift cards */
+    .gift-card {
+      background: linear-gradient(120deg, #f0f7ff 60%, #dbeafe 100%);
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+      padding: 32px 36px 24px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s;
+      min-width: 220px;
+      max-width: 260px;
+      border: 2px solid #2563eb;
+    }
+
+    .gift-card:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 8px 32px rgba(37,99,235,0.18);
+      border-color: #1e40af;
+    }
+
+    .gift-logo {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 18px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+      border: 3px solid #2563eb;
+    }
+
+    .gift-title {
+      font-size: 1.25em;
+      font-weight: 700;
+      color: #2563eb;
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="center-content">
+    <h1>Welcome to VVIT Attendance Portal</h1>
+    <p>Absolute Education  Absolute Discipline</p>
+
+    <!-- Cards -->
+    <div class="login-gift-cards-container">
+      <div class="gift-card" onclick="window.location.href='student_login.html'">
+        <img src="https://i.pinimg.com/736x/1e/39/dd/1e39dd4e962de0f2a55ea5ed7a86d30f.jpg" alt="Student Logo" class="gift-logo">
+        <div class="gift-title">Student Login</div>
+      </div>
+
+      <div class="gift-card" onclick="window.location.href='teacher_login.html'">
+        <img src="https://i.pinimg.com/736x/a1/f1/43/a1f143a671136781b11120884da9e77d.jpg" alt="Teacher Logo" class="gift-logo">
+        <div class="gift-title">Teacher Login</div>
+      </div>
+
+      <div class="gift-card" onclick="window.location.href='role_selection.html'">
+        <img src="https://i.pinimg.com/736x/8f/66/d2/8f66d2d2632f1abb5eff2f3e4c01fd08.jpg" alt="University Building" class="gift-logo">
+        <div class="gift-title">Admin Portal</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

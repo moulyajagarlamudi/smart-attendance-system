@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .register-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      width: 380px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+    h2 { margin-bottom: 20px; color: #333; }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #4facfe;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #00c6fb;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Teacher Registration</h2>
+    <form id="teacherRegisterForm">
+      <input type="text" id="teacher_id" placeholder="Teacher ID" required>
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="text" id="phone" placeholder="Phone (10 digits)" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="password" id="confirm_password" placeholder="Confirm Password" required>
+      <select id="department" required>
+        <option value="">Select Department</option>
+        <option value="CSE">CSE</option>
+        <option value="CSO">CSO</option>
+        <option value="CIC">CIC</option>
+        <option value="AIDS">AIDS</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="MECH">MECH</option>
+        <option value="CIVIL">CIVIL</option>
+      </select>
+      <button type="submit">Register</button>
+    </form>
+    <p id="responseMessage"></p>
+  </div>
+
+  <script>
+    document.getElementById("teacherRegisterForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const teacher_id = document.getElementById("teacher_id").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const password = document.getElementById("password").value;
+      const confirm_password = document.getElementById("confirm_password").value;
+      const department = document.getElementById("department").value;
+
+      // Confirm password validation
+      if (password !== confirm_password) {
+        document.getElementById("responseMessage").innerText = "❌ Passwords do not match!";
+        return;
+      }
+
+      // Build data object as expected by FastAPI (without confirm_password)
+      const data = { teacher_id, name, email, phone, department, password };
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/register-teacher", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          document.getElementById("responseMessage").innerText = "✅ " + result.message;
+          document.getElementById("teacherRegisterForm").reset();
+        } else {
+          document.getElementById("responseMessage").innerText = "❌ " + (result.detail || result.message || "Registration failed");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("responseMessage").innerText = "⚠️ Server error!";
+      }
+    });
+  </script>
+</body>
+</html>

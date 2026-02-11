@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Profile - Landscape View</title>
+  <link rel="stylesheet" href="student.dashboard.css" />
+  <style>
+    body {
+      background: linear-gradient(120deg, #f0f7ff 60%, #dbeafe 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-container {
+      display: flex;
+      flex-direction: row;
+      background-color: white;
+      border-radius: 12px;
+      padding: 30px 40px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      max-width: 1100px;
+      width: 90%;
+      gap: 40px;
+    }
+
+    .left-section {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-right: 1px solid #e0e0e0;
+      padding-right: 30px;
+    }
+
+    .profile-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid #2563eb;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
+    .info-details {
+      text-align: center;
+    }
+
+    .info-details p {
+      margin: 8px 0;
+      font-size: 15.5px;
+      color: #333;
+    }
+
+    .right-section {
+      width: 60%;
+    }
+
+    .extra-section {
+      margin-bottom: 30px;
+    }
+
+    .extra-section h4 {
+      color: #2563eb;
+      margin-bottom: 10px;
+      font-size: 18px;
+      border-bottom: 1.5px solid #2563eb;
+      padding-bottom: 5px;
+    }
+
+    .extra-section ul {
+      list-style: none;
+      padding-left: 0;
+      font-size: 15.3px;
+      color: #444;
+    }
+
+    .extra-section li {
+      margin-bottom: 6px;
+    }
+
+    strong {
+      color: #000;
+    }
+
+    @media screen and (max-width: 768px) {
+      .profile-container {
+        flex-direction: column;
+        padding: 20px;
+      }
+      .left-section {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+      .right-section {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <!-- Left Profile Section -->
+    <div class="left-section">
+      <img src="https://i.pinimg.com/736x/52/61/bd/5261bd492ef52666d60258a067239007.jpg" class="profile-img" alt="Profile">
+      <div class="info-details">
+        <p><strong>Name:</strong> Archana</p>
+        <p><strong>Roll No:</strong>AOO1</p>
+        <p><strong>Course:</strong> B.Tech</p>
+        <p><strong>Branch:</strong> CSE - Internet of Things</p>
+        <p><strong>Batch:</strong> 2022-2026</p>
+        <p><strong>Email:</strong> A001@vvit.net</p>
+      </div>
+    </div>
+
+    <!-- Right Education Section -->
+    <div class="right-section">
+      <div class="extra-section">
+        <h4>School Information</h4>
+        <ul>
+          <li><strong>School Name:</strong> Vasireddy High School</li>
+          <li><strong>Board:</strong> State Board</li>
+          <li><strong>Year of Passing:</strong> 2020</li>
+          <li><strong>Percentage:</strong> 95%</li>
+        </ul>
+      </div>
+
+      <div class="extra-section">
+        <h4>Intermediate Information</h4>
+        <ul>
+          <li><strong>College Name:</strong> Vasiredddy Junior College</li>
+          <li><strong>Board:</strong> State Board</li>
+          <li><strong>Year of Passing:</strong> 2022</li>
+          <li><strong>Percentage:</strong> 97%</li>
+        </ul>
+      </div>
+
+      <div class="extra-section">
+        <h4>Current Information</h4>
+        <ul>
+          <li><strong>University:</strong> VVIT University</li>
+          <li><strong>Course:</strong> B.Tech - CSE (IoT)</li>
+          <li><strong>Year:</strong> 4th Year</li>
+          <li><strong>CGPA:</strong> 9.2</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

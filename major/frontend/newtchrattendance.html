@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Attendance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', Arial, sans-serif; background: linear-gradient(120deg, #f0f7ff 60%, #dbeafe 100%); min-height: 100vh; }
+    .attendance-container {
+      max-width: 1100px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+      padding: 0;
+      display: flex;
+      min-height: 600px;
+    }
+    .attendance-sidebar {
+      width: 200px;
+      background: linear-gradient(160deg, #7c3aed 60%, #6366f1 100%);
+      border-radius: 16px 0 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 36px 0 0 0;
+    }
+    .attendance-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      align-items: stretch;
+    }
+    .attendance-tab {
+      padding: 16px 0;
+      border-radius: 0 20px 20px 0;
+      background: transparent;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 1.1em;
+      text-align: left;
+      transition: background 0.2s, color 0.2s;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 32px;
+    }
+    .attendance-tab.active {
+      background: #ede9fe;
+      color: #4f46e5;
+    }
+    .attendance-main {
+      flex: 1;
+      padding: 36px 40px 32px 40px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .attendance-section { display: none; }
+    .attendance-section.active { display: block; }
+    .student-table-card { background: #f9fafb; border-radius: 12px; box-shadow: 0 2px 8px rgba(37,99,235,0.07); padding: 0; margin-top: 18px; max-height: 250px; overflow-y: auto; }
+    .student-table { width: 100%; border-collapse: collapse; font-family: 'Inter', Arial, sans-serif; }
+    .student-table th, .student-table td { padding: 10px 12px; border-bottom: 1px solid #e0e7ef; text-align: left; font-size: 1em; }
+    .student-table th { background: #f0f7ff; color: #2563eb; font-weight: 700; position: sticky; top: 0; z-index: 1; }
+    .student-table tr:last-child td { border-bottom: none; }
+    .attendance-actions { margin: 18px 0 10px 0; display: flex; gap: 12px; }
+    .attendance-actions button { background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%); color: #fff; border: none; border-radius: 6px; padding: 8px 18px; font-size: 1em; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.2s; box-shadow: 0 2px 8px rgba(37,99,235,0.10); font-family: 'Inter', Arial, sans-serif; }
+    .attendance-actions button:hover { background: linear-gradient(90deg, #1e40af 60%, #3b82f6 100%); transform: translateY(-2px) scale(1.04); }
+    .attendance-actions button:disabled { 
+      background: #94a3b8; 
+      cursor: not-allowed; 
+      transform: none; 
+    }
+    .latest-attendance-card { background: #f9fafb; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 16px; margin-top: 18px; max-height: 150px; overflow-y: auto; }
+    .latest-attendance-card ul { margin: 0 0 12px 18px; padding: 0; list-style: disc inside; }
+    .latest-attendance-card li { margin-bottom: 4px; }
+    .mark-all-btn {
+      background: linear-gradient(90deg, #10b981 60%, #34d399 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 10px;
+      margin-right: 10px;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 2px 8px rgba(16,185,129,0.10);
+    }
+    .mark-all-btn:hover {
+      background: linear-gradient(90deg, #059669 60%, #10b981 100%);
+      transform: translateY(-2px) scale(1.04);
+    }
+    .generate-report-btn {
+      background: linear-gradient(90deg, #f59e42 60%, #fbbf24 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 10px;
+      margin-right: 10px;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 2px 8px rgba(245,158,66,0.10);
+    }
+    .generate-report-btn:hover {
+      background: linear-gradient(90deg, #ea580c 60%, #f59e42 100%);
+      transform: translateY(-2px) scale(1.04);
+    }
+    .attendance-report-modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.3);
+      align-items: center; justify-content: center;
+    }
+    .attendance-report-content {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 95vw;
+      margin: auto;
+      margin-top: 40px;
+      padding: 32px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .close-report-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #aaa;
+    }
+    .close-report-btn:hover { color: #2563eb; }
+    .previous-reports-modal {
+      display: none;
+      position: fixed;
+      z-index: 2100;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.3);
+      align-items: center; justify-content: center;
+    }
+    .previous-reports-content {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 95vw;
+      margin: auto;
+      margin-top: 40px;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+      position: relative;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    .close-previous-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #aaa;
+    }
+    .close-previous-btn:hover { color: #2563eb; }
+    .previous-reports-list button {
+      display: block;
+      width: 100%;
+      margin-bottom: 8px;
+      background: #f0f7ff;
+      color: #2563eb;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 0;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .previous-reports-list button:hover {
+      background: #2563eb;
+      color: #fff;
+    }
+    .loading-spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #2563eb;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .success-message {
+      background: #dcfce7;
+      color: #166534;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 10px 0;
+      border-left: 4px solid #22c55e;
+    }
+    .error-message {
+      background: #fef2f2;
+      color: #dc2626;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 10px 0;
+      border-left: 4px solid #ef4444;
+    }
+    @media (max-width: 1100px) { .attendance-container { flex-direction: column; } .attendance-main { padding: 18px 4vw 18px 4vw; } .attendance-sidebar { border-radius: 16px 16px 0 0; width: 100%; flex-direction: row; padding: 0; } .attendance-tabs { flex-direction: row; gap: 8px; } .attendance-tab { border-radius: 8px 8px 0 0; padding: 10px 0 10px 24px; } }
+  </style>
+</head>
+<body>
+  <div class="attendance-container">
+    <div class="attendance-sidebar">
+      <div style="color:#fff; font-size:1.4em; font-weight:700; text-align:center; margin-bottom:32px; letter-spacing:1px;">Teacher Attendance</div>
+      <div class="attendance-tabs">
+        <button class="attendance-tab active" data-section="A">Section A</button>
+        <button class="attendance-tab" data-section="B">Section B</button>
+        <button class="attendance-tab" data-section="C">Section C</button>
+      </div>
+    </div>
+    <div class="attendance-main">
+      <div class="attendance-section active" id="sectionA">
+        <div style="margin-bottom:10px;">
+          <label for="dateA"><strong>Date:</strong></label>
+          <input type="date" id="dateA" min="2025-07-01" max="2026-07-31" style="padding:6px 12px;font-size:1em;">
+        </div>
+        <button class="mark-all-btn" onclick="markAllPresent('A')">Mark All Present</button>
+        <button class="generate-report-btn" onclick="showAttendanceReport('A')">Generate Report</button>
+        <button class="generate-report-btn" onclick="showPreviousReports('A')">View Previous Reports</button>
+        <div class="student-table-card">
+          <table class="student-table">
+            <thead>
+              <tr><th>Sl No.</th><th>Roll Number</th><th>Name of the Student</th><th>Present</th><th>Absent</th></tr>
+            </thead>
+            <tbody id="studentsA"></tbody>
+          </table>
+        </div>
+        <div class="attendance-actions">
+          <button id="submitBtnA" onclick="submitAttendance('A')">Submit Attendance</button>
+          <button onclick="showLatestAttendance('A')">View Latest Attendance</button>
+        </div>
+        <div id="messageA"></div>
+        <div class="latest-attendance-card" id="latestAttendanceA" style="display:none;"></div>
+      </div>
+      <div class="attendance-section" id="sectionB">
+        <div style="margin-bottom:10px;">
+          <label for="dateB"><strong>Date:</strong></label>
+          <input type="date" id="dateB" min="2025-07-01" max="2026-07-31" style="padding:6px 12px;font-size:1em;">
+        </div>
+        <button class="mark-all-btn" onclick="markAllPresent('B')">Mark All Present</button>
+        <button class="generate-report-btn" onclick="showAttendanceReport('B')">Generate Report</button>
+        <button class="generate-report-btn" onclick="showPreviousReports('B')">View Previous Reports</button>
+        <div class="student-table-card">
+          <table class="student-table">
+            <thead>
+              <tr><th>Sl No.</th><th>Roll Number</th><th>Name of the Student</th><th>Present</th><th>Absent</th></tr>
+            </thead>
+            <tbody id="studentsB"></tbody>
+          </table>
+        </div>
+        <div class="attendance-actions">
+          <button id="submitBtnB" onclick="submitAttendance('B')">Submit Attendance</button>
+          <button onclick="showLatestAttendance('B')">View Latest Attendance</button>
+        </div>
+        <div id="messageB"></div>
+        <div class="latest-attendance-card" id="latestAttendanceB" style="display:none;"></div>
+      </div>
+      <div class="attendance-section" id="sectionC">
+        <div style="margin-bottom:10px;">
+          <label for="dateC"><strong>Date:</strong></label>
+          <input type="date" id="dateC" min="2025-07-01" max="2026-07-31" style="padding:6px 12px;font-size:1em;">
+        </div>
+        <button class="mark-all-btn" onclick="markAllPresent('C')">Mark All Present</button>
+        <button class="generate-report-btn" onclick="showAttendanceReport('C')">Generate Report</button>
+        <button class="generate-report-btn" onclick="showPreviousReports('C')">View Previous Reports</button>
+        <div class="student-table-card">
+          <table class="student-table">
+            <thead>
+              <tr><th>Sl No.</th><th>Roll Number</th><th>Name of the Student</th><th>Present</th><th>Absent</th></tr>
+            </thead>
+            <tbody id="studentsC"></tbody>
+          </table>
+        </div>
+        <div class="attendance-actions">
+          <button id="submitBtnC" onclick="submitAttendance('C')">Submit Attendance</button>
+          <button onclick="showLatestAttendance('C')">View Latest Attendance</button>
+        </div>
+        <div id="messageC"></div>
+        <div class="latest-attendance-card" id="latestAttendanceC" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Attendance Report Modal -->
+  <div id="attendanceReportModal" class="attendance-report-modal">
+    <div class="attendance-report-content">
+      <button class="close-report-btn" onclick="closeAttendanceReport()">&times;</button>
+      <h2 id="attendanceReportTitle" style="color:#2563eb;">Attendance Report</h2>
+      <div id="attendanceReportTable">Loading...</div>
+    </div>
+  </div>
+  <!-- Previous Reports Modal -->
+  <div id="previousReportsModal" class="previous-reports-modal">
+    <div class="previous-reports-content">
+      <button class="close-previous-btn" onclick="closePreviousReports()">&times;</button>
+      <h2 style="color:#2563eb;">Previous Attendance Reports</h2>
+      <div id="previousReportsList">Loading...</div>
+    </div>
+  </div>
+  <script>
+    // API Base URL - Update this to your FastAPI server URL
+    const API_BASE_URL = 'http://localhost:8000';
+
+    // Example student data for each section
+    const studentsA = [
+      { rollNo: "A001", name: "Archana" },
+      { rollNo: "A002", name: "Aanya Mehta" },
+      { rollNo: "A003", name: "Rohan Verma" },
+      { rollNo: "A004", name: "Sneha Reddy" },
+      { rollNo: "A005", name: "Karan Kapoor" },
+      { rollNo: "A006", name: "Priya Nair" },
+      { rollNo: "A007", name: "Aditya Iyer" },
+      { rollNo: "A008", name: "Anjali Desai" },
+      { rollNo: "A009", name: "Vivek Choudhary" },
+      { rollNo: "A010", name: "Meera Joshi" },
+      { rollNo: "A011", name: "Aryan Malhotra" },
+      { rollNo: "A012", name: "Isha Patil" },
+      { rollNo: "A013", name: "Nikhil Saxena" },
+      { rollNo: "A014", name: "Swathi Bansal" },
+      { rollNo: "A015", name: "Rahul Rao" },
+      { rollNo: "A016", name: "Kavya Bhatt" },
+      { rollNo: "A017", name: "Manish Agarwal" },
+      { rollNo: "A018", name: "Divya Shetty" },
+      { rollNo: "A019", name: "Sagar Tripathi" },
+      { rollNo: "A020", name: "Neha Dubey" }
+    ];
+    const studentsB = [
+      { rollNo: "B001", name: "Rahul Singh" },
+      { rollNo: "B002", name: "Priya Patel" },
+      { rollNo: "B003", name: "Vikas Jain" },
+      { rollNo: "B004", name: "Simran Kaur" },
+      { rollNo: "B005", name: "Amit Sahu" },
+      { rollNo: "B006", name: "Student B6" },
+      { rollNo: "B007", name: "Student B7" },
+      { rollNo: "B008", name: "Student B8" },
+      { rollNo: "B009", name: "Student B9" },
+      { rollNo: "B010", name: "Student B10" }
+    ];
+    const studentsC = [
+      { rollNo: "C001", name: "Neha Gupta" },
+      { rollNo: "C002", name: "Ravi Kumar" },
+      { rollNo: "C003", name: "Sonal Joshi" },
+      { rollNo: "C004", name: "Deepak Yadav" },
+      { rollNo: "C005", name: "Megha Shah" },
+      { rollNo: "C006", name: "Student C6" },
+      { rollNo: "C007", name: "Student C7" },
+      { rollNo: "C008", name: "Student C8" },
+      { rollNo: "C009", name: "Student C9" },
+      { rollNo: "C010", name: "Student C10" }
+    ];
+
+    function renderStudents(section, students) {
+      const tbody = document.getElementById('students' + section);
+      tbody.innerHTML = '';
+      students.forEach((student, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${idx + 1}</td><td>${student.rollNo}</td><td>${student.name}</td>` +
+          `<td style='text-align:center;'><input type='radio' name='attendance-${section}-${student.rollNo}' value='Present' required></td>` +
+          `<td style='text-align:center;'><input type='radio' name='attendance-${section}-${student.rollNo}' value='Absent'></td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    renderStudents('A', studentsA);
+    renderStudents('B', studentsB);
+    renderStudents('C', studentsC);
+
+    // Tab switching logic
+    document.querySelectorAll('.attendance-tab').forEach(tab => {
+      tab.onclick = function() {
+        document.querySelectorAll('.attendance-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.attendance-section').forEach(s => s.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('section' + tab.dataset.section).classList.add('active');
+      };
+    });
+
+    function getSelectedDate(section) {
+      const dateInput = document.getElementById('date' + section);
+      return dateInput && dateInput.value ? dateInput.value : new Date().toISOString().split('T')[0];
+    }
+
+    function showMessage(section, message, isError = false) {
+      const messageDiv = document.getElementById('message' + section);
+      messageDiv.innerHTML = `<div class="${isError ? 'error-message' : 'success-message'}">${message}</div>`;
+      setTimeout(() => {
+        messageDiv.innerHTML = '';
+      }, 5000);
+    }
+
+    // Updated submitAttendance function to call FastAPI
+    async function submitAttendance(section) {
+      const students = section === 'A' ? studentsA : section === 'B' ? studentsB : studentsC;
+      const present = [], absent = [];
+      let allMarked = true;
+
+      students.forEach(student => {
+        const val = document.querySelector(`input[name='attendance-${section}-${student.rollNo}']:checked`);
+        if (!val) allMarked = false;
+        else if (val.value === 'Present') present.push({ roll: student.rollNo, name: student.name });
+        else absent.push({ roll: student.rollNo, name: student.name });
+      });
+
+      if (!allMarked) { 
+        showMessage(section, 'Please mark attendance for all students.', true);
+        return; 
+      }
+
+      const date = getSelectedDate(section);
+      const submitBtn = document.getElementById('submitBtn' + section);
+      
+      // Disable button and show loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<div class="loading-spinner"></div>Submitting...';
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/submit-attendance`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            section: section,
+            date: date,
+            present: present,
+            absent: absent
+          })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          showMessage(section, result.message);
+          // Also save to localStorage as backup
+          localStorage.setItem(`attendance${section}_${date}`, JSON.stringify({ present, absent }));
+          localStorage.setItem(`latestAttendance${section}`, JSON.stringify({ present, absent }));
+        } else {
+          throw new Error(result.detail || 'Failed to submit attendance');
+        }
+      } catch (error) {
+        console.error('Error submitting attendance:', error);
+        showMessage(section, `Error: ${error.message}`, true);
+        // Fallback to localStorage
+        localStorage.setItem(`attendance${section}_${date}`, JSON.stringify({ present, absent }));
+        localStorage.setItem(`latestAttendance${section}`, JSON.stringify({ present, absent }));
+        showMessage(section, 'Attendance saved locally (server unavailable)', false);
+      } finally {
+        // Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Submit Attendance';
+      }
+    }
+
+    function showLatestAttendance(section) {
+      const card = document.getElementById('latestAttendance' + section);
+      const data = JSON.parse(localStorage.getItem('latestAttendance' + section) || 'null');
+      if (!data) { 
+        card.innerHTML = '<em>No attendance data available.</em>'; 
+        card.style.display = 'block'; 
+        return; 
+      }
+      let html = '<strong>Present:</strong><ul>';
+      if (data.present.length === 0) html += '<li>None</li>';
+      else html += data.present.map(s => `<li>${s.roll} - ${s.name}</li>`).join('');
+      html += '</ul><strong>Absent:</strong><ul>';
+      if (data.absent.length === 0) html += '<li>None</li>';
+      else html += data.absent.map(s => `<li>${s.roll} - ${s.name}</li>`).join('');
+      html += '</ul>';
+      card.innerHTML = html;
+      card.style.display = 'block';
+      card.scrollTop = 0;
+    }
+
+    function markAllPresent(section) {
+      const students = section === 'A' ? studentsA : section === 'B' ? studentsB : studentsC;
+      students.forEach(student => {
+        const presentRadio = document.querySelector(`input[name='attendance-${section}-${student.rollNo}'][value='Present']`);
+        if (presentRadio) presentRadio.checked = true;
+      });
+    }
+
+    // Updated showAttendanceReport to fetch from API
+    async function showAttendanceReport(section, specificDate = null) {
+      const modal = document.getElementById('attendanceReportModal');
+      const title = document.getElementById('attendanceReportTitle');
+      const tableDiv = document.getElementById('attendanceReportTable');
+      
+      const date = specificDate || getSelectedDate(section);
+      title.textContent = `Attendance Report - Section ${section} (${date})`;
+      tableDiv.innerHTML = '<div class="loading-spinner"></div>Loading...';
+      modal.style.display = 'flex';
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/get-attendance/${section}/${date}`);
+        const result = await response.json();
+
+        if (result.success && result.data) {
+          const data = result.data;
+          let html = '<table style="width:100%;border-collapse:collapse;">';
+          html += '<thead><tr><th style="text-align:left;padding:8px;">Roll No</th><th style="text-align:left;padding:8px;">Name</th><th style="text-align:left;padding:8px;">Status</th></tr></thead><tbody>';
+          
+          data.present.forEach(s => {
+            html += `<tr><td style='padding:8px;'>${s.roll}</td><td style='padding:8px;'>${s.name}</td><td style='padding:8px;color:#22c55e;'>Present</td></tr>`;
+          });
+          data.absent.forEach(s => {
+            html += `<tr><td style='padding:8px;'>${s.roll}</td><td style='padding:8px;'>${s.name}</td><td style='padding:8px;color:#ef4444;'>Absent</td></tr>`;
+          });
+          
+          html += '</tbody></table>';
+          html += `<div style="margin-top:16px;padding:12px;background:#f8fafc;border-radius:6px;">
+                     <strong>Summary:</strong> Present: ${data.presentCount}, Absent: ${data.absentCount}, Total: ${data.totalStudents}
+                   </div>`;
+          tableDiv.innerHTML = html;
+        } else {
+          // Fallback to localStorage
+          const localData = JSON.parse(localStorage.getItem('attendance' + section + '_' + date) || 'null');
+          if (localData) {
+            let html = '<table style="width:100%;border-collapse:collapse;">';
+            html += '<thead><tr><th style="text-align:left;padding:8px;">Roll No</th><th style="text-align:left;padding:8px;">Name</th><th style="text-align:left;padding:8px;">Status</th></tr></thead><tbody>';
+            localData.present.forEach(s => {
+              html += `<tr><td style='padding:8px;'>${s.roll}</td><td style='padding:8px;'>${s.name}</td><td style='padding:8px;color:#22c55e;'>Present</td></tr>`;
+            });
+            localData.absent.forEach(s => {
+              html += `<tr><td style='padding:8px;'>${s.roll}</td><td style='padding:8px;'>${s.name}</td><td style='padding:8px;color:#ef4444;'>Absent</td></tr>`;
+            });
+            html += '</tbody></table>';
+            tableDiv.innerHTML = html;
+          } else {
+            tableDiv.innerHTML = '<em>No attendance data available for this date.</em>';
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching attendance report:', error);
+        // Fallback to localStorage
+        const localData = JSON.parse(localStorage.getItem('attendance' + section + '_' + date) || 'null');
+        if (localData) {
+          let html = '<table style="width:100%;border-collapse:collapse;">';
+          html += '<thead><tr><th style="text-align:left;padding:8px;">Roll No</th><th style="text-align:left;padding:8px;">Name</th><th style="text-align:left;padding:8px;">Status</th></tr></thead><tbody>';
+          localData.present.forEach(s => {
+            html += `<tr><td style='padding:8px;'>${s.roll}</td><td style='padding:8px;'>${s.name}</td><td style='padding:8px;color:#22c55e;'>Present</td></tr>`;
+          });
+          localData.absent.forEach(s => {
+            html += `<tr><td style='padding:8px;'>${s.roll}</td><td style='padding:8px;'>${s.name}</td><td style='padding:8px;color:#ef4444;'>Absent</td></tr>`;
+          });
+          html += '</tbody></table>';
+          tableDiv.innerHTML = html + '<div style="margin-top:12px;color:#f59e0b;"><em>Data loaded from local storage (server unavailable)</em></div>';
+        } else {
+          tableDiv.innerHTML = '<em>No attendance data available for this date.</em>';
+        }
+      }
+    }
+
+    function closeAttendanceReport() {
+      document.getElementById('attendanceReportModal').style.display = 'none';
+    }
+
+    // Updated showPreviousReports to fetch from API
+    async function showPreviousReports(section) {
+      const modal = document.getElementById('previousReportsModal');
+      const listDiv = document.getElementById('previousReportsList');
+      
+      listDiv.innerHTML = '<div class="loading-spinner"></div>Loading...';
+      modal.style.display = 'flex';
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/get-section-reports/${section}`);
+        const result = await response.json();
+
+        if (result.success && result.reports.length > 0) {
+          let html = '<div class="previous-reports-list">';
+          result.reports.forEach(report => {
+            html += `<button onclick="showAttendanceReport('${section}','${report.date}')">${report.date} (P:${report.presentCount}, A:${report.absentCount})</button>`;
+          });
+          html += '</div>';
+          listDiv.innerHTML = html;
+        } else {
+          // Fallback to localStorage
+          const keys = Object.keys(localStorage).filter(k => k.startsWith('attendance' + section + '_'));
+          if (keys.length === 0) {
+            listDiv.innerHTML = '<em>No previous attendance records found.</em>';
+          } else {
+            const dates = keys.map(k => k.split('_')[1]).sort((a,b) => b.localeCompare(a));
+            let html = '<div class="previous-reports-list">';
+            dates.forEach(date => {
+              html += `<button onclick="showAttendanceReport('${section}','${date}')">${date}</button>`;
+            });
+            html += '</div>';
+            listDiv.innerHTML = html + '<div style="margin-top:12px;color:#f59e0b;"><em>Local records only</em></div>';
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching previous reports:', error);
+        // Fallback to localStorage
+        const keys = Object.keys(localStorage).filter(k => k.startsWith('attendance' + section + '_'));
+        if (keys.length === 0) {
+          listDiv.innerHTML = '<em>No previous attendance records found.</em>';
+        } else {
+          const dates = keys.map(k => k.split('_')[1]).sort((a,b) => b.localeCompare(a));
+          let html = '<div class="previous-reports-list">';
+          dates.forEach(date => {
+            html += `<button onclick="showAttendanceReport('${section}','${date}')">${date}</button>`;
+          });
+          html += '</div>';
+          listDiv.innerHTML = html + '<div style="margin-top:12px;color:#f59e0b;"><em>Server unavailable - showing local records only</em></div>';
+        }
+      }
+    }
+
+    function closePreviousReports() {
+      document.getElementById('previousReportsModal').style.display = 'none';
+    }
+
+    // Set today's date as default
+    document.addEventListener('DOMContentLoaded', function() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('dateA').value = today;
+      document.getElementById('dateB').value = today;
+      document.getElementById('dateC').value = today;
+    });
+  </script>
+</body>
+</html>

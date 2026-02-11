@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Assignment</title>
+  <link rel="stylesheet" href="student.dashboard.css" />
+  <style>
+    body {
+      background: linear-gradient(120deg, #f0f7ff 60%, #dbeafe 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+    .assignment-upload-box {
+      background: #fff;
+      padding: 32px 36px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+    .assignment-upload-box h2 {
+      color: #2563eb;
+      margin-bottom: 18px;
+    }
+    .assignment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+    }
+    .assignment-form input[type="text"],
+    .assignment-form input[type="file"] {
+      padding: 10px;
+      border: 1.5px solid #2563eb;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+    .assignment-form label {
+      text-align: left;
+      color: #2563eb;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .assignment-form button {
+      background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 0;
+      font-size: 1.08em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .assignment-form button:hover {
+      background: linear-gradient(90deg, #1e40af 60%, #3b82f6 100%);
+    }
+    .upload-success {
+      margin-top: 18px;
+      color: #059669;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="assignment-upload-box">
+    <h2>Upload Assignment</h2>
+    <form class="assignment-form" id="assignmentForm">
+      <div>
+        <label for="subjectName">Subject Name</label>
+        <input type="text" id="subjectName" name="subjectName" required />
+      </div>
+      <div>
+        <label for="subjectCode">Subject Code</label>
+        <input type="text" id="subjectCode" name="subjectCode" required />
+      </div>
+      <div>
+        <label for="assignmentFile">Assignment File</label>
+        <input type="file" id="assignmentFile" name="assignmentFile" required />
+      </div>
+      <button type="submit">Upload</button>
+    </form>
+    <div class="upload-success" id="uploadSuccess" style="display:none;"></div>
+  </div>
+
+  <script>
+    document.getElementById('assignmentForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const subjectName = document.getElementById('subjectName').value.trim();
+      const subjectCode = document.getElementById('subjectCode').value.trim();
+      const fileInput = document.getElementById('assignmentFile');
+      const file = fileInput.files[0];
+
+      if (!subjectName || !subjectCode || !file) {
+        alert("Please fill all fields and select a file before uploading!");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("subjectName", subjectName);
+      formData.append("subjectCode", subjectCode);
+      formData.append("file", file);
+
+      try {
+        const response = await fetch("http://localhost:8000/upload-assignment", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          document.getElementById('uploadSuccess').style.display = 'block';
+          document.getElementById('uploadSuccess').textContent = "✅ Assignment uploaded successfully!";
+          document.getElementById('assignmentForm').reset();
+        } else {
+          alert("❌ Upload failed: " + (data.message || "Unknown error"));
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("⚠️ Error uploading assignment. Check console or backend server.");
+      }
+    });
+  </script>
+</body>
+</html>

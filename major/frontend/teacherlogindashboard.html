@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Dashboard</title>
+  <link rel="stylesheet" href="teacher_dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: 'Inter', Arial, sans-serif;">
+  <div class="teacher-dashboard-layout">
+    <aside class="teacher-sidebar">
+      <div class="sidebar-logo">
+        <img src="https://www.vvitu.ac.in/src/assets/images/VVIT_logo.png" alt="VVIT Logo" class="sidebar-logo-img">
+      </div>
+      <div class="sidebar-title">Teacher Menu</div>
+      <ul>
+        <li><a href="#attendance">Attendance</a></li>
+        <li><a href="#assignments">Assignments</a></li>
+        <li><a href="#announcements">Announcements</a></li>
+        <li><a href="#marks">Mark List</a></li>
+        <li><a href="#performance">Student Performance</a></li>
+        <li><a href="#timetable">Time Table</a></li>
+        <li><a href="teacher_login.html">Log out</a></li>
+      </ul>
+    </aside>
+    <div class="teacher-dashboard-container">
+      <div class="dashboard-title">👩‍🏫 Teacher Dashboard</div>
+      <div class="dashboard-sections-flex">
+        <!-- Section A -->
+        <div class="dashboard-section" id="sectionA">
+          <div class="section-title">Section A</div>
+          <div class="section-actions">
+            <button>Mark Attendance</button>
+            <button>View Attendance</button>
+            <button>Generate Report</button>
+          </div>
+          <!-- Removed student-table-card here -->
+        </div>
+        <!-- Section B -->
+        <div class="dashboard-section" id="sectionB">
+          <div class="section-title">Section B</div>
+          <div class="section-actions">
+            <button>Mark Attendance</button>
+            <button>View Attendance</button>
+            <button>Generate Report</button>
+          </div>
+        </div>
+        <!-- Section C -->
+        <div class="dashboard-section" id="sectionC">
+          <div class="section-title">Section C</div>
+          <div class="section-actions">
+            <button>Mark Attendance</button>
+            <button>View Attendance</button>
+            <button>Generate Report</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Section A students (example data)
+    const sectionAStudents = [
+      { rollNo: "A001", name: "Aarav Sharma" },
+      { rollNo: "A002", name: "Aanya Mehta" },
+      { rollNo: "A003", name: "Rohan Verma" },
+      { rollNo: "A004", name: "Sneha Reddy" },
+      { rollNo: "A005", name: "Karan Kapoor" },
+      { rollNo: "A006", name: "Priya Nair" },
+      { rollNo: "A007", name: "Aditya Iyer" },
+      { rollNo: "A008", name: "Anjali Desai" },
+      { rollNo: "A009", name: "Vivek Choudhary" },
+      { rollNo: "A010", name: "Meera Joshi" },
+      { rollNo: "A011", name: "Aryan Malhotra" },
+      { rollNo: "A012", name: "Isha Patil" },
+      { rollNo: "A013", name: "Nikhil Saxena" },
+      { rollNo: "A014", name: "Swathi Bansal" },
+      { rollNo: "A015", name: "Rahul Rao" },
+      { rollNo: "A016", name: "Kavya Bhatt" },
+      { rollNo: "A017", name: "Manish Agarwal" },
+      { rollNo: "A018", name: "Divya Shetty" },
+      { rollNo: "A019", name: "Sagar Tripathi" },
+      { rollNo: "A020", name: "Neha Dubey" }
+    ];
+    const tbody = document.getElementById('sectionAStudents');
+    sectionAStudents.forEach((student, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${idx + 1}</td><td>${student.rollNo}</td><td>${student.name}</td>`;
+      tbody.appendChild(tr);
+    });
+  </script>
+</body>
+</html> 

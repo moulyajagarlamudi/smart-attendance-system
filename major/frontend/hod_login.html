@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOD Login</title>
+    <link rel="stylesheet" href="hod_login.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="header">
+                <div class="logo-container">
+                    <img src="https://www.vvitu.ac.in/src/assets/images/VVIT_logo.png" alt="VVIT University Logo" class="university-logo">
+                </div>
+                <h2>HOD Login</h2>
+                <p>Head of Department Portal</p>
+            </div>
+            
+            <form class="login-form" id="hodLoginForm">
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-user-tie"></i>
+                        <input type="text" id="username" name="username" placeholder="HOD Username" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
+                    </div>
+                </div>
+                
+                <div class="remember-forgot">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="remember">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login as HOD
+                </button>
+            </form>
+            
+            <div class="back-link">
+                <a href="role_selection.html">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Role Selection
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        document.getElementById('hodLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation - you can replace this with actual authentication
+            if (username === 'hod' && password === 'hod123') {
+                window.location.href = 'hod_dashboard.html';
+            } else {
+                alert('Invalid HOD credentials! Please try again.');
+            }
+        });
+    </script>
+</body>
+</html> 

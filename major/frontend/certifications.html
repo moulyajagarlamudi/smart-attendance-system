@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Certifications</title>
+  <link rel="stylesheet" href="certifications.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="cert-page">
+  <div class="cert-container">
+    <h1>Upload Your Certifications</h1>
+
+    <input type="file" id="certUpload" accept="image/*,application/pdf" multiple />
+    <div id="certGallery" class="cert-gallery"></div>
+
+    <a href="student_dashboard.html" class="back-btn">← Back to Dashboard</a>
+  </div>
+
+  <script>
+    const certUpload = document.getElementById('certUpload');
+    const certGallery = document.getElementById('certGallery');
+
+    // Load previous files
+    const savedFiles = JSON.parse(localStorage.getItem('certifications')) || [];
+    savedFiles.forEach(file => {
+      if (file.type === 'image') {
+        const img = document.createElement('img');
+        img.src = file.data;
+        img.className = 'cert-img';
+        certGallery.appendChild(img);
+      } else if (file.type === 'pdf') {
+        const link = document.createElement('a');
+        link.href = file.data;
+        link.textContent = file.name;
+        link.target = '_blank';
+        link.className = 'cert-pdf';
+        certGallery.appendChild(link);
+      }
+    });
+
+    // Upload new files
+    certUpload.addEventListener('change', function () {
+      const filesArray = [];
+      Array.from(certUpload.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          let fileData = { name: file.name, data: e.target.result };
+          if (file.type.startsWith('image/')) {
+            fileData.type = 'image';
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'cert-img';
+            certGallery.appendChild(img);
+          } else if (file.type === 'application/pdf') {
+            fileData.type = 'pdf';
+            const link = document.createElement('a');
+            link.href = e.target.result;
+            link.textContent = file.name;
+            link.target = '_blank';
+            link.className = 'cert-pdf';
+            certGallery.appendChild(link);
+          }
+          savedFiles.push(fileData);
+          localStorage.setItem('certifications', JSON.stringify(savedFiles));
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+  </script>
+</body>
+</html>

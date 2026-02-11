@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="teacher_dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-bg">
+    <div class="teacher-dashboard-layout">
+        <aside class="teacher-sidebar">
+            <div class="sidebar-logo">
+                <img src="https://www.vvitu.ac.in/src/assets/images/VVIT_logo.png" alt="VVIT Logo" class="sidebar-logo-img">
+            </div>
+            <nav>
+                <ul>
+                    <!-- <li class="active"><a href="teacher-profile.html">Profile</a></li> -->
+                    <li><a href="newtchrattendance.html">Class Attendance</a></li>
+                    <li><a href="tchrassignment.html">Upload Assignment</a></li>
+                    <li><a href="tchrtt.html">Timetable</a></li>
+                    <li><a href="tchrperformance.html">Student Performance</a></li>
+                    <li><a href="tchrannouncements.html">Notices</a></li>
+                    <li><a href="home.html">Log out</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="teacher-dashboard-container">
+            <header class="dashboard-header">
+                <div class="greeting">Welcome, Prof. Satish</div>
+                <div class="user-info">
+                    <span class="user-name">Prof. Satish</span>
+                    <span class="user-role">Faculty - CSE(IoT)</span>
+                    <img src="https://i.pinimg.com/736x/52/61/bd/5261bd492ef52666d60258a067239007.jpg" class="user-avatar" />
+                </div>
+            </header>
+
+            <section class="dashboard-main">
+                <div class="card">
+                    <h2>Teacher Dashboard</h2>
+                <div class="card" id="attendance-records-card" style="margin-top:24px;">
+                    <h2>Latest Attendance Records</h2>
+                    <div id="dashboardAttendanceRecords">
+                        <strong>No attendance records found. Please submit attendance first.</strong>
+                    </div>
+                </div>
+
+                <!-- Enhanced Teacher Attendance Tracker Module -->
+                <div class="card" id="teacherAttendanceTrackerSection" style="margin-top:24px; display:none;">
+                    <h2>📊 Class Attendance Manager</h2>
+                    
+                    <!-- Teacher Navigation Tabs -->
+                    <div class="attendance-tabs" style="margin-bottom: 20px;">
+                        <button class="tab-btn active" onclick="showTeacherTab('mark')">Mark Attendance</button>
+                        <button class="tab-btn" onclick="showTeacherTab('view')">View Records</button>
+                        <button class="tab-btn" onclick="showTeacherTab('reports')">Generate Reports</button>
+                        <button class="tab-btn" onclick="showTeacherTab('analytics')">Analytics</button>
+                        <button class="tab-btn" onclick="showTeacherTab('semester')">Semester Summary</button>
+                    </div>
+
+                    <!-- Mark Attendance Tab -->
+                    <div id="markTab" class="tab-content active">
+                        <div class="mark-attendance-controls" style="margin-bottom: 20px;">
+                            <label for="classSelect">Select Class:</label>
+                            <select id="classSelect" onchange="loadClassStudents()">
+                                <option value="">Choose Class</option>
+                                <option value="cse-1">CSE 1st Year</option>
+                                <option value="cse-2">CSE 2nd Year</option>
+                                <option value="cse-3">CSE 3rd Year</option>
+                                <option value="cse-4">CSE 4th Year</option>
+                            </select>
+                            <label for="periodSelect" style="margin-left: 15px;">Period:</label>
+                            <select id="periodSelect" onchange="loadClassStudents()">
+                                <option value="1">Period 1 (8:00-9:00)</option>
+                                <option value="2">Period 2 (9:00-10:00)</option>
+                                <option value="3">Period 3 (10:15-11:15)</option>
+                                <option value="4">Period 4 (11:15-12:15)</option>
+                                <option value="5">Period 5 (1:00-2:00)</option>
+                                <option value="6">Period 6 (2:00-3:00)</option>
+                            </select>
+                            <label for="attendanceDate" style="margin-left: 15px;">Date:</label>
+                            <input type="date" id="attendanceDate" onchange="loadClassStudents()">
+                        </div>
+                        <div id="studentAttendanceList"></div>
+                        <div class="attendance-actions" style="margin-top: 20px; text-align: center;">
+                            <button onclick="submitAttendance()" class="submit-btn">📝 Submit Attendance</button>
+                            <button onclick="markAllPresent()" class="mark-all-btn">✅ Mark All Present</button>
+                        </div>
+                    </div>
+
+                    <!-- View Records Tab -->
+                    <div id="viewTab" class="tab-content">
+                        <div class="view-controls" style="margin-bottom: 20px;">
+                            <label for="viewClass">Class:</label>
+                            <select id="viewClass" onchange="loadAttendanceRecords()">
+                                <option value="">All Classes</option>
+                                <option value="cse-1">CSE 1st Year</option>
+                                <option value="cse-2">CSE 2nd Year</option>
+                                <option value="cse-3">CSE 3rd Year</option>
+                                <option value="cse-4">CSE 4th Year</option>
+                            </select>
+                            <label for="viewDate" style="margin-left: 15px;">Date:</label>
+                            <input type="date" id="viewDate" onchange="loadAttendanceRecords()">
+                            <label for="viewPeriod" style="margin-left: 15px;">Period:</label>
+                            <select id="viewPeriod" onchange="loadAttendanceRecords()">
+                                <option value="">All Periods</option>
+                                <option value="1">Period 1</option>
+                                <option value="2">Period 2</option>
+                                <option value="3">Period 3</option>
+                                <option value="4">Period 4</option>
+                                <option value="5">Period 5</option>
+                                <option value="6">Period 6</option>
+                            </select>
+                        </div>
+                        <div id="attendanceRecordsList"></div>
+                    </div>
+
+                    <!-- Generate Reports Tab -->
+                    <div id="reportsTab" class="tab-content">
+                        <div class="report-controls" style="margin-bottom: 20px;">
+                            <label for="reportClass">Class:</label>
+                            <select id="reportClass">
+                                <option value="cse-1">CSE 1st Year</option>
+                                <option value="cse-2">CSE 2nd Year</option>
+                                <option value="cse-3">CSE 3rd Year</option>
+                                <option value="cse-4">CSE 4th Year</option>
+                            </select>
+                            <label for="reportMonth" style="margin-left: 15px;">Month:</label>
+                            <input type="month" id="reportMonth">
+                            <label for="reportType" style="margin-left: 15px;">Report Type:</label>
+                            <select id="reportType">
+                                <option value="daily">Daily Report</option>
+                                <option value="monthly">Monthly Summary</option>
+                                <option value="student">Individual Student</option>
+                                <option value="class">Class Performance</option>
+                            </select>
+                        </div>
+                        <div class="report-actions" style="margin-bottom: 20px;">
+                            <button onclick="generateReport()" class="generate-btn">📊 Generate Report</button>
+                            <button onclick="exportReport()" class="export-btn">📄 Export PDF</button>
+                        </div>
+                        <div id="reportPreview"></div>
+                    </div>
+
+                    <!-- Analytics Tab -->
+                    <div id="analyticsTab" class="tab-content">
+                        <div class="analytics-controls" style="margin-bottom: 20px;">
+                            <label for="analyticsClass">Class:</label>
+                            <select id="analyticsClass" onchange="loadAnalytics()">
+                                <option value="cse-1">CSE 1st Year</option>
+                                <option value="cse-2">CSE 2nd Year</option>
+                                <option value="cse-3">CSE 3rd Year</option>
+                                <option value="cse-4">CSE 4th Year</option>
+                            </select>
+                            <label for="analyticsPeriod" style="margin-left: 15px;">Time Period:</label>
+                            <select id="analyticsPeriod" onchange="loadAnalytics()">
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                                <option value="semester">This Semester</option>
+                            </select>
+                        </div>
+                        <div id="analyticsContent">
+                            <div class="analytics-summary" style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                                <h3>Class Analytics Summary</h3>
+                                <div class="analytics-stats">
+                                    <div class="analytics-stat">
+                                        <div class="stat-number" id="avgAttendance">0%</div>
+                                        <div class="stat-label">Average Attendance</div>
+                                    </div>
+                                    <div class="analytics-stat">
+                                        <div class="stat-number" id="totalStudents">0</div>
+                                        <div class="stat-label">Total Students</div>
+                                    </div>
+                                    <div class="analytics-stat">
+                                        <div class="stat-number" id="lowAttendance">0</div>
+                                        <div class="stat-label">Low Attendance Students</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="analyticsCharts"></div>
+                        </div>
+                    </div>
+
+                    <!-- Semester Summary Tab -->
+                    <div id="semesterTab" class="tab-content">
+                        <div class="semester-controls" style="margin-bottom: 20px;">
+                            <label for="teacherSemesterSelect">Select Semester:</label>
+                            <select id="teacherSemesterSelect" onchange="loadTeacherSemesterSummary()">
+                                <option value="2025-1">Semester 1 (July-Dec 2025)</option>
+                                <option value="2025-2">Semester 2 (Jan-June 2025)</option>
+                                <option value="2024-2">Semester 2 (Jan-June 2024)</option>
+                            </select>
+                            <label for="teacherClassSelect" style="margin-left: 15px;">Class:</label>
+                            <select id="teacherClassSelect" onchange="loadTeacherSemesterSummary()">
+                                <option value="cse-1">CSE 1st Year</option>
+                                <option value="cse-2">CSE 2nd Year</option>
+                                <option value="cse-3">CSE 3rd Year</option>
+                                <option value="cse-4">CSE 4th Year</option>
+                            </select>
+                        </div>
+                        <div id="teacherSemesterSummaryContent">
+                            <div class="semester-stats" style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                                <h3>Semester Statistics</h3>
+                                <div class="stats-grid">
+                                    <div class="stat-card">
+                                        <div class="stat-number" id="teacherSemesterPresent">0</div>
+                                        <div class="stat-label">Total Present</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number" id="teacherSemesterAbsent">0</div>
+                                        <div class="stat-label">Total Absent</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number" id="teacherSemesterPercentage">0%</div>
+                                        <div class="stat-label">Class Average %</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number" id="teacherSemesterStudents">0</div>
+                                        <div class="stat-label">Total Students</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="teacherSemesterChart"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<!-- Student Attendance Tracking Section (Appended, does not modify existing code) -->
+<!-- <div class="card" id="studentAttendanceTrackingSection" style="margin-top:24px;">
+    <h2>📋 Student Attendance Tracking</h2>
+    <div class="attendance-tabs" style="margin-bottom: 20px;">
+        <button class="tab-btn active" onclick="showStudentTab('student-daily')">Daily View</button>
+        <button class="tab-btn" onclick="showStudentTab('student-period')">Period-wise</button>
+        <button class="tab-btn" onclick="showStudentTab('student-monthly')">Monthly Summary</button>
+    </div>
+    <div id="student-daily" class="tab-content active">
+        <h3>Daily Attendance</h3>
+        <table id="studentDailyTable" class="attendance-table">
+            <thead>
+                <tr><th>Date</th><th>Status</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div id="student-period" class="tab-content" style="display:none;">
+        <h3>Period-wise Attendance</h3>
+        <table id="studentPeriodTable" class="attendance-table">
+            <thead>
+                <tr><th>Date</th><th>Period</th><th>Status</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div id="student-monthly" class="tab-content" style="display:none;">
+        <h3>Monthly Summary</h3>
+        <table id="studentMonthlyTable" class="attendance-table">
+            <thead>
+                <tr><th>Month</th><th>Present</th><th>Absent</th><th>Attendance %</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div> -->
+<script>
+// Sample data for demonstration
+const studentAttendanceData = [
+    { date: '2024-06-01', status: 'Present', periods: { 1: 'Present', 2: 'Present', 3: 'Absent', 4: 'Present', 5: 'Present', 6: 'Present' } },
+    { date: '2024-06-02', status: 'Absent', periods: { 1: 'Absent', 2: 'Absent', 3: 'Absent', 4: 'Absent', 5: 'Absent', 6: 'Absent' } },
+    { date: '2024-06-03', status: 'Present', periods: { 1: 'Present', 2: 'Present', 3: 'Present', 4: 'Present', 5: 'Present', 6: 'Present' } },
+    { date: '2024-06-04', status: 'Present', periods: { 1: 'Present', 2: 'Absent', 3: 'Present', 4: 'Present', 5: 'Present', 6: 'Present' } },
+    { date: '2024-06-05', status: 'Present', periods: { 1: 'Present', 2: 'Present', 3: 'Present', 4: 'Present', 5: 'Absent', 6: 'Present' } },
+];
+
+function showStudentTab(tabId) {
+    ['student-daily', 'student-period', 'student-monthly'].forEach(id => {
+        document.getElementById(id).style.display = (id === tabId) ? '' : 'none';
+        document.querySelector('.attendance-tabs .tab-btn.active').classList.remove('active');
+    });
+    const btns = document.querySelectorAll('.attendance-tabs .tab-btn');
+    btns.forEach(btn => {
+        if (btn.getAttribute('onclick').includes(tabId)) btn.classList.add('active');
+    });
+}
+
+function renderStudentAttendance() {
+    // Daily Table
+    const dailyTbody = document.querySelector('#studentDailyTable tbody');
+    dailyTbody.innerHTML = studentAttendanceData.map(row => `<tr><td>${row.date}</td><td>${row.status}</td></tr>`).join('');
+    // Period-wise Table
+    const periodTbody = document.querySelector('#studentPeriodTable tbody');
+    let periodRows = '';
+    studentAttendanceData.forEach(row => {
+        Object.entries(row.periods).forEach(([period, status]) => {
+            periodRows += `<tr><td>${row.date}</td><td>${period}</td><td>${status}</td></tr>`;
+        });
+    });
+    periodTbody.innerHTML = periodRows;
+    // Monthly Table
+    const monthlyTbody = document.querySelector('#studentMonthlyTable tbody');
+    const monthly = {};
+    studentAttendanceData.forEach(row => {
+        const month = row.date.substring(0,7);
+        if (!monthly[month]) monthly[month] = { present: 0, absent: 0, total: 0 };
+        if (row.status === 'Present') monthly[month].present++;
+        else monthly[month].absent++;
+        monthly[month].total++;
+    });
+    monthlyTbody.innerHTML = Object.entries(monthly).map(([month, data]) => {
+        const percent = Math.round((data.present / data.total) * 100);
+        return `<tr><td>${month}</td><td>${data.present}</td><td>${data.absent}</td><td>${percent}%</td></tr>`;
+    }).join('');
+}
+document.addEventListener('DOMContentLoaded', renderStudentAttendance);
+</script>
+<!-- End Student Attendance Tracking Section -->
+ 
+</body>
+</html>
+
+<script>
+// Teacher Attendance Tracker Data
+const teacherAttendanceData = {
+    'cse-1': {
+        students: [
+            { id: 'A001', name: 'Archana', rollNo: 'A001' },
+            { id: 'A002', name: 'John Doe', rollNo: 'A002' },
+            { id: 'A003', name: 'Jane Wilson', rollNo: 'A003' },
+            { id: 'A004', name: 'Mike Johnson', rollNo: 'A004' },
+            { id: 'A005', name: 'Sarah Brown', rollNo: 'A005' }
+        ],
+        attendance: {
+            '2025-07-01': {
+                1: { 'A001': 'present', 'A002': 'present', 'A003': 'absent', 'A004': 'present', 'A005': 'present' },
+                2: { 'A001': 'present', 'A002': 'present', 'A003': 'present', 'A004': 'absent', 'A005': 'present' }
+            },
+            '2025-07-02': {
+                1: { 'A001': 'present', 'A002': 'absent', 'A003': 'present', 'A004': 'present', 'A005': 'present' },
+                2: { 'A001': 'present', 'A002': 'present', 'A003': 'present', 'A004': 'present', 'A005': 'absent' }
+            }
+        }
+    },
+    'cse-2': {
+        students: [
+            { id: 'B001', name: 'Alex Turner', rollNo: 'B001' },
+            { id: 'B002', name: 'Emma Davis', rollNo: 'B002' },
+            { id: 'B003', name: 'Chris Lee', rollNo: 'B003' }
+        ],
+        attendance: {}
+    }
+};
+
+// Teacher Tab Management
+function showTeacherTab(tabName) {
+    // Hide all tab contents
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(content => content.classList.remove('active'));
+    
+    // Remove active class from all buttons
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    
+    // Show selected tab
+    document.getElementById(tabName + 'Tab').classList.add('active');
+    event.target.classList.add('active');
+    
+    // Load data for the selected tab
+    switch(tabName) {
+        case 'mark':
+            loadClassStudents();
+            break;
+        case 'view':
+            loadAttendanceRecords();
+            break;
+        case 'reports':
+            loadReportPreview();
+            break;
+        case 'analytics':
+            loadAnalytics();
+            break;
+        case 'semester':
+            loadTeacherSemesterSummary();
+            break;
+    }
+}
+
+// Mark Attendance Functions
+function loadClassStudents() {
+    const classSelect = document.getElementById('classSelect').value;
+    const periodSelect = document.getElementById('periodSelect').value;
+    const dateSelect = document.getElementById('attendanceDate').value;
+    
+    if (!classSelect || !periodSelect || !dateSelect) {
+        document.getElementById('studentAttendanceList').innerHTML = 
+            '<p style="text-align: center; color: #6b7280;">Please select class, period, and date to load students.</p>';
+        return;
+    }
+    
+    const classData = teacherAttendanceData[classSelect];
+    if (!classData) {
+        document.getElementById('studentAttendanceList').innerHTML = 
+            '<p style="text-align: center; color: #ef4444;">No data available for selected class.</p>';
+        return;
+    }
+    
+    const existingAttendance = classData.attendance[dateSelect]?.[periodSelect] || {};
+    
+    let html = '<div class="student-list">';
+    classData.students.forEach(student => {
+        const currentStatus = existingAttendance[student.id] || 'not-marked';
+        const statusClass = currentStatus === 'present' ? 'status-present' : 
+                           currentStatus === 'absent' ? 'status-absent' : 'status-not-marked';
+        
+        html += `
+            <div class="student-item ${statusClass}">
+                <div class="student-info">
+                    <strong>${student.name}</strong>
+                    <span class="roll-no">Roll No: ${student.rollNo}</span>
+                </div>
+                <div class="attendance-options">
+                    <label>
+                        <input type="radio" name="attendance_${student.id}" value="present" 
+                               ${currentStatus === 'present' ? 'checked' : ''} 
+                               onchange="updateStudentAttendance('${student.id}', 'present')">
+                        ✅ Present
+                    </label>
+                    <label>
+                        <input type="radio" name="attendance_${student.id}" value="absent" 
+                               ${currentStatus === 'absent' ? 'checked' : ''} 
+                               onchange="updateStudentAttendance('${student.id}', 'absent')">
+                        ❌ Absent
+                    </label>
+                </div>
+            </div>
+        `;
+    });
+    html += '</div>';
+    
+    document.getElementById('studentAttendanceList').innerHTML = html;
+}
+
+function updateStudentAttendance(studentId, status) {
+    const classSelect = document.getElementById('classSelect').value;
+    const periodSelect = document.getElementById('periodSelect').value;
+    const dateSelect = document.getElementById('attendanceDate').value;
+    
+    if (!teacherAttendanceData[classSelect].attendance[dateSelect]) {
+        teacherAttendanceData[classSelect].attendance[dateSelect] = {};
+    }
+    if (!teacherAttendanceData[classSelect].attendance[dateSelect][periodSelect]) {
+        teacherAttendanceData[classSelect].attendance[dateSelect][periodSelect] = {};
+    }
+    
+    teacherAttendanceData[classSelect].attendance[dateSelect][periodSelect][studentId] = status;
+}
+
+function markAllPresent() {
+    const classSelect = document.getElementById('classSelect').value;
+    if (!classSelect) {
+        alert('Please select a class first.');
+        return;
+    }
+    
+    const classData = teacherAttendanceData[classSelect];
+    classData.students.forEach(student => {
+        updateStudentAttendance(student.id, 'present');
+    });
+    
+    loadClassStudents(); // Refresh the display
+    alert('All students marked as present!');
+}
+
+function submitAttendance() {
+    const classSelect = document.getElementById('classSelect').value;
+    const periodSelect = document.getElementById('periodSelect').value;
+    const dateSelect = document.getElementById('attendanceDate').value;
+    
+    if (!classSelect || !periodSelect || !dateSelect) {
+        alert('Please select class, period, and date.');
+        return;
+    }
+    
+    const attendanceData = teacherAttendanceData[classSelect].attendance[dateSelect]?.[periodSelect];
+    if (!attendanceData) {
+        alert('No attendance data to submit.');
+        return;
+    }
+    
+    const markedCount = Object.keys(attendanceData).length;
+    const totalStudents = teacherAttendanceData[classSelect].students.length;
+    
+    if (markedCount < totalStudents) {
+        alert(`Please mark attendance for all ${totalStudents} students. Currently marked: ${markedCount}`);
+        return;
+    }
+    
+    alert(`Attendance submitted successfully!\n\nClass: ${classSelect}\nPeriod: ${periodSelect}\nDate: ${dateSelect}\nStudents: ${markedCount}/${totalStudents}`);
+    
+    // Update dashboard records
+    updateDashboardRecords();
+}
+
+// View Records Functions
+function loadAttendanceRecords() {
+    const classSelect = document.getElementById('viewClass').value;
+    const dateSelect = document.getElementById('viewDate').value;
+    const periodSelect = document.getElementById('viewPeriod').value;
+    
+    let html = '<div class="attendance-records">';
+    
+    Object.keys(teacherAttendanceData).forEach(className => {
+        if (classSelect && classSelect !== className) return;
+        
+        const classData = teacherAttendanceData[className];
+        const attendanceData = classData.attendance;
+        
+        Object.keys(attendanceData).forEach(date => {
+            if (dateSelect && dateSelect !== date) return;
+            
+            Object.keys(attendanceData[date]).forEach(period => {
+                if (periodSelect && periodSelect !== period) return;
+                
+                const periodAttendance = attendanceData[date][period];
+                let presentCount = 0;
+                let absentCount = 0;
+                
+                Object.values(periodAttendance).forEach(status => {
+                    if (status === 'present') presentCount++;
+                    if (status === 'absent') absentCount++;
+                });
+                
+                html += `
+                    <div class="record-item">
+                        <div class="record-header">
+                            <strong>${className.toUpperCase()} - Period ${period} - ${date}</strong>
+                        </div>
+                        <div class="record-stats">
+                            <span>Present: ${presentCount}</span>
+                            <span>Absent: ${absentCount}</span>
+                            <span>Percentage: ${Math.round((presentCount / (presentCount + absentCount)) * 100)}%</span>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+    });
+    
+    html += '</div>';
+    document.getElementById('attendanceRecordsList').innerHTML = html || '<p>No records found for the selected criteria.</p>';
+}
+
+// Reports Functions
+function loadReportPreview() {
+    const classSelect = document.getElementById('reportClass').value;
+    const monthSelect = document.getElementById('reportMonth').value;
+    const typeSelect = document.getElementById('reportType').value;
+    
+    if (!classSelect || !monthSelect || !typeSelect) {
+        document.getElementById('reportPreview').innerHTML = 
+            '<p style="text-align: center; color: #6b7280;">Please select all report parameters.</p>';
+        return;
+    }
+    
+    document.getElementById('reportPreview').innerHTML = `
+        <div class="report-preview">
+            <h3>Report Preview</h3>
+            <p><strong>Class:</strong> ${classSelect.toUpperCase()}</p>
+            <p><strong>Month:</strong> ${monthSelect}</p>
+            <p><strong>Type:</strong> ${typeSelect.charAt(0).toUpperCase() + typeSelect.slice(1)} Report</p>
+            <p>This report will include detailed attendance analysis and statistics.</p>
+        </div>
+    `;
+}
+
+function generateReport() {
+    const classSelect = document.getElementById('reportClass').value;
+    const monthSelect = document.getElementById('reportMonth').value;
+    const typeSelect = document.getElementById('reportType').value;
+    
+    if (!classSelect || !monthSelect || !typeSelect) {
+        alert('Please select all report parameters.');
+        return;
+    }
+    
+    alert(`Generating ${typeSelect} report for ${classSelect} - ${monthSelect}...\n\nThis would create a comprehensive report with detailed analytics.`);
+}
+
+function exportReport() {
+    const classSelect = document.getElementById('reportClass').value;
+    const monthSelect = document.getElementById('reportMonth').value;
+    
+    if (!classSelect || !monthSelect) {
+        alert('Please select class and month for export.');
+        return;
+    }
+    
+    alert(`Exporting PDF report for ${classSelect} - ${monthSelect}...\n\nThis would generate a downloadable PDF with all attendance data.`);
+}
+
+// Analytics Functions
+function loadAnalytics() {
+    const classSelect = document.getElementById('analyticsClass').value;
+    const periodSelect = document.getElementById('analyticsPeriod').value;
+    
+    if (!classSelect) {
+        document.getElementById('analyticsContent').innerHTML = 
+            '<p style="text-align: center; color: #6b7280;">Please select a class to view analytics.</p>';
+        return;
+    }
+    
+    const classData = teacherAttendanceData[classSelect];
+    const totalStudents = classData.students.length;
+    
+    // Calculate analytics (simplified)
+    let totalPresent = 0;
+    let totalSessions = 0;
+    let lowAttendanceStudents = 0;
+    
+    Object.values(classData.attendance).forEach(dateData => {
+        Object.values(dateData).forEach(periodData => {
+            totalSessions++;
+            Object.values(periodData).forEach(status => {
+                if (status === 'present') totalPresent++;
+            });
+        });
+    });
+    
+    const avgAttendance = totalSessions > 0 ? Math.round((totalPresent / (totalSessions * totalStudents)) * 100) : 0;
+    
+    document.getElementById('avgAttendance').textContent = avgAttendance + '%';
+    document.getElementById('totalStudents').textContent = totalStudents;
+    document.getElementById('lowAttendance').textContent = lowAttendanceStudents;
+    
+    // Create analytics chart
+    const chartHtml = `
+        <div class="analytics-chart">
+            <h3>Attendance Trend</h3>
+            <div class="chart-container">
+                <div class="chart-bar" style="height: ${avgAttendance}%; background: #22c55e;">
+                    <span>${avgAttendance}%</span>
+                </div>
+            </div>
+            <p>Average attendance across all sessions</p>
+        </div>
+    `;
+    document.getElementById('analyticsCharts').innerHTML = chartHtml;
+}
+
+// Teacher Semester Summary Functions
+function loadTeacherSemesterSummary() {
+    const semesterId = document.getElementById('teacherSemesterSelect').value || '2025-1';
+    const classSelect = document.getElementById('teacherClassSelect').value || 'cse-1';
+    
+    // Mock semester data for teacher view
+    const semesterData = {
+        '2025-1': {
+            name: 'Semester 1 (July-Dec 2025)',
+            months: ['2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12'],
+            totalDays: 120,
+            presentDays: 95,
+            absentDays: 15,
+            holidayDays: 10
+        },
+        '2025-2': {
+            name: 'Semester 2 (Jan-June 2025)',
+            months: ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06'],
+            totalDays: 110,
+            presentDays: 88,
+            absentDays: 12,
+            holidayDays: 10
+        },
+        '2024-2': {
+            name: 'Semester 2 (Jan-June 2024)',
+            months: ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06'],
+            totalDays: 115,
+            presentDays: 92,
+            absentDays: 13,
+            holidayDays: 10
+        }
+    };
+    
+    const semester = semesterData[semesterId];
+    const classData = teacherAttendanceData[classSelect];
+    const totalStudents = classData ? classData.students.length : 0;
+    
+    if (!semester) {
+        document.getElementById('teacherSemesterSummaryContent').innerHTML = '<p>No data available for selected semester.</p>';
+        return;
+    }
+    
+    const percentage = Math.round((semester.presentDays / (semester.presentDays + semester.absentDays)) * 100);
+    
+    document.getElementById('teacherSemesterPresent').textContent = semester.presentDays * totalStudents;
+    document.getElementById('teacherSemesterAbsent').textContent = semester.absentDays * totalStudents;
+    document.getElementById('teacherSemesterPercentage').textContent = percentage + '%';
+    document.getElementById('teacherSemesterStudents').textContent = totalStudents;
+    
+    // Create tabular format for teacher semester attendance
+    const tableHtml = `
+        <div class="semester-table-container">
+            <h3>Semester Attendance Details - ${semester.name} - ${classSelect.toUpperCase()}</h3>
+            <div class="table-wrapper">
+                <table class="semester-attendance-table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Total Days</th>
+                            <th>Present Days</th>
+                            <th>Absent Days</th>
+                            <th>Holidays</th>
+                            <th>Working Days</th>
+                            <th>Attendance %</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${generateTeacherSemesterTableRows(semesterId, classSelect)}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="semester-summary-table" style="margin-top: 30px;">
+                <h4>Student-wise Semester Summary</h4>
+                <div class="table-wrapper">
+                    <table class="semester-summary-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Roll No</th>
+                                <th>Total Classes</th>
+                                <th>Present</th>
+                                <th>Absent</th>
+                                <th>Attendance %</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${generateTeacherStudentSummary(semesterId, classSelect)}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById('teacherSemesterChart').innerHTML = tableHtml;
+}
+
+// Helper function to generate table rows for teacher semester summary
+function generateTeacherSemesterTableRows(semesterId, classSelect) {
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    const semesterData = {
+        '2025-1': ['2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12'],
+        '2025-2': ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06'],
+        '2024-2': ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06']
+    };
+    
+    const months = semesterData[semesterId];
+    let rows = '';
+    
+    months.forEach(monthYear => {
+        const [year, month] = monthYear.split('-');
+        const monthName = monthNames[parseInt(month) - 1];
+        const daysInMonth = new Date(year, month, 0).getDate();
+        
+        // Mock data for each month
+        const presentDays = Math.floor(Math.random() * 20) + 15; // 15-35 days
+        const absentDays = Math.floor(Math.random() * 5) + 1; // 1-6 days
+        const holidayDays = Math.floor(daysInMonth / 7) + 1; // Approximate Sundays
+        
+        const workingDays = daysInMonth - holidayDays;
+        const percentage = workingDays > 0 ? Math.round((presentDays / workingDays) * 100) : 0;
+        const status = percentage >= 75 ? 'Good' : percentage >= 60 ? 'Average' : 'Poor';
+        const statusClass = status === 'Good' ? 'status-good' : status === 'Average' ? 'status-average' : 'status-poor';
+        
+        rows += `
+            <tr>
+                <td><strong>${monthName} ${year}</strong></td>
+                <td>${daysInMonth}</td>
+                <td class="present-cell">${presentDays}</td>
+                <td class="absent-cell">${absentDays}</td>
+                <td class="holiday-cell">${holidayDays}</td>
+                <td>${workingDays}</td>
+                <td class="${percentage >= 75 ? 'present-cell' : percentage >= 60 ? 'mixed-cell' : 'absent-cell'}">${percentage}%</td>
+                <td class="${statusClass}">${status}</td>
+            </tr>
+        `;
+    });
+    
+    return rows;
+}
+
+// Helper function to generate student-wise summary for teacher
+function generateTeacherStudentSummary(semesterId, classSelect) {
+    const classData = teacherAttendanceData[classSelect];
+    if (!classData) return '<tr><td colspan="7">No class data available</td></tr>';
+    
+    let rows = '';
+    
+    classData.students.forEach(student => {
+        // Mock attendance data for each student
+        const totalClasses = Math.floor(Math.random() * 50) + 80; // 80-130 classes
+        const presentCount = Math.floor(Math.random() * 30) + 60; // 60-90 present
+        const absentCount = totalClasses - presentCount;
+        
+        const percentage = Math.round((presentCount / totalClasses) * 100);
+        const status = percentage >= 75 ? 'Good' : percentage >= 60 ? 'Average' : 'Poor';
+        const statusClass = status === 'Good' ? 'status-good' : status === 'Average' ? 'status-average' : 'status-poor';
+        
+        rows += `
+            <tr>
+                <td><strong>${student.name}</strong></td>
+                <td>${student.rollNo}</td>
+                <td>${totalClasses}</td>
+                <td class="present-cell">${presentCount}</td>
+                <td class="absent-cell">${absentCount}</td>
+                <td class="${percentage >= 75 ? 'present-cell' : percentage >= 60 ? 'mixed-cell' : 'absent-cell'}">${percentage}%</td>
+                <td class="${statusClass}">${status}</td>
+            </tr>
+        `;
+    });
+    
+    return rows;
+}
+
+// Dashboard Integration
+function updateDashboardRecords() {
+    const recordsCard = document.getElementById('dashboardAttendanceRecords');
+    let recentRecords = [];
+    
+    Object.keys(teacherAttendanceData).forEach(className => {
+        const classData = teacherAttendanceData[className];
+        Object.keys(classData.attendance).forEach(date => {
+            Object.keys(classData.attendance[date]).forEach(period => {
+                recentRecords.push({
+                    class: className,
+                    date: date,
+                    period: period,
+                    data: classData.attendance[date][period]
+                });
+            });
+        });
+    });
+    
+    // Sort by date (most recent first)
+    recentRecords.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    if (recentRecords.length === 0) {
+        recordsCard.innerHTML = '<strong>No attendance records found. Please submit attendance first.</strong>';
+        return;
+    }
+    
+    let html = '<div class="recent-records">';
+    recentRecords.slice(0, 5).forEach(record => {
+        const presentCount = Object.values(record.data).filter(status => status === 'present').length;
+        const totalCount = Object.keys(record.data).length;
+        const percentage = Math.round((presentCount / totalCount) * 100);
+        
+        html += `
+            <div class="record-summary">
+                <strong>${record.class.toUpperCase()} - Period ${record.period}</strong>
+                <span>${record.date} - ${presentCount}/${totalCount} (${percentage}%)</span>
+            </div>
+        `;
+    });
+    html += '</div>';
+    
+    recordsCard.innerHTML = html;
+}
+
+// Initialize dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    // Set default date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('attendanceDate').value = today;
+    document.getElementById('viewDate').value = today;
+    document.getElementById('reportMonth').value = today.substring(0, 7);
+    
+    // Set default semester and class
+    document.getElementById('teacherSemesterSelect').value = '2025-1';
+    document.getElementById('teacherClassSelect').value = 'cse-1';
+    
+    // Add click handler for Class Attendance menu item
+    const sidebarLinks = document.querySelectorAll('.teacher-sidebar nav ul li a');
+    sidebarLinks.forEach(link => {
+        if (link.textContent.trim() === 'Class Attendance') {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('.card').style.display = 'none';
+                document.getElementById('attendance-records-card').style.display = 'none';
+                document.getElementById('teacherAttendanceTrackerSection').style.display = 'block';
+                
+                // Load initial data
+                loadClassStudents();
+            });
+        } else {
+            link.addEventListener('click', function() {
+                document.getElementById('teacherAttendanceTrackerSection').style.display = 'none';
+                document.querySelector('.card').style.display = 'block';
+                document.getElementById('attendance-records-card').style.display = 'block';
+            });
+        }
+    });
+    
+    // Initialize dashboard records
+    updateDashboardRecords();
+});
+</script>
+<script>
+const baseURL = "http://localhost:4000";
+
+// Fetch teacher info
+async function loadTeacherProfile(teacherId) {
+    try {
+        const response = await fetch(`${baseURL}/teacher/${teacherId}`);
+        const data = await response.json();
+        document.getElementById("teacherName").innerText = `Prof. ${data.name}`;
+        document.getElementById("teacherDept").innerText = `Faculty - ${data.department}`;
+    } catch (err) {
+        console.error("Error loading teacher profile:", err);
+    }
+}
+
+// Fetch attendance records
+async function loadAttendanceRecords(teacherId) {
+    try {
+        const response = await fetch(`${baseURL}/attendance/latest/${teacherId}`);
+        const records = await response.json();
+        const container = document.querySelector(".recent-records");
+        container.innerHTML = ""; // Clear old content
+
+        records.forEach(record => {
+            const div = document.createElement("div");
+            div.classList.add("record-summary");
+            div.innerHTML = `
+                <strong>${record.class_name} - ${record.period}</strong>
+                <span>${record.date} - ${record.present}/${record.total} (${record.percentage}%)</span>
+            `;
+            container.appendChild(div);
+        });
+    } catch (err) {
+        console.error("Error loading records:", err);
+    }
+}
+
+// On page load
+document.addEventListener("DOMContentLoaded", () => {
+    const teacherId = localStorage.getItem("teacher_id"); // stored during login
+    if (teacherId) {
+        loadTeacherProfile(teacherId);
+        loadAttendanceRecords(teacherId);
+    } else {
+        console.warn("Teacher ID missing — please log in again.");
+    }
+});
+</script>
+
+
+

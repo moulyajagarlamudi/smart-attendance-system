@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Redirecting to Results</title>
+  <link rel="stylesheet" href="studentdashboard.css" />
+  <style>
+    body {
+      background: linear-gradient(120deg, #f0f7ff 60%, #dbeafe 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .redirect-box {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+      padding: 36px 40px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .redirect-box h2 {
+      color: #2563eb;
+      margin-bottom: 18px;
+    }
+    .redirect-box p {
+      color: #555;
+      font-size: 1.08em;
+    }
+    .redirect-link {
+      color: #2563eb;
+      text-decoration: underline;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="redirect-box">
+    <h2>Redirecting to Results...</h2>
+    <p>If you are not redirected automatically, <a class="redirect-link" href="http://www.vvitguntur.com/results/R20/Y22_3_2_REGULAR_APR25/results.html" target="_blank">click here</a>.</p>
+  </div>
+  <script>
+    setTimeout(function() {
+      window.location.href = "http://www.vvitguntur.com/results/R20/Y22_3_2_REGULAR_APR25/results.html";
+    }, 1200);
+  </script>
+</body>
+</html> 

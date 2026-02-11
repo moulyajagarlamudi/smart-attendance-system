@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Student Portal Login</title>
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f0f4fa;
+        margin: 0;
+        padding: 0;
+    }
+    .logo-container {
+        text-align: center;
+        margin: 20px 0 5px 0;
+    }
+    .logo-container img {
+        width: 120px;
+        height: auto;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 20px;
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+    }
+    .left-panel {
+        flex: 1;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+    }
+    .left-panel h2 {
+        color: #1d3557;
+    }
+    .login-quote {
+        font-style: italic;
+        color: #555;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+    /* ...existing code... */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    margin: auto;
+    padding: 0;
+}
+.right-panel {
+    flex: none;
+    width: 340px;
+    background-color: white;
+    padding: 25px 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: auto;
+}
+    h2 {
+        margin-bottom: 15px;
+        color: #1d3557;
+        text-align: center;
+    }
+    input[type="text"], input[type="password"], input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 6px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 15px;
+    }
+    .password-wrapper {
+        position: relative;
+    }
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 14px;
+        color: #555;
+    }
+    .forgot {
+        text-decoration: none;
+        font-size: 14px;
+        color: #1d72b8;
+    }
+    .forgot:hover {
+        text-decoration: underline;
+    }
+    .login-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #1d72b8;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 5px;
+        transition: background-color 0.3s ease;
+    }
+    .login-btn:hover {
+        background-color: #145a8d;
+    }
+    .register-link {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+    .register-link a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .register-link a:hover {
+        text-decoration: underline;
+    }
+    .error { color: crimson; font-weight: 600; margin-top: 6px; text-align:center; }
+    .success { color: green; font-weight: 600; margin-top: 6px; text-align:center; }
+</style>
+</head>
+<body>
+<div class="logo-container">
+    <img src="https://www.vvitu.ac.in/src/assets/images/VVIT_logo.png" alt="VVIT University Logo">
+</div>
+
+<div class="container">
+    <!-- LEFT PANEL -->
+    <!-- <div class="left-panel"> -->
+        <!-- <h2>Dear Student,</h2>
+        <p>Welcome to STUDENT PORTAL.</p>
+        <p class="login-quote">Your journey of a thousand miles begins with a single login....</p>
+        <p>Students can login with their ROLL NO and password.</p> -->
+    <!-- </div> -->
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+        <!-- LOGIN FORM -->
+        <div id="loginBox">
+            <h2>Student Login</h2>
+            <form id="loginForm">
+                <label for="rollno">ROLL NO</label>
+                <input type="text" id="rollno" name="rollno" placeholder="Enter your Roll No" required />
+
+                <label for="password">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Password" required />
+                    <span class="toggle-password" onclick="togglePassword()">👁</span>
+                </div>
+
+                <div style="text-align:right;">
+                    <a href="#" class="forgot" id="forgotLink">Forgot Password?</a>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <div id="message"></div>
+            <div class="register-link">
+                <span>Don't have an account? <a href="student_register.html">Register</a></span>
+            </div>
+        </div>
+
+        <!-- FORGOT PASSWORD FORM -->
+        <div id="forgotForm" style="display:none;">
+            <h2>Reset Password</h2>
+            <form id="forgotPasswordForm">
+                <input type="email" id="resetEmail" name="resetEmail" placeholder="Enter your registered email" required />
+                <button type="submit" class="login-btn">Send Reset Link</button>
+            </form>
+            <div id="forgotMsg"></div>
+            <div style="text-align:center; margin-top:10px;">
+                <a href="#" id="backToLogin" class="forgot">Back to Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePassword() {
+    const passInput = document.getElementById("password");
+    passInput.type = passInput.type === "password" ? "text" : "password";
+}
+
+const msg = document.getElementById("message");
+
+// LOGIN FORM SUBMIT
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    msg.className = "";
+    const roll = document.getElementById('rollno').value.trim();
+    const password = document.getElementById('password').value;
+
+    try {
+        const res = await fetch("http://127.0.0.1:8000/login-student", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ roll: roll, password: password })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+            msg.className = "success";
+            msg.innerText = data.message || "Login successful";
+
+            // Save student data to localStorage for dashboard use
+            localStorage.setItem("studentRoll", data.student.roll);
+            localStorage.setItem("studentName", data.student.name);
+            localStorage.setItem("studentEmail", data.student.email);
+
+            // Redirect to dashboard after a short delay
+            setTimeout(() => window.location.href = 'student_dashboard.html', 700);
+        } else {
+            msg.className = "error";
+            msg.innerText = data.message || data.detail || "Login failed";
+        }
+    } catch (err) {
+        msg.className = "error";
+        msg.innerText = "Network error. Check backend.";
+        console.error(err);
+    }
+});
+
+// SHOW FORGOT PASSWORD FORM
+document.getElementById("forgotLink").addEventListener("click", function(e) {
+    e.preventDefault();
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("forgotForm").style.display = "block";
+
+    // Clear previous messages and input field
+    document.getElementById("forgotMsg").innerText = "";
+    document.getElementById("resetEmail").value = "";
+});
+
+// BACK TO LOGIN
+document.getElementById("backToLogin").addEventListener("click", function(e) {
+    e.preventDefault();
+    document.getElementById("forgotForm").style.display = "none";
+    document.getElementById("loginBox").style.display = "block";
+});
+
+// FORGOT PASSWORD SUBMIT
+document.getElementById("forgotPasswordForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const forgotMsg = document.getElementById("forgotMsg");
+    forgotMsg.className = "";
+    forgotMsg.innerText = "";
+    const email = document.getElementById("resetEmail").value.trim();
+
+    try {
+        const res = await fetch("http://127.0.0.1:8000/forgot-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            forgotMsg.className = "success";
+            forgotMsg.innerText = data.message || "Password reset link sent to your email.";
+        } else {
+            forgotMsg.className = "error";
+            forgotMsg.innerText = data.detail || data.message || "Failed to send reset link.";
+        }
+    } catch (err) {
+        forgotMsg.className = "error";
+        forgotMsg.innerText = "Network error. Please try again.";
+        console.error(err);
+    }
+});
+fetch("http://localhost:4000/login-student", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ rollno, password })
+})
+.then(res => res.json())
+.then(data => {
+    if (data.success) {
+        // Save roll number
+        localStorage.setItem("rollno", rollno);
+        // Redirect to dashboard
+        window.location.href = "student_dashboard.html";
+    } else {
+        alert("Invalid credentials");
+    }
+});
+
+</script>
+<script>
+  function loginStudent() {
+    const rollno = document.getElementById("rollno").value;
+    const password = document.getElementById("password").value;
+
+    fetch("http://localhost:4000/student-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ rollno, password })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        // ✅ Save rollno in localStorage
+        localStorage.setItem("rollno", rollno);
+
+        // ✅ Redirect to dashboard
+        window.location.href = "student_dashboard.html";
+      } else {
+        alert("Invalid credentials!");
+      }
+    })
+    .catch(err => console.error(err));
+  }
+</script>
+
+
+</body>
+</html>

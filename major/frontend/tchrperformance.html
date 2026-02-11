@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Performance</title>
+  <link rel="stylesheet" href="teacher_dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Inter', Arial, sans-serif; background: linear-gradient(120deg, #f0f7ff 60%, #dbeafe 100%); min-height: 100vh; }
+    .performance-container { max-width: 1200px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.10); padding: 36px 40px 32px 40px; }
+    .performance-title { color: #2563eb; font-size: 2em; font-weight: 700; text-align: center; margin-bottom: 32px; letter-spacing: 1px; }
+    .performance-controls { display: flex; gap: 18px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
+    .performance-controls select, .performance-controls input { padding: 8px 14px; border-radius: 6px; border: 1px solid #e0e7ef; font-size: 1em; }
+    .performance-table-card { background: #f9fafb; border-radius: 12px; box-shadow: 0 2px 8px rgba(37,99,235,0.07); padding: 0; margin-top: 18px; max-height: 350px; overflow-y: auto; }
+    .performance-table { width: 100%; border-collapse: collapse; font-family: 'Inter', Arial, sans-serif; }
+    .performance-table th, .performance-table td { padding: 10px 12px; border-bottom: 1px solid #e0e7ef; text-align: center; font-size: 1em; }
+    .performance-table th { background: #f0f7ff; color: #2563eb; font-weight: 700; position: sticky; top: 0; z-index: 1; }
+    .performance-table tr:last-child td { border-bottom: none; }
+    .charts-flex { display: flex; gap: 32px; margin: 32px 0 0 0; flex-wrap: wrap; justify-content: center; }
+    .chart-card { background: #f9fafb; border-radius: 12px; box-shadow: 0 2px 8px rgba(37,99,235,0.07); padding: 18px; min-width: 320px; max-width: 480px; flex: 1; }
+    .download-btn { background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%); color: #fff; border: none; border-radius: 6px; padding: 10px 24px; font-size: 1em; font-weight: 600; cursor: pointer; margin: 18px 0; transition: background 0.2s, transform 0.2s; box-shadow: 0 2px 8px rgba(37,99,235,0.10); }
+    .download-btn:hover { background: linear-gradient(90deg, #1e40af 60%, #3b82f6 100%); transform: translateY(-2px) scale(1.04); }
+    .feedback-area { margin-top: 32px; background: #f9fafb; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 18px; }
+    .feedback-area textarea { width: 100%; min-height: 60px; border-radius: 6px; border: 1px solid #e0e7ef; padding: 10px; font-size: 1em; margin-bottom: 10px; }
+    .feedback-area button { background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%); color: #fff; border: none; border-radius: 6px; padding: 8px 18px; font-size: 1em; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.2s; box-shadow: 0 2px 8px rgba(37,99,235,0.10); }
+    .feedback-area button:hover { background: linear-gradient(90deg, #1e40af 60%, #3b82f6 100%); transform: translateY(-2px) scale(1.04); }
+    @media (max-width: 900px) { .performance-container { padding: 18px 4vw 18px 4vw; } .charts-flex { flex-direction: column; gap: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="performance-container">
+    <div class="performance-title">Student Performance</div>
+    <div class="performance-controls">
+      <label>Section:
+        <select id="sectionFilter">
+          <option value="A">Section A</option>
+          <option value="B">Section B</option>
+          <option value="C">Section C</option>
+        </select>
+      </label>
+      <label>Search Student:
+        <input type="text" id="studentSearch" placeholder="Enter name or roll number..." />
+      </label>
+      <button class="download-btn" onclick="downloadReport()">Download Report</button>
+    </div>
+    <div class="performance-table-card">
+      <table class="performance-table">
+        <thead>
+          <tr>
+            <th>Sl No.</th>
+            <th>Roll Number</th>
+            <th>Name</th>
+            <th>Subject 1</th>
+            <th>Subject 2</th>
+            <th>Subject 3</th>
+            <th>Subject 4</th>
+            <th>Subject 5</th>
+            <th>Average</th>
+            <th>Grade</th>
+            <th>Attendance %</th>
+            <th>Assignments</th>
+            <th>Test Score</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody id="performanceTableBody"></tbody>
+      </table>
+    </div>
+    <div class="charts-flex">
+      <div class="chart-card">
+        <h4 style="text-align:center; color:#2563eb; margin-bottom:12px;">Subject-wise Comparison</h4>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h4 style="text-align:center; color:#2563eb; margin-bottom:12px;">Grade Distribution</h4>
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+    <div class="feedback-area">
+      <h4 style="color:#2563eb;">Personalized Feedback</h4>
+      <textarea id="feedbackText" placeholder="Write feedback for the class or a specific student..."></textarea>
+      <button onclick="saveFeedback()">Save Feedback</button>
+      <div id="feedbackMsg" style="margin-top:8px;color:#22c55e;font-weight:600;"></div>
+    </div>
+  </div>
+  <script>
+    // Generate 60 students for each section
+    function makeStudents(prefix) {
+      const names = [
+        "Aarav Sharma", "Aanya Mehta", "Rohan Verma", "Sneha Reddy", "Karan Kapoor", "Priya Nair", "Aditya Iyer", "Anjali Desai", "Vivek Choudhary", "Meera Joshi",
+        "Aryan Malhotra", "Isha Patil", "Nikhil Saxena", "Swathi Bansal", "Rahul Rao", "Kavya Bhatt", "Manish Agarwal", "Divya Shetty", "Sagar Tripathi", "Neha Dubey",
+        "Arjun Sinha", "Pooja Yadav", "Harsh Kulkarni", "Shruti Jain", "Siddharth Menon", "Ritu Chatterjee", "Yash Goel", "Tanya Pillai", "Suraj Bhatia", "Bhavya Rathi",
+        "Om Salunkhe", "Nivedita Basu", "Raj Thakur", "Keerthi Ranganathan", "Tushar Khandelwal", "Vaishnavi Dey", "Varun Joshi", "Rhea Anand", "Sameer Khatri", "Ananya Sengupta",
+        "Dhruv Ghosh", "Jhanvi Nayak", "Abhay Barot", "Sanjana Mishra", "Shreyas Pawar", "Aishwarya Shukla", "Vinay Solanki", "Trisha Das", "Kunal Bhargava", "Srishti Lohia",
+        "Rohit Tiwari", "Malvika Kohli", "Tejas Sawant", "Harini Iyer", "Akash Jadhav", "Ishita Vyas", "Pranav Krishnan", "Nikita Mahajan", "Ayush Dugar", "Sakshi Rawat"
+      ];
+      return Array.from({length: 60}, (_, i) => ({ rollNo: `${prefix}${(i+1).toString().padStart(3,'0')}`, name: names[i % names.length] }));
+    }
+    const studentsA = makeStudents('A');
+    const studentsB = makeStudents('B');
+    const studentsC = makeStudents('C');
+    // Generate random data for demo
+    function getRandomMark() { return Math.floor(Math.random() * 41) + 60; }
+    function getRandomAttendance() { return Math.floor(Math.random() * 21) + 80; }
+    function getRandomAssignment() { return Math.random() > 0.15 ? 'Submitted' : 'Pending'; }
+    function getRandomTest() { return Math.floor(Math.random() * 21) + 30; }
+    function getGrade(avg) {
+      if (avg >= 90) return 'A+';
+      if (avg >= 80) return 'A';
+      if (avg >= 70) return 'B';
+      if (avg >= 60) return 'C';
+      return 'D';
+    }
+    function getRemark(grade) {
+      if (grade === 'A+') return 'Excellent';
+      if (grade === 'A') return 'Very Good';
+      if (grade === 'B') return 'Good';
+      if (grade === 'C') return 'Needs Improvement';
+      return 'Poor';
+    }
+    // State
+    let currentSection = 'A';
+    let allData = { A: [], B: [], C: [] };
+    function generateData() {
+      [ ['A', studentsA], ['B', studentsB], ['C', studentsC] ].forEach(([section, students]) => {
+        allData[section] = students.map(s => {
+          const marks = [getRandomMark(), getRandomMark(), getRandomMark(), getRandomMark(), getRandomMark()];
+          const avg = Math.round(marks.reduce((a,b)=>a+b,0)/marks.length);
+          const grade = getGrade(avg);
+          return {
+            ...s,
+            marks,
+            avg,
+            grade,
+            attendance: getRandomAttendance(),
+            assignment: getRandomAssignment(),
+            test: getRandomTest(),
+            remarks: getRemark(grade)
+          };
+        });
+      });
+    }
+    generateData();
+    // Render Table
+    function renderTable() {
+      const tbody = document.getElementById('performanceTableBody');
+      const search = document.getElementById('studentSearch').value.toLowerCase();
+      const data = allData[currentSection].filter(s =>
+        s.name.toLowerCase().includes(search) || s.rollNo.toLowerCase().includes(search)
+      );
+      tbody.innerHTML = '';
+      data.forEach((s, idx) => {
+        tbody.innerHTML += `<tr>
+          <td>${idx+1}</td>
+          <td>${s.rollNo}</td>
+          <td>${s.name}</td>
+          <td>${s.marks[0]}</td>
+          <td>${s.marks[1]}</td>
+          <td>${s.marks[2]}</td>
+          <td>${s.marks[3]}</td>
+          <td>${s.marks[4]}</td>
+          <td>${s.avg}</td>
+          <td>${s.grade}</td>
+          <td>${s.attendance}%</td>
+          <td>${s.assignment}</td>
+          <td>${s.test}</td>
+          <td>${s.remarks}</td>
+        </tr>`;
+      });
+      renderCharts(data);
+    }
+    // Charts
+    let barChart, pieChart;
+    function renderCharts(data) {
+      // Bar: subject-wise average
+      const subjectAverages = [0,0,0,0,0];
+      data.forEach(s => s.marks.forEach((m,i) => subjectAverages[i] += m));
+      const count = data.length || 1;
+      const avgData = subjectAverages.map(sum => Math.round(sum/count));
+      if (barChart) barChart.destroy();
+      barChart = new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Subject 1','Subject 2','Subject 3','Subject 4','Subject 5'],
+          datasets: [{ label: 'Average Marks', data: avgData, backgroundColor: '#2563eb' }]
+        },
+        options: { responsive: true, plugins: { legend: { display: false } } }
+      });
+      // Pie: grade distribution
+      const gradeCounts = { 'A+':0, 'A':0, 'B':0, 'C':0, 'D':0 };
+      data.forEach(s => gradeCounts[s.grade]++);
+      if (pieChart) pieChart.destroy();
+      pieChart = new Chart(document.getElementById('pieChart'), {
+        type: 'pie',
+        data: {
+          labels: Object.keys(gradeCounts),
+          datasets: [{ data: Object.values(gradeCounts), backgroundColor: ['#2563eb','#60a5fa','#f59e42','#fbbf24','#ef4444'] }]
+        },
+        options: { responsive: true }
+      });
+    }
+    // Filter and search
+    document.getElementById('sectionFilter').onchange = function() {
+      currentSection = this.value;
+      renderTable();
+    };
+    document.getElementById('studentSearch').oninput = renderTable;
+    // Download report
+    function downloadReport() {
+      let csv = 'Sl No.,Roll Number,Name,Subject 1,Subject 2,Subject 3,Subject 4,Subject 5,Average,Grade,Attendance %,Assignments,Test Score,Remarks\n';
+      allData[currentSection].forEach((s, idx) => {
+        csv += `${idx+1},${s.rollNo},${s.name},${s.marks.join(',')},${s.avg},${s.grade},${s.attendance}%,${s.assignment},${s.test},${s.remarks}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Section_${currentSection}_Performance.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+    // Feedback
+    function saveFeedback() {
+      const text = document.getElementById('feedbackText').value;
+      localStorage.setItem('feedback_' + currentSection, text);
+      document.getElementById('feedbackMsg').innerText = 'Feedback saved!';
+      setTimeout(()=>{ document.getElementById('feedbackMsg').innerText = ''; }, 2000);
+    }
+    // Load feedback on section change
+    document.getElementById('sectionFilter').onchange = function() {
+      currentSection = this.value;
+      document.getElementById('feedbackText').value = localStorage.getItem('feedback_' + currentSection) || '';
+      renderTable();
+    };
+    // Initial render
+    document.getElementById('feedbackText').value = localStorage.getItem('feedback_A') || '';
+    renderTable();
+  </script>
+</body>
+</html> 

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Mark List</title>
+  <link rel="stylesheet" href="teacher_dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', Arial, sans-serif; background: linear-gradient(120deg, #f0f7ff 60%, #dbeafe 100%); min-height: 100vh; }
+    .marklist-container { max-width: 1000px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.10); padding: 36px 40px 32px 40px; }
+    .marklist-title { color: #2563eb; font-size: 2em; font-weight: 700; text-align: center; margin-bottom: 32px; letter-spacing: 1px; }
+    .marklist-table-card { background: #f9fafb; border-radius: 12px; box-shadow: 0 2px 8px rgba(37,99,235,0.07); padding: 0; margin-top: 18px; max-height: 400px; overflow-y: auto; }
+    .marklist-table { width: 100%; border-collapse: collapse; font-family: 'Inter', Arial, sans-serif; }
+    .marklist-table th, .marklist-table td { padding: 10px 12px; border-bottom: 1px solid #e0e7ef; text-align: center; font-size: 1em; }
+    .marklist-table th { background: #f0f7ff; color: #2563eb; font-weight: 700; position: sticky; top: 0; z-index: 1; }
+    .marklist-table tr:last-child td { border-bottom: none; }
+    @media (max-width: 900px) { .marklist-container { padding: 18px 4vw 18px 4vw; } }
+  </style>
+</head>
+<body>
+  <div class="marklist-container">
+    <div class="marklist-title">Student Mark List</div>
+    <div class="marklist-tabs" style="display:flex; gap:12px; justify-content:center; margin-bottom:24px;">
+      <button class="marklist-tab active" data-section="A">Section A</button>
+      <button class="marklist-tab" data-section="B">Section B</button>
+      <button class="marklist-tab" data-section="C">Section C</button>
+    </div>
+    <div class="marklist-table-card marklist-section active" id="marklistA">
+      <table class="marklist-table">
+        <thead>
+          <tr>
+            <th>Sl No.</th>
+            <th>Roll Number</th>
+            <th>Name</th>
+            <th>Subject 1</th>
+            <th>Subject 2</th>
+            <th>Subject 3</th>
+            <th>Subject 4</th>
+            <th>Subject 5</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="markListBodyA"></tbody>
+      </table>
+    </div>
+    <div class="marklist-table-card marklist-section" id="marklistB" style="display:none;">
+      <table class="marklist-table">
+        <thead>
+          <tr>
+            <th>Sl No.</th>
+            <th>Roll Number</th>
+            <th>Name</th>
+            <th>Subject 1</th>
+            <th>Subject 2</th>
+            <th>Subject 3</th>
+            <th>Subject 4</th>
+            <th>Subject 5</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="markListBodyB"></tbody>
+      </table>
+    </div>
+    <div class="marklist-table-card marklist-section" id="marklistC" style="display:none;">
+      <table class="marklist-table">
+        <thead>
+          <tr>
+            <th>Sl No.</th>
+            <th>Roll Number</th>
+            <th>Name</th>
+            <th>Subject 1</th>
+            <th>Subject 2</th>
+            <th>Subject 3</th>
+            <th>Subject 4</th>
+            <th>Subject 5</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="markListBodyC"></tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    // Generate 60 students for each section
+    function makeStudents(prefix) {
+      const names = [
+        "Aarav Sharma", "Aanya Mehta", "Rohan Verma", "Sneha Reddy", "Karan Kapoor", "Priya Nair", "Aditya Iyer", "Anjali Desai", "Vivek Choudhary", "Meera Joshi",
+        "Aryan Malhotra", "Isha Patil", "Nikhil Saxena", "Swathi Bansal", "Rahul Rao", "Kavya Bhatt", "Manish Agarwal", "Divya Shetty", "Sagar Tripathi", "Neha Dubey",
+        "Arjun Sinha", "Pooja Yadav", "Harsh Kulkarni", "Shruti Jain", "Siddharth Menon", "Ritu Chatterjee", "Yash Goel", "Tanya Pillai", "Suraj Bhatia", "Bhavya Rathi",
+        "Om Salunkhe", "Nivedita Basu", "Raj Thakur", "Keerthi Ranganathan", "Tushar Khandelwal", "Vaishnavi Dey", "Varun Joshi", "Rhea Anand", "Sameer Khatri", "Ananya Sengupta",
+        "Dhruv Ghosh", "Jhanvi Nayak", "Abhay Barot", "Sanjana Mishra", "Shreyas Pawar", "Aishwarya Shukla", "Vinay Solanki", "Trisha Das", "Kunal Bhargava", "Srishti Lohia",
+        "Rohit Tiwari", "Malvika Kohli", "Tejas Sawant", "Harini Iyer", "Akash Jadhav", "Ishita Vyas", "Pranav Krishnan", "Nikita Mahajan", "Ayush Dugar", "Sakshi Rawat"
+      ];
+      return Array.from({length: 60}, (_, i) => ({ rollNo: `${prefix}${(i+1).toString().padStart(3,'0')}`, name: names[i % names.length] }));
+    }
+    const studentsA = makeStudents('A');
+    const studentsB = makeStudents('B');
+    const studentsC = makeStudents('C');
+    function getRandomMark() { return Math.floor(Math.random() * 41) + 60; }
+    function renderMarkList(section, students) {
+      const tbody = document.getElementById('markListBody' + section);
+      tbody.innerHTML = '';
+      students.forEach((student, idx) => {
+        const marks = [getRandomMark(), getRandomMark(), getRandomMark(), getRandomMark(), getRandomMark()];
+        const total = marks.reduce((a, b) => a + b, 0);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${idx + 1}</td><td>${student.rollNo}</td><td>${student.name}</td>` +
+          marks.map(m => `<td>${m}</td>`).join('') + `<td><strong>${total}</strong></td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    renderMarkList('A', studentsA);
+    renderMarkList('B', studentsB);
+    renderMarkList('C', studentsC);
+    // Tab switching logic
+    document.querySelectorAll('.marklist-tab').forEach(tab => {
+      tab.onclick = function() {
+        document.querySelectorAll('.marklist-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.marklist-section').forEach(s => s.style.display = 'none');
+        tab.classList.add('active');
+        document.getElementById('marklist' + tab.dataset.section).style.display = '';
+      };
+    });
+  </script>
+</body>
+</html> 

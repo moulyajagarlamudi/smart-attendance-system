@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role Selection - SRM System</title>
+    <link rel="stylesheet" href="role_selection.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="https://www.vvitu.ac.in/src/assets/images/VVIT_logo.png" alt="VVIT University Logo" class="university-logo">
+            </div>
+            <h1>Student Record Management System</h1>
+            <p>Select Your Role</p>
+        </div>
+
+        <div class="role-selection">
+            <div class="role-card" onclick="selectRole('hod')">
+                <div class="role-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h2>Head of Department (HOD)</h2>
+                <p>Add students and manage department records</p>
+                <div class="role-features">
+                    <!-- <span><i class="fas fa-check"></i> Add Students</span>
+                    <span><i class="fas fa-check"></i> View Department Data</span> -->
+                </div>
+                <button class="select-btn">Select HOD Role</button>
+            </div>
+
+            <!-- <div class="role-card" onclick="selectRole('dean')">
+                <div class="role-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2>Dean</h2>
+                <p>Review and approve student applications</p>
+                <div class="role-features">
+                    <span><i class="fas fa-check"></i> Review Applications</span>
+                    <span><i class="fas fa-check"></i> Approve/Reject</span>
+                    <span><i class="fas fa-check"></i> Forward to Admin</span>
+                </div>
+                <button class="select-btn">Select Dean Role</button>
+            </div> -->
+
+            <div class="role-card" onclick="selectRole('admin')">
+                <div class="role-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h2>Administrator</h2>
+                <p>Final approval and system management</p>
+                <div class="role-features">
+                    <!-- <span><i class="fas fa-check"></i> Final Approval</span>
+                    <span><i class="fas fa-check"></i> System Management</span> -->
+                </div>
+                <button class="select-btn">Select Admin Role</button>
+            </div>
+        </div>
+
+
+
+        <div class="back-link">
+            <a href="home.html">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function selectRole(role) {
+            // Store the selected role in localStorage
+            localStorage.setItem('selectedRole', role);
+            
+            // Redirect to appropriate login page
+            switch(role) {
+                case 'hod':
+                    window.location.href = 'hod_login.html';
+                    break;
+                case 'dean':
+                    window.location.href = 'dean_login.html';
+                    break;
+                case 'admin':
+                    window.location.href = 'admin_login.html';
+                    break;
+            }
+        }
+
+        // Add hover effects
+        document.querySelectorAll('.role-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="admin_dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://i.pinimg.com/736x/d0/bc/76/d0bc76c0c34423dfd74c73d4d11f2675.jpg" alt="VVIT Logo" class="logo">
+                <h3>Admin Panel</h3>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#" class="nav-link" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('students')">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Students</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('teachers')">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Teachers</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('courses')">
+                        <i class="fas fa-book"></i>
+                        <span>Courses</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('departments')">
+                        <i class="fas fa-building"></i>
+                        <span>Departments</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('attendance')">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Attendance</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                                <a href="#" class="nav-link" onclick="window.open('https://www.vvitguntur.com/aca-examcell/latest-results/autonomous/regular', '_blank')">
+                <i class="fas fa-chart-line"></i>
+                <span>Results</span>
+            </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('announcements')">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('reports')">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('settings')">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <a href="admin_login.html" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Admin Dashboard</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    
+                    <div class="admin-profile">
+                        <div class="notifications">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </div>
+                        <div class="profile-info">
+                            <img src="https://i.pinimg.com/736x/60/fc/31/60fc3176be3a7f194971f43fe75e21a1.jpg" alt="Admin" class="profile-img">
+                            <span>Admin User</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon students">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Students</h3>
+                            <p class="stat-number">150</p>
+                            <span class="stat-change positive">+15% from last month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon teachers">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Teachers</h3>
+                            <p class="stat-number">138</p>
+                            <span class="stat-change positive">+8% from last month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon courses">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Active Courses</h3>
+                            <p class="stat-number">20</p>
+                            <span class="stat-change neutral">No change</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon attendance">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Attendance Rate</h3>
+                            <p class="stat-number">94.2%</p>
+                            <span class="stat-change positive">+2.1% from last week</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2>Quick Actions</h2>
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="openModal('addStudent')">
+                            <i class="fas fa-user-plus"></i>
+                            Add Student
+                        </button>
+                        <button class="action-btn" onclick="openModal('addTeacher')">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            Add Teacher
+                        </button>
+                        <button class="action-btn" onclick="openModal('addCourse')">
+                            <i class="fas fa-plus-circle"></i>
+                            Add Course
+                        </button>
+                        <button class="action-btn" onclick="openModal('generateReport')">
+                            <i class="fas fa-file-export"></i>
+                            Generate Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Activities & Charts -->
+                <div class="dashboard-grid">
+                    <!-- Recent Activities -->
+                    <div class="recent-activities">
+                        <h2>Recent Activities</h2>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>New Student Registration</h4>
+                                    <p>Rahul Kumar registered for Computer Science & Engineering</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Semester Results Published</h4>
+                                    <p>3rd Semester results have been published for all departments</p>
+                                    <span class="activity-time">4 hours ago</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-bullhorn"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Republic Day Holiday Notice</h4>
+                                    <p>College will be closed on January 26th for Republic Day celebrations</p>
+                                    <span class="activity-time">6 hours ago</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Attendance Marked</h4>
+                                    <p>Daily attendance completed for all engineering departments</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>New Faculty Appointment</h4>
+                                    <p>Dr. Priya Patel joined as Associate Professor in CSE department</p>
+                                    <span class="activity-time">2 days ago</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Course Registration Open</h4>
+                                    <p>4th Semester course registration is now open for all students</p>
+                                    <span class="activity-time">3 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Students Management Section -->
+                    <div class="students-section dashboard-section" id="students-section" style="display: none;">
+                        <h2>Students Pending Final Approval</h2>
+                        <p>Review students forwarded by Dean for final approval</p>
+                        
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Department</th>
+                                        <th>Year</th>
+                                        <th>Forwarded Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="forwarded-students-table">
+                                    <!-- Data will be loaded dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- System Status -->
+                    <div class="system-status">
+                        <h2>System Status</h2>
+                        <div class="status-grid">
+                            <div class="status-item">
+                                <div class="status-indicator online"></div>
+                                <span>Database</span>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-indicator online"></div>
+                                <span>Web Server</span>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-indicator warning"></div>
+                                <span>Email Service</span>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-indicator online"></div>
+                                <span>Backup System</span>
+                            </div>
+                        </div>
+                        
+                        <div class="system-metrics">
+                            <div class="metric">
+                                <span>CPU Usage</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 45%"></div>
+                                </div>
+                                <span>45%</span>
+                            </div>
+                            <div class="metric">
+                                <span>Memory Usage</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 62%"></div>
+                                </div>
+                                <span>62%</span>
+                            </div>
+                            <div class="metric">
+                                <span>Disk Space</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 78%"></div>
+                                </div>
+                                <span>78%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sample data for VVIT University
+        let forwardedStudents = [
+            { id: 1, rollNo: 'CS2024001', name: 'Aarav Sharma', department: 'Computer Science & Engineering', year: '3rd Year', date: '2024-01-15', status: 'pending' },
+            { id: 2, rollNo: 'CS2024002', name: 'Vivaan Patel', department: 'Computer Science & Engineering', year: '2nd Year', date: '2024-01-14', status: 'pending' },
+            { id: 3, rollNo: 'ME2024001', name: 'Aditya Singh', department: 'Mechanical Engineering', year: '4th Year', date: '2024-01-13', status: 'pending' },
+            { id: 4, rollNo: 'EC2024001', name: 'Arjun Kumar', department: 'Electronics & Communication', year: '3rd Year', date: '2024-01-12', status: 'pending' },
+            { id: 5, rollNo: 'EE2024001', name: 'Vedant Gupta', department: 'Electrical Engineering', year: '2nd Year', date: '2024-01-11', status: 'pending' },
+            { id: 6, rollNo: 'IT2024001', name: 'Dhruv Verma', department: 'Information Technology', year: '4th Year', date: '2024-01-10', status: 'pending' },
+            { id: 7, rollNo: 'CE2024001', name: 'Kabir Malhotra', department: 'Civil Engineering', year: '3rd Year', date: '2024-01-09', status: 'pending' },
+            { id: 8, rollNo: 'CS2024003', name: 'Arnav Joshi', department: 'Computer Science & Engineering', year: '1st Year', date: '2024-01-08', status: 'pending' },
+            { id: 9, rollNo: 'ME2024002', name: 'Reyansh Kapoor', department: 'Mechanical Engineering', year: '2nd Year', date: '2024-01-07', status: 'pending' },
+            { id: 10, rollNo: 'EC2024002', name: 'Aryan Tiwari', department: 'Electronics & Communication', year: '4th Year', date: '2024-01-06', status: 'pending' },
+            { id: 11, rollNo: 'EE2024002', name: 'Advait Choudhury', department: 'Electrical Engineering', year: '3rd Year', date: '2024-01-05', status: 'pending' },
+            { id: 12, rollNo: 'IT2024002', name: 'Pranav Saxena', department: 'Information Technology', year: '2nd Year', date: '2024-01-04', status: 'pending' },
+            { id: 13, rollNo: 'CE2024002', name: 'Shaurya Sinha', department: 'Civil Engineering', year: '4th Year', date: '2024-01-03', status: 'pending' },
+            { id: 14, rollNo: 'CS2024004', name: 'Krishiv Mehta', department: 'Computer Science & Engineering', year: '1st Year', date: '2024-01-02', status: 'pending' },
+            { id: 15, rollNo: 'ME2024003', name: 'Darsh Agarwal', department: 'Mechanical Engineering', year: '3rd Year', date: '2024-01-01', status: 'pending' },
+            { id: 16, rollNo: 'EC2024003', name: 'Ishaan Bhat', department: 'Electronics & Communication', year: '2nd Year', date: '2023-12-31', status: 'pending' },
+            { id: 17, rollNo: 'EE2024003', name: 'Rudra Sharma', department: 'Electrical Engineering', year: '4th Year', date: '2023-12-30', status: 'pending' },
+            { id: 18, rollNo: 'IT2024003', name: 'Aarush Reddy', department: 'Information Technology', year: '1st Year', date: '2023-12-29', status: 'pending' },
+            { id: 19, rollNo: 'CE2024003', name: 'Vihaan Nair', department: 'Civil Engineering', year: '3rd Year', date: '2023-12-28', status: 'pending' },
+            { id: 20, rollNo: 'CS2024005', name: 'Advaith Iyer', department: 'Computer Science & Engineering', year: '2nd Year', date: '2023-12-27', status: 'pending' },
+            { id: 21, rollNo: 'ME2024004', name: 'Ritvik Menon', department: 'Mechanical Engineering', year: '4th Year', date: '2023-12-26', status: 'pending' },
+            { id: 22, rollNo: 'EC2024004', name: 'Shaan Pillai', department: 'Electronics & Communication', year: '1st Year', date: '2023-12-25', status: 'pending' },
+            { id: 23, rollNo: 'EE2024004', name: 'Ayaan Kurian', department: 'Electrical Engineering', year: '3rd Year', date: '2023-12-24', status: 'pending' },
+            { id: 24, rollNo: 'IT2024004', name: 'Zara Khan', department: 'Information Technology', year: '2nd Year', date: '2023-12-23', status: 'pending' },
+            { id: 25, rollNo: 'CE2024004', name: 'Aisha Patel', department: 'Civil Engineering', year: '4th Year', date: '2023-12-22', status: 'pending' },
+            { id: 26, rollNo: 'CS2024006', name: 'Ananya Singh', department: 'Computer Science & Engineering', year: '1st Year', date: '2023-12-21', status: 'pending' },
+            { id: 27, rollNo: 'ME2024005', name: 'Diya Sharma', department: 'Mechanical Engineering', year: '3rd Year', date: '2023-12-20', status: 'pending' },
+            { id: 28, rollNo: 'EC2024005', name: 'Myra Gupta', department: 'Electronics & Communication', year: '2nd Year', date: '2023-12-19', status: 'pending' },
+            { id: 29, rollNo: 'EE2024005', name: 'Kiara Verma', department: 'Electrical Engineering', year: '4th Year', date: '2023-12-18', status: 'pending' },
+            { id: 30, rollNo: 'IT2024005', name: 'Avni Malhotra', department: 'Information Technology', year: '1st Year', date: '2023-12-17', status: 'pending' },
+            { id: 31, rollNo: 'CE2024005', name: 'Riya Joshi', department: 'Civil Engineering', year: '3rd Year', date: '2023-12-16', status: 'pending' },
+            { id: 32, rollNo: 'CS2024007', name: 'Saanvi Kapoor', department: 'Computer Science & Engineering', year: '2nd Year', date: '2023-12-15', status: 'pending' },
+            { id: 33, rollNo: 'ME2024006', name: 'Aaradhya Tiwari', department: 'Mechanical Engineering', year: '4th Year', date: '2023-12-14', status: 'pending' },
+            { id: 34, rollNo: 'EC2024006', name: 'Pari Choudhury', department: 'Electronics & Communication', year: '1st Year', date: '2023-12-13', status: 'pending' },
+            { id: 35, rollNo: 'EE2024006', name: 'Anvi Saxena', department: 'Electrical Engineering', year: '3rd Year', date: '2023-12-12', status: 'pending' },
+            { id: 36, rollNo: 'IT2024006', name: 'Navya Sinha', department: 'Information Technology', year: '2nd Year', date: '2023-12-11', status: 'pending' },
+            { id: 37, rollNo: 'CE2024006', name: 'Aarohi Mehta', department: 'Civil Engineering', year: '4th Year', date: '2023-12-10', status: 'pending' },
+            { id: 38, rollNo: 'CS2024008', name: 'Vanya Agarwal', department: 'Computer Science & Engineering', year: '1st Year', date: '2023-12-09', status: 'pending' },
+            { id: 39, rollNo: 'ME2024007', name: 'Aditi Bhat', department: 'Mechanical Engineering', year: '3rd Year', date: '2023-12-08', status: 'pending' },
+            { id: 40, rollNo: 'EC2024007', name: 'Tara Reddy', department: 'Electronics & Communication', year: '2nd Year', date: '2023-12-07', status: 'pending' },
+            { id: 41, rollNo: 'EE2024007', name: 'Ira Nair', department: 'Electrical Engineering', year: '4th Year', date: '2023-12-06', status: 'pending' },
+            { id: 42, rollNo: 'IT2024007', name: 'Ahana Iyer', department: 'Information Technology', year: '1st Year', date: '2023-12-05', status: 'pending' },
+            { id: 43, rollNo: 'CE2024007', name: 'Ridhi Menon', department: 'Civil Engineering', year: '3rd Year', date: '2023-12-04', status: 'pending' },
+            { id: 44, rollNo: 'CS2024009', name: 'Siya Pillai', department: 'Computer Science & Engineering', year: '2nd Year', date: '2023-12-03', status: 'pending' },
+            { id: 45, rollNo: 'ME2024008', name: 'Aisha Kurian', department: 'Mechanical Engineering', year: '4th Year', date: '2023-12-02', status: 'pending' },
+            { id: 46, rollNo: 'EC2024008', name: 'Zara Khan', department: 'Electronics & Communication', year: '1st Year', date: '2023-12-01', status: 'pending' },
+            { id: 47, rollNo: 'EE2024008', name: 'Aisha Patel', department: 'Electrical Engineering', year: '3rd Year', date: '2023-11-30', status: 'pending' },
+            { id: 48, rollNo: 'IT2024008', name: 'Ananya Singh', department: 'Information Technology', year: '2nd Year', date: '2023-11-29', status: 'pending' },
+            { id: 49, rollNo: 'CE2024008', name: 'Diya Sharma', department: 'Civil Engineering', year: '4th Year', date: '2023-11-28', status: 'pending' },
+            { id: 50, rollNo: 'CS2024010', name: 'Myra Gupta', department: 'Computer Science & Engineering', year: '1st Year', date: '2023-11-27', status: 'pending' }
+        ];
+
+        let approvedStudents = [
+            { id: 51, rollNo: 'CS2023001', name: 'Karthik Rao', department: 'Computer Science & Engineering', year: '4th Year', date: '2024-01-05', status: 'approved' },
+            { id: 52, rollNo: 'ME2023001', name: 'Divya Nair', department: 'Mechanical Engineering', year: '3rd Year', date: '2024-01-04', status: 'approved' },
+            { id: 53, rollNo: 'EC2023001', name: 'Rohit Sharma', department: 'Electronics & Communication', year: '2nd Year', date: '2024-01-03', status: 'approved' },
+            { id: 54, rollNo: 'EE2023001', name: 'Pooja Iyer', department: 'Electrical Engineering', year: '4th Year', date: '2024-01-02', status: 'approved' },
+            { id: 55, rollNo: 'IT2023001', name: 'Arjun Menon', department: 'Information Technology', year: '3rd Year', date: '2024-01-01', status: 'approved' },
+            { id: 56, rollNo: 'CE2023001', name: 'Priya Pillai', department: 'Civil Engineering', year: '2nd Year', date: '2023-12-31', status: 'approved' },
+            { id: 57, rollNo: 'CS2023002', name: 'Vikram Kurian', department: 'Computer Science & Engineering', year: '4th Year', date: '2023-12-30', status: 'approved' },
+            { id: 58, rollNo: 'ME2023002', name: 'Anjali Khan', department: 'Mechanical Engineering', year: '3rd Year', date: '2023-12-29', status: 'approved' },
+            { id: 59, rollNo: 'EC2023002', name: 'Rahul Patel', department: 'Electronics & Communication', year: '2nd Year', date: '2023-12-28', status: 'approved' },
+            { id: 60, rollNo: 'EE2023002', name: 'Neha Singh', department: 'Electrical Engineering', year: '4th Year', date: '2023-12-27', status: 'approved' },
+            { id: 61, rollNo: 'IT2023002', name: 'Amit Gupta', department: 'Information Technology', year: '3rd Year', date: '2023-12-26', status: 'approved' },
+            { id: 62, rollNo: 'CE2023002', name: 'Sneha Verma', department: 'Civil Engineering', year: '2nd Year', date: '2023-12-25', status: 'approved' },
+            { id: 63, rollNo: 'CS2023003', name: 'Raj Malhotra', department: 'Computer Science & Engineering', year: '4th Year', date: '2023-12-24', status: 'approved' },
+            { id: 64, rollNo: 'ME2023003', name: 'Kavya Joshi', department: 'Mechanical Engineering', year: '3rd Year', date: '2023-12-23', status: 'approved' },
+            { id: 65, rollNo: 'EC2023003', name: 'Vivek Kapoor', department: 'Electronics & Communication', year: '2nd Year', date: '2023-12-22', status: 'approved' },
+            { id: 66, rollNo: 'EE2023003', name: 'Tanvi Tiwari', department: 'Electrical Engineering', year: '4th Year', date: '2023-12-21', status: 'approved' },
+            { id: 67, rollNo: 'IT2023003', name: 'Siddharth Choudhury', department: 'Information Technology', year: '3rd Year', date: '2023-12-20', status: 'approved' },
+            { id: 68, rollNo: 'CE2023003', name: 'Ishita Saxena', department: 'Civil Engineering', year: '2nd Year', date: '2023-12-19', status: 'approved' },
+            { id: 69, rollNo: 'CS2023004', name: 'Aditya Sinha', department: 'Computer Science & Engineering', year: '4th Year', date: '2023-12-18', status: 'approved' },
+            { id: 70, rollNo: 'ME2023004', name: 'Riya Mehta', department: 'Mechanical Engineering', year: '3rd Year', date: '2023-12-17', status: 'approved' },
+            { id: 71, rollNo: 'EC2023004', name: 'Kunal Agarwal', department: 'Electronics & Communication', year: '2nd Year', date: '2023-12-16', status: 'approved' },
+            { id: 72, rollNo: 'EE2023004', name: 'Anushka Bhat', department: 'Electrical Engineering', year: '4th Year', date: '2023-12-15', status: 'approved' },
+            { id: 73, rollNo: 'IT2023004', name: 'Harsh Reddy', department: 'Information Technology', year: '3rd Year', date: '2023-12-14', status: 'approved' },
+            { id: 74, rollNo: 'CE2023004', name: 'Shreya Nair', department: 'Civil Engineering', year: '2nd Year', date: '2023-12-13', status: 'approved' },
+            { id: 75, rollNo: 'CS2023005', name: 'Ritvik Iyer', department: 'Computer Science & Engineering', year: '4th Year', date: '2023-12-12', status: 'approved' },
+            { id: 76, rollNo: 'ME2023005', name: 'Aarav Menon', department: 'Mechanical Engineering', year: '3rd Year', date: '2023-12-11', status: 'approved' },
+            { id: 77, rollNo: 'EC2023005', name: 'Zara Pillai', department: 'Electronics & Communication', year: '2nd Year', date: '2023-12-10', status: 'approved' },
+            { id: 78, rollNo: 'EE2023005', name: 'Vivaan Kurian', department: 'Electrical Engineering', year: '4th Year', date: '2023-12-09', status: 'approved' },
+            { id: 79, rollNo: 'IT2023005', name: 'Aisha Khan', department: 'Information Technology', year: '3rd Year', date: '2023-12-08', status: 'approved' },
+            { id: 80, rollNo: 'CE2023005', name: 'Aditya Patel', department: 'Civil Engineering', year: '2nd Year', date: '2023-12-07', status: 'approved' },
+            { id: 81, rollNo: 'CS2023006', name: 'Ananya Singh', department: 'Computer Science & Engineering', year: '4th Year', date: '2023-12-06', status: 'approved' },
+            { id: 82, rollNo: 'ME2023006', name: 'Diya Sharma', department: 'Mechanical Engineering', year: '3rd Year', date: '2023-12-05', status: 'approved' },
+            { id: 83, rollNo: 'EC2023006', name: 'Myra Gupta', department: 'Electronics & Communication', year: '2nd Year', date: '2023-12-04', status: 'approved' },
+            { id: 84, rollNo: 'EE2023006', name: 'Kiara Verma', department: 'Electrical Engineering', year: '4th Year', date: '2023-12-03', status: 'approved' },
+            { id: 85, rollNo: 'IT2023006', name: 'Avni Malhotra', department: 'Information Technology', year: '3rd Year', date: '2023-12-02', status: 'approved' },
+            { id: 86, rollNo: 'CE2023006', name: 'Riya Joshi', department: 'Civil Engineering', year: '2nd Year', date: '2023-12-01', status: 'approved' },
+            { id: 87, rollNo: 'CS2023007', name: 'Saanvi Kapoor', department: 'Computer Science & Engineering', year: '4th Year', date: '2023-11-30', status: 'approved' },
+            { id: 88, rollNo: 'ME2023007', name: 'Aaradhya Tiwari', department: 'Mechanical Engineering', year: '3rd Year', date: '2023-11-29', status: 'approved' },
+            { id: 89, rollNo: 'EC2023007', name: 'Pari Choudhury', department: 'Electronics & Communication', year: '2nd Year', date: '2023-11-28', status: 'approved' },
+            { id: 90, rollNo: 'EE2023007', name: 'Anvi Saxena', department: 'Electrical Engineering', year: '4th Year', date: '2023-11-27', status: 'approved' },
+            { id: 91, rollNo: 'IT2023007', name: 'Navya Sinha', department: 'Information Technology', year: '3rd Year', date: '2023-11-26', status: 'approved' },
+            { id: 92, rollNo: 'CE2023007', name: 'Aarohi Mehta', department: 'Civil Engineering', year: '2nd Year', date: '2023-11-25', status: 'approved' },
+            { id: 93, rollNo: 'CS2023008', name: 'Vanya Agarwal', department: 'Computer Science & Engineering', year: '4th Year', date: '2023-11-24', status: 'approved' },
+            { id: 94, rollNo: 'ME2023008', name: 'Aditi Bhat', department: 'Mechanical Engineering', year: '3rd Year', date: '2023-11-23', status: 'approved' },
+            { id: 95, rollNo: 'EC2023008', name: 'Tara Reddy', department: 'Electronics & Communication', year: '2nd Year', date: '2023-11-22', status: 'approved' },
+            { id: 96, rollNo: 'EE2023008', name: 'Ira Nair', department: 'Electrical Engineering', year: '4th Year', date: '2023-11-21', status: 'approved' },
+            { id: 97, rollNo: 'IT2023008', name: 'Ahana Iyer', department: 'Information Technology', year: '3rd Year', date: '2023-11-20', status: 'approved' },
+            { id: 98, rollNo: 'CE2023008', name: 'Ridhi Menon', department: 'Civil Engineering', year: '2nd Year', date: '2023-11-19', status: 'approved' },
+            { id: 99, rollNo: 'CS2023009', name: 'Siya Pillai', department: 'Computer Science & Engineering', year: '4th Year', date: '2023-11-18', status: 'approved' },
+            { id: 100, rollNo: 'ME2023009', name: 'Bhavana Ramesh', department: 'Mechanical Engineering', year: '3rd Year', date: '2023-11-17', status: 'approved' }
+        ];
+
+        // College departments data
+        const collegeDepartments = [
+            { id: 'CS', name: 'Computer Science & Engineering', hod: 'Dr. Rajesh Kumar', totalStudents: 450, totalTeachers: 25 },
+            { id: 'ME', name: 'Mechanical Engineering', hod: 'Prof. Suresh Reddy', totalStudents: 380, totalTeachers: 20 },
+            { id: 'EC', name: 'Electronics & Communication', hod: 'Dr. Lakshmi Devi', totalStudents: 420, totalTeachers: 22 },
+            { id: 'EE', name: 'Electrical Engineering', hod: 'Prof. Venkatesh Rao', totalStudents: 350, totalTeachers: 18 },
+            { id: 'IT', name: 'Information Technology', hod: 'Dr. Geetha Priya', totalStudents: 320, totalTeachers: 16 },
+            { id: 'CE', name: 'Civil Engineering', hod: 'Prof. Krishna Kumar', totalStudents: 280, totalTeachers: 15 },
+            { id: 'AI', name: 'Artificial Intelligence & ML', hod: 'Dr. Anitha Sharma', totalStudents: 200, totalTeachers: 12 },
+            { id: 'DS', name: 'Data Science', hod: 'Prof. Madhav Rao', totalStudents: 180, totalTeachers: 10 },
+            { id: 'IoT', name: 'Internet of Things', hod: 'Dr. Sanjay Verma', totalStudents: 150, totalTeachers: 8 }
+        ];
+
+        // College teachers data
+        const collegeTeachers = [
+            { id: 'T001', name: 'Dr. Rajesh Kumar', department: 'Computer Science & Engineering', email: 'rajesh.kumar@vvit.ac.in', phone: '+91 98765-43210', designation: 'Professor & HOD' },
+            { id: 'T002', name: 'Prof. Suresh Reddy', department: 'Mechanical Engineering', email: 'suresh.reddy@vvit.ac.in', phone: '+91 98765-43211', designation: 'Professor & HOD' },
+            { id: 'T003', name: 'Dr. Lakshmi Devi', department: 'Electronics & Communication', email: 'lakshmi.devi@vvit.ac.in', phone: '+91 98765-43212', designation: 'Professor & HOD' },
+            { id: 'T004', name: 'Prof. Venkatesh Rao', department: 'Electrical Engineering', email: 'venkatesh.rao@vvit.ac.in', phone: '+91 98765-43213', designation: 'Professor & HOD' },
+            { id: 'T005', name: 'Dr. Geetha Priya', department: 'Information Technology', email: 'geetha.priya@vvit.ac.in', phone: '+91 98765-43214', designation: 'Professor & HOD' },
+            { id: 'T006', name: 'Prof. Krishna Kumar', department: 'Civil Engineering', email: 'krishna.kumar@vvit.ac.in', phone: '+91 98765-43215', designation: 'Professor & HOD' },
+            { id: 'T007', name: 'Dr. Anitha Sharma', department: 'Artificial Intelligence & ML', email: 'anitha.sharma@vvit.ac.in', phone: '+91 98765-43216', designation: 'Professor & HOD' },
+            { id: 'T008', name: 'Prof. Madhav Rao', department: 'Data Science', email: 'madhav.rao@vvit.ac.in', phone: '+91 98765-43217', designation: 'Professor & HOD' },
+            { id: 'T009', name: 'Dr. Priya Patel', department: 'Computer Science & Engineering', email: 'priya.patel@vvit.ac.in', phone: '+91 98765-43218', designation: 'Associate Professor' },
+            { id: 'T010', name: 'Prof. Arun Kumar', department: 'Mechanical Engineering', email: 'arun.kumar@vvit.ac.in', phone: '+91 98765-43219', designation: 'Associate Professor' },
+            { id: 'T011', name: 'Dr. Sunita Rao', department: 'Electronics & Communication', email: 'sunita.rao@vvit.ac.in', phone: '+91 98765-43220', designation: 'Assistant Professor' },
+            { id: 'T012', name: 'Prof. Ramesh Kumar', department: 'Electrical Engineering', email: 'ramesh.kumar@vvit.ac.in', phone: '+91 98765-43221', designation: 'Assistant Professor' }
+        ];
+
+        // College courses data
+        const collegeCourses = [
+            { code: 'CS101', name: 'Programming Fundamentals', department: 'Computer Science & Engineering', credits: 3, instructor: 'Dr. Rajesh Kumar', semester: '1st Semester' },
+            { code: 'CS102', name: 'Data Structures & Algorithms', department: 'Computer Science & Engineering', credits: 4, instructor: 'Dr. Priya Patel', semester: '2nd Semester' },
+            { code: 'CS201', name: 'Object Oriented Programming', department: 'Computer Science & Engineering', credits: 3, instructor: 'Prof. Arun Kumar', semester: '3rd Semester' },
+            { code: 'CS202', name: 'Database Management Systems', department: 'Computer Science & Engineering', credits: 4, instructor: 'Dr. Sunita Rao', semester: '4th Semester' },
+            { code: 'CS301', name: 'Computer Networks', department: 'Computer Science & Engineering', credits: 3, instructor: 'Prof. Ramesh Kumar', semester: '5th Semester' },
+            { code: 'CS302', name: 'Operating Systems', department: 'Computer Science & Engineering', credits: 4, instructor: 'Dr. Rajesh Kumar', semester: '6th Semester' },
+            { code: 'ME101', name: 'Engineering Mechanics', department: 'Mechanical Engineering', credits: 4, instructor: 'Prof. Suresh Reddy', semester: '1st Semester' },
+            { code: 'ME102', name: 'Engineering Drawing', department: 'Mechanical Engineering', credits: 2, instructor: 'Prof. Arun Kumar', semester: '2nd Semester' },
+            { code: 'ME201', name: 'Thermodynamics', department: 'Mechanical Engineering', credits: 4, instructor: 'Prof. Suresh Reddy', semester: '3rd Semester' },
+            { code: 'ME202', name: 'Fluid Mechanics', department: 'Mechanical Engineering', credits: 3, instructor: 'Dr. Sunita Rao', semester: '4th Semester' },
+            { code: 'EC101', name: 'Basic Electronics', department: 'Electronics & Communication', credits: 3, instructor: 'Dr. Lakshmi Devi', semester: '1st Semester' },
+            { code: 'EC102', name: 'Digital Electronics', department: 'Electronics & Communication', credits: 4, instructor: 'Prof. Ramesh Kumar', semester: '2nd Semester' },
+            { code: 'EC201', name: 'Analog Communication', department: 'Electronics & Communication', credits: 3, instructor: 'Dr. Lakshmi Devi', semester: '3rd Semester' },
+            { code: 'EC202', name: 'Digital Communication', department: 'Electronics & Communication', credits: 4, instructor: 'Dr. Priya Patel', semester: '4th Semester' },
+            { code: 'EE101', name: 'Electrical Circuits', department: 'Electrical Engineering', credits: 4, instructor: 'Prof. Venkatesh Rao', semester: '1st Semester' },
+            { code: 'EE102', name: 'Electrical Machines', department: 'Electrical Engineering', credits: 3, instructor: 'Prof. Venkatesh Rao', semester: '2nd Semester' },
+            { code: 'IT101', name: 'Web Technologies', department: 'Information Technology', credits: 3, instructor: 'Dr. Geetha Priya', semester: '1st Semester' },
+            { code: 'IT102', name: 'Software Engineering', department: 'Information Technology', credits: 4, instructor: 'Dr. Geetha Priya', semester: '2nd Semester' },
+            { code: 'CE101', name: 'Engineering Surveying', department: 'Civil Engineering', credits: 3, instructor: 'Prof. Krishna Kumar', semester: '1st Semester' },
+            { code: 'CE102', name: 'Structural Analysis', department: 'Civil Engineering', credits: 4, instructor: 'Prof. Krishna Kumar', semester: '2nd Semester' }
+        ];
+
+        // Function to show different sections
+        function showSection(sectionName) {
+            // Hide all sections first
+            const sections = document.querySelectorAll('.dashboard-section, .students-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the selected section
+            const selectedSection = document.getElementById(sectionName + '-section');
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+            }
+
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find and activate the clicked nav item
+            const activeLink = document.querySelector(`[onclick="showSection('${sectionName}')"]`);
+            if (activeLink) {
+                activeLink.parentElement.classList.add('active');
+            }
+
+            // Load section-specific data
+            switch(sectionName) {
+                case 'students':
+                    loadForwardedStudents();
+                    break;
+                case 'teachers':
+                    loadTeachers();
+                    break;
+                case 'courses':
+                    loadCourses();
+                    break;
+                case 'departments':
+                    loadDepartments();
+                    break;
+                case 'attendance':
+                    loadAttendance();
+                    break;
+                case 'results':
+                    loadResults();
+                    break;
+                case 'announcements':
+                    loadAnnouncements();
+                    break;
+                case 'reports':
+                    loadReports();
+                    break;
+                case 'settings':
+                    loadSettings();
+                    break;
+                default:
+                    // Show dashboard overview
+                    showDashboardOverview();
+            }
+        }
+
+        // Function to toggle sidebar
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        }
+
+        // Function to toggle sidebar
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        }
+
+        // Load different sections data
+        function loadTeachers() {
+            const content = document.querySelector('.dashboard-content');
+            let tableRows = '';
+            
+            collegeTeachers.forEach(teacher => {
+                tableRows += `
+                    <tr>
+                        <td>${teacher.id}</td>
+                        <td>${teacher.name}</td>
+                        <td>${teacher.department}</td>
+                        <td>${teacher.email}</td>
+                        <td>${teacher.phone}</td>
+                        <td>
+                            <span class="designation-badge">${teacher.designation}</span>
+                        </td>
+                        <td>
+                            <button class="action-btn small" onclick="editTeacher('${teacher.id}')">Edit</button>
+                            <button class="action-btn small delete" onclick="deleteTeacher('${teacher.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            content.innerHTML = `
+                <div class="section-header">
+                    <h2>Teachers Management - VVIT University</h2>
+                    <button class="action-btn" onclick="openModal('addTeacher')">
+                        <i class="fas fa-plus"></i> Add Teacher
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Teacher ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Designation</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function loadCourses() {
+            const content = document.querySelector('.dashboard-content');
+            let tableRows = '';
+            
+            collegeCourses.forEach(course => {
+                tableRows += `
+                    <tr>
+                        <td>${course.code}</td>
+                        <td>${course.name}</td>
+                        <td>${course.department}</td>
+                        <td>${course.credits}</td>
+                        <td>${course.instructor}</td>
+                        <td>${course.semester}</td>
+                        <td>
+                            <button class="action-btn small" onclick="editCourse('${course.code}')">Edit</button>
+                            <button class="action-btn small delete" onclick="deleteCourse('${course.code}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            content.innerHTML = `
+                <div class="section-header">
+                    <h2>Courses Management - VVIT University</h2>
+                    <button class="action-btn" onclick="openModal('addCourse')">
+                        <i class="fas fa-plus"></i> Add Course
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Course Code</th>
+                                <th>Course Name</th>
+                                <th>Department</th>
+                                <th>Credits</th>
+                                <th>Instructor</th>
+                                <th>Semester</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function loadDepartments() {
+            const content = document.querySelector('.dashboard-content');
+            let tableRows = '';
+            
+            collegeDepartments.forEach(dept => {
+                tableRows += `
+                    <tr>
+                        <td>${dept.id}</td>
+                        <td>${dept.name}</td>
+                        <td>${dept.hod}</td>
+                        <td>${dept.totalStudents}</td>
+                        <td>${dept.totalTeachers}</td>
+                        <td>
+                            <button class="action-btn small" onclick="editDepartment('${dept.id}')">Edit</button>
+                            <button class="action-btn small delete" onclick="deleteDepartment('${dept.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            content.innerHTML = `
+                <div class="section-header">
+                    <h2>Departments Management - VVIT University</h2>
+                    <button class="action-btn" onclick="openModal('addDepartment')">
+                        <i class="fas fa-plus"></i> Add Department
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Department ID</th>
+                                <th>Department Name</th>
+                                <th>HOD</th>
+                                <th>Total Students</th>
+                                <th>Total Teachers</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function loadAttendance() {
+            const content = document.querySelector('.dashboard-content');
+            content.innerHTML = `
+                <div class="section-header">
+                    <h2>Attendance Management</h2>
+                    <button class="action-btn" onclick="openModal('generateAttendanceReport')">
+                        <i class="fas fa-file-export"></i> Generate Report
+                    </button>
+                </div>
+                <div class="attendance-overview">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon attendance">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Today's Attendance</h3>
+                                <p class="stat-number">94.2%</p>
+                                <span class="stat-change positive">+2.1% from yesterday</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon students">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Present Today</h3>
+                                <p class="stat-number">1,174</p>
+                                <span class="stat-change neutral">Out of 1,247 students</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadResults() {
+            const content = document.querySelector('.dashboard-content');
+            content.innerHTML = `
+                <div class="section-header">
+                    <h2>Results Management</h2>
+                    <button class="action-btn" onclick="openModal('publishResults')">
+                        <i class="fas fa-upload"></i> Publish Results
+                    </button>
+                </div>
+                <div class="results-overview">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon results">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Average GPA</h3>
+                                <p class="stat-number">3.45</p>
+                                <span class="stat-change positive">+0.15 from last semester</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon students">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Pass Rate</h3>
+                                <p class="stat-number">92.8%</p>
+                                <span class="stat-change positive">+1.2% from last semester</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadAnnouncements() {
+            const content = document.querySelector('.dashboard-content');
+            content.innerHTML = `
+                <div class="section-header">
+                    <h2>Announcements</h2>
+                    <button class="action-btn" onclick="openModal('addAnnouncement')">
+                        <i class="fas fa-plus"></i> New Announcement
+                    </button>
+                </div>
+                <div class="announcements-list">
+                    ${collegeAnnouncements.map(announcement => `
+                        <div class="announcement-item">
+                            <div class="announcement-header">
+                                <h3>${announcement.title}</h3>
+                                <div class="announcement-meta">
+                                    <span class="announcement-date">${announcement.date}</span>
+                                    <span class="priority-badge ${announcement.priority}">${announcement.priority}</span>
+                                </div>
+                            </div>
+                            <p>${announcement.content}</p>
+                            <div class="announcement-footer">
+                                <span class="announcement-author">By: ${announcement.author}</span>
+                                <div class="announcement-actions">
+                                    <button class="action-btn small" onclick="editAnnouncement(${announcement.id})">Edit</button>
+                                    <button class="action-btn small delete" onclick="deleteAnnouncement(${announcement.id})">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function loadReports() {
+            const content = document.querySelector('.dashboard-content');
+            content.innerHTML = `
+                <div class="section-header">
+                    <h2>Reports & Analytics</h2>
+                    <button class="action-btn" onclick="openModal('generateReport')">
+                        <i class="fas fa-file-export"></i> Generate Report
+                    </button>
+                </div>
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Student Enrollment Report</h3>
+                        <p>Comprehensive report on student enrollment across all departments</p>
+                        <button class="action-btn" onclick="generateReport('enrollment')">Generate</button>
+                    </div>
+                    <div class="report-card">
+                        <h3>Attendance Report</h3>
+                        <p>Monthly attendance statistics and trends</p>
+                        <button class="action-btn" onclick="generateReport('attendance')">Generate</button>
+                    </div>
+                    <div class="report-card">
+                        <h3>Academic Performance Report</h3>
+                        <p>Detailed analysis of student performance and grades</p>
+                        <button class="action-btn" onclick="generateReport('performance')">Generate</button>
+                    </div>
+                    <div class="report-card">
+                        <h3>Financial Report</h3>
+                        <p>Fee collection and financial statistics</p>
+                        <button class="action-btn" onclick="generateReport('financial')">Generate</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadSettings() {
+            const content = document.querySelector('.dashboard-content');
+            content.innerHTML = `
+                <div class="section-header">
+                    <h2>System Settings</h2>
+                    <button class="action-btn" onclick="openModal('systemSettings')">
+                        <i class="fas fa-cog"></i> Configure
+                    </button>
+                </div>
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h3>General Settings</h3>
+                        <div class="setting-item">
+                            <label>University Name</label>
+                            <input type="text" value="VVIT University" />
+                        </div>
+                        <div class="setting-item">
+                            <label>Academic Year</label>
+                            <input type="text" value="2023-2024" />
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <h3>Email Settings</h3>
+                        <div class="setting-item">
+                            <label>SMTP Server</label>
+                            <input type="text" value="smtp.university.edu" />
+                        </div>
+                        <div class="setting-item">
+                            <label>Email Port</label>
+                            <input type="number" value="587" />
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <h3>Backup Settings</h3>
+                        <div class="setting-item">
+                            <label>Auto Backup</label>
+                            <input type="checkbox" checked />
+                        </div>
+                        <div class="setting-item">
+                            <label>Backup Frequency</label>
+                            <select>
+                                <option>Daily</option>
+                                <option selected>Weekly</option>
+                                <option>Monthly</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showDashboardOverview() {
+            // This will show the default dashboard content
+            // The existing dashboard content will remain as is
+        }
+
+        // Sample announcement data
+        const collegeAnnouncements = [
+            {
+                id: 1,
+                title: 'Holiday Notice',
+                content: 'The university will be closed on January 26th for Republic Day celebrations.',
+                date: '2024-01-15',
+                priority: 'high',
+                author: 'Admin'
+            },
+            {
+                id: 2,
+                title: 'Exam Schedule Update',
+                content: 'Semester 3 examinations will begin from February 1st, 2024. All students are requested to check their exam schedules.',
+                date: '2024-01-14',
+                priority: 'medium',
+                author: 'Examination Cell'
+            },
+            {
+                id: 3,
+                title: 'Library Timings Extended',
+                content: 'The central library will remain open until 10 PM during examination period starting from January 20th.',
+                date: '2024-01-13',
+                priority: 'low',
+                author: 'Library Department'
+            },
+            {
+                id: 4,
+                title: 'Sports Meet Registration',
+                content: 'Annual sports meet registration is now open. Last date for registration is January 25th, 2024.',
+                date: '2024-01-12',
+                priority: 'medium',
+                author: 'Physical Education'
+            }
+        ];
+
+        // Sample data for students forwarded from Dean
+        function loadForwardedStudents() {
+            const content = document.querySelector('.dashboard-content');
+            content.innerHTML = `
+                <div class="section-header">
+                    <h2>Student Management</h2>
+                    <button class="action-btn" onclick="openModal('addStudent')">
+                        <i class="fas fa-plus"></i> Add New Student
+                    </button>
+                </div>
+                
+                <div class="students-tabs">
+                    <button class="tab-btn active" onclick="showStudentTab('pending')">Pending Approval (${forwardedStudents.length})</button>
+                    <button class="tab-btn" onclick="showStudentTab('approved')">Approved Students (${approvedStudents.length})</button>
+                </div>
+                
+                <div id="pending-students-section" class="students-tab-content">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll No</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Year</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pending-students-table">
+                                ${forwardedStudents.map(student => `
+                                    <tr>
+                                        <td>${student.rollNo}</td>
+                                        <td>${student.name}</td>
+                                        <td>${student.department}</td>
+                                        <td>${student.year}</td>
+                                        <td>${student.date}</td>
+                                        <td><span class="status-badge pending">Pending Approval</span></td>
+                                        <td>
+                                            <button class="action-btn edit" onclick="showStudentModal(${student.id})">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <button class="action-btn approve" onclick="finalApproveStudent(${student.id})">
+                                                <i class="fas fa-check"></i> Approve
+                                            </button>
+                                            <button class="action-btn reject" onclick="rejectStudent(${student.id})">
+                                                <i class="fas fa-times"></i> Reject
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="approved-students-section" class="students-tab-content" style="display: none;">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll No</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Year</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="approved-students-table">
+                                ${approvedStudents.map(student => `
+                                    <tr>
+                                        <td>${student.rollNo}</td>
+                                        <td>${student.name}</td>
+                                        <td>${student.department}</td>
+                                        <td>${student.year}</td>
+                                        <td>${student.date}</td>
+                                        <td><span class="status-badge approved">Approved</span></td>
+                                        <td>
+                                            <button class="action-btn edit" onclick="showStudentModal(${student.id})">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <button class="action-btn delete" onclick="deleteStudent(${student.id})">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function finalApproveStudent(id) {
+            const student = forwardedStudents.find(s => s.id === id);
+            if (student) {
+                student.status = 'final_approved';
+                student.date = new Date().toISOString().split('T')[0];
+                approvedStudents.push(student);
+                forwardedStudents = forwardedStudents.filter(s => s.id !== id);
+                
+                alert(`Student ${student.name} has been finally approved!`);
+                loadForwardedStudents();
+                updateStats();
+            }
+        }
+
+        function rejectStudent(id) {
+            const student = forwardedStudents.find(s => s.id === id);
+            if (student) {
+                forwardedStudents = forwardedStudents.filter(s => s.id !== id);
+                alert(`Student ${student.name} has been rejected.`);
+                loadForwardedStudents();
+                updateStats();
+            }
+        }
+
+        function deleteStudent(id) {
+            const student = approvedStudents.find(s => s.id === id);
+            if (student && confirm(`Are you sure you want to delete ${student.name}?`)) {
+                approvedStudents = approvedStudents.filter(s => s.id !== id);
+                alert(`Student ${student.name} has been deleted.`);
+                loadForwardedStudents();
+                updateStats();
+            }
+        }
+
+        function showStudentTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.students-tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-students-section').style.display = 'block';
+            
+            // Add active class to clicked tab button
+            event.target.classList.add('active');
+        }
+
+        function updateStats() {
+            // Update statistics
+            document.getElementById('total-students').textContent = approvedStudents.length + forwardedStudents.length;
+            document.getElementById('pending-approvals').textContent = forwardedStudents.length;
+            document.getElementById('approved-students').textContent = approvedStudents.length;
+        }
+
+        function openModal(modalType) {
+            switch(modalType) {
+                case 'addStudent':
+                    showStudentModal();
+                    break;
+                case 'addTeacher':
+                    showTeacherModal();
+                    break;
+                case 'addCourse':
+                    showCourseModal();
+                    break;
+                case 'addDepartment':
+                    showDepartmentModal();
+                    break;
+                case 'addAnnouncement':
+                    showAnnouncementModal();
+                    break;
+                case 'generateReport':
+                    showReportModal();
+                    break;
+                case 'generateAttendanceReport':
+                    showAttendanceReportModal();
+                    break;
+                case 'publishResults':
+                    alert('Publish Results functionality - This would publish exam results');
+                    break;
+                case 'systemSettings':
+                    alert('System Settings functionality - This would open system configuration');
+                    break;
+                case 'backup':
+                    alert('Backup System functionality - This would initiate a system backup');
+                    break;
+                default:
+                    alert(`${modalType} functionality - This feature will be implemented next!`);
+            }
+        }
+
+        function showTeacherModal(teacherId = null) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'teacherModal';
+            
+            const teacher = teacherId ? collegeTeachers.find(t => t.id === teacherId) : null;
+            const isEdit = teacher !== null;
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${isEdit ? 'Edit Teacher' : 'Add New Teacher'}</h2>
+                        <span class="close" onclick="closeTeacherModal()">&times;</span>
+                    </div>
+                    <form id="teacherForm" onsubmit="saveTeacher(event, '${teacherId || ''}')">
+                        <div class="form-group">
+                            <label for="teacherName">Full Name *</label>
+                            <input type="text" id="teacherName" name="teacherName" value="${teacher ? teacher.name : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherDepartment">Department *</label>
+                            <select id="teacherDepartment" name="teacherDepartment" required>
+                                <option value="">Select Department</option>
+                                ${collegeDepartments.map(dept => 
+                                    `<option value="${dept.name}" ${teacher && teacher.department === dept.name ? 'selected' : ''}>${dept.name}</option>`
+                                ).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherEmail">Email *</label>
+                            <input type="email" id="teacherEmail" name="teacherEmail" value="${teacher ? teacher.email : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherPhone">Phone *</label>
+                            <input type="tel" id="teacherPhone" name="teacherPhone" value="${teacher ? teacher.phone : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherDesignation">Designation *</label>
+                            <select id="teacherDesignation" name="teacherDesignation" required>
+                                <option value="">Select Designation</option>
+                                <option value="Professor" ${teacher && teacher.designation === 'Professor' ? 'selected' : ''}>Professor</option>
+                                <option value="Associate Professor" ${teacher && teacher.designation === 'Associate Professor' ? 'selected' : ''}>Associate Professor</option>
+                                <option value="Assistant Professor" ${teacher && teacher.designation === 'Assistant Professor' ? 'selected' : ''}>Assistant Professor</option>
+                                <option value="HOD" ${teacher && teacher.designation === 'HOD' ? 'selected' : ''}>HOD</option>
+                                <option value="Lecturer" ${teacher && teacher.designation === 'Lecturer' ? 'selected' : ''}>Lecturer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherQualification">Qualification</label>
+                            <input type="text" id="teacherQualification" name="teacherQualification" value="${teacher ? (teacher.qualification || '') : ''}" placeholder="e.g., Ph.D., M.Tech">
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherExperience">Experience (Years)</label>
+                            <input type="number" id="teacherExperience" name="teacherExperience" value="${teacher ? (teacher.experience || '') : ''}" min="0" max="50">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="closeTeacherModal()">Cancel</button>
+                            <button type="submit" class="btn-primary">${isEdit ? 'Update Teacher' : 'Add Teacher'}</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+        }
+
+        function closeTeacherModal() {
+            const modal = document.getElementById('teacherModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function showCourseModal(courseId = null) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'courseModal';
+            
+            const course = courseId ? collegeCourses.find(c => c.code === courseId) : null;
+            const isEdit = course !== null;
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${isEdit ? 'Edit Course' : 'Add New Course'}</h2>
+                        <span class="close" onclick="closeCourseModal()">&times;</span>
+                    </div>
+                    <form id="courseForm" onsubmit="saveCourse(event, '${courseId || ''}')">
+                        <div class="form-group">
+                            <label for="courseCode">Course Code *</label>
+                            <input type="text" id="courseCode" name="courseCode" value="${course ? course.code : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseName">Course Name *</label>
+                            <input type="text" id="courseName" name="courseName" value="${course ? course.name : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseDepartment">Department *</label>
+                            <select id="courseDepartment" name="courseDepartment" required>
+                                <option value="">Select Department</option>
+                                ${collegeDepartments.map(dept => 
+                                    `<option value="${dept.name}" ${course && course.department === dept.name ? 'selected' : ''}>${dept.name}</option>`
+                                ).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseCredits">Credits *</label>
+                            <input type="number" id="courseCredits" name="courseCredits" value="${course ? course.credits : ''}" min="1" max="6" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseInstructor">Instructor *</label>
+                            <select id="courseInstructor" name="courseInstructor" required>
+                                <option value="">Select Instructor</option>
+                                ${collegeTeachers.map(teacher => 
+                                    `<option value="${teacher.name}" ${course && course.instructor === teacher.name ? 'selected' : ''}>${teacher.name} (${teacher.department})</option>`
+                                ).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseSemester">Semester *</label>
+                            <select id="courseSemester" name="courseSemester" required>
+                                <option value="">Select Semester</option>
+                                <option value="1st Semester" ${course && course.semester === '1st Semester' ? 'selected' : ''}>1st Semester</option>
+                                <option value="2nd Semester" ${course && course.semester === '2nd Semester' ? 'selected' : ''}>2nd Semester</option>
+                                <option value="3rd Semester" ${course && course.semester === '3rd Semester' ? 'selected' : ''}>3rd Semester</option>
+                                <option value="4th Semester" ${course && course.semester === '4th Semester' ? 'selected' : ''}>4th Semester</option>
+                                <option value="5th Semester" ${course && course.semester === '5th Semester' ? 'selected' : ''}>5th Semester</option>
+                                <option value="6th Semester" ${course && course.semester === '6th Semester' ? 'selected' : ''}>6th Semester</option>
+                                <option value="7th Semester" ${course && course.semester === '7th Semester' ? 'selected' : ''}>7th Semester</option>
+                                <option value="8th Semester" ${course && course.semester === '8th Semester' ? 'selected' : ''}>8th Semester</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseDescription">Description</label>
+                            <textarea id="courseDescription" name="courseDescription" rows="3" placeholder="Enter course description...">${course ? (course.description || '') : ''}</textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="closeCourseModal()">Cancel</button>
+                            <button type="submit" class="btn-primary">${isEdit ? 'Update Course' : 'Add Course'}</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+        }
+
+        function closeCourseModal() {
+            const modal = document.getElementById('courseModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function saveCourse(event, courseId) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const courseData = {
+                code: formData.get('courseCode'),
+                name: formData.get('courseName'),
+                department: formData.get('courseDepartment'),
+                credits: parseInt(formData.get('courseCredits')),
+                instructor: formData.get('courseInstructor'),
+                semester: formData.get('courseSemester'),
+                description: formData.get('courseDescription')
+            };
+            
+            if (courseId) {
+                // Edit existing course
+                const index = collegeCourses.findIndex(c => c.code === courseId);
+                if (index !== -1) {
+                    collegeCourses[index] = { ...collegeCourses[index], ...courseData };
+                    alert('Course updated successfully!');
+                }
+            } else {
+                // Add new course
+                const newCourse = {
+                    ...courseData
+                };
+                collegeCourses.push(newCourse);
+                alert('Course added successfully!');
+            }
+            
+            closeCourseModal();
+            loadCourses(); // Refresh the courses table
+        }
+
+        function showDepartmentModal(departmentId = null) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'departmentModal';
+            
+            const department = departmentId ? collegeDepartments.find(d => d.id === departmentId) : null;
+            const isEdit = department !== null;
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${isEdit ? 'Edit Department' : 'Add New Department'}</h2>
+                        <span class="close" onclick="closeDepartmentModal()">&times;</span>
+                    </div>
+                    <form id="departmentForm" onsubmit="saveDepartment(event, '${departmentId || ''}')">
+                        <div class="form-group">
+                            <label for="departmentCode">Department Code *</label>
+                            <input type="text" id="departmentCode" name="departmentCode" value="${department ? department.id : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="departmentName">Department Name *</label>
+                            <input type="text" id="departmentName" name="departmentName" value="${department ? department.name : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="departmentHOD">Head of Department *</label>
+                            <input type="text" id="departmentHOD" name="departmentHOD" value="${department ? department.hod : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="departmentStudents">Total Students</label>
+                            <input type="number" id="departmentStudents" name="departmentStudents" value="${department ? department.totalStudents : ''}" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="departmentTeachers">Total Teachers</label>
+                            <input type="number" id="departmentTeachers" name="departmentTeachers" value="${department ? department.totalTeachers : ''}" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="departmentDescription">Description</label>
+                            <textarea id="departmentDescription" name="departmentDescription" rows="3" placeholder="Enter department description...">${department ? (department.description || '') : ''}</textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="closeDepartmentModal()">Cancel</button>
+                            <button type="submit" class="btn-primary">${isEdit ? 'Update Department' : 'Add Department'}</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+        }
+
+        function closeDepartmentModal() {
+            const modal = document.getElementById('departmentModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function showAnnouncementModal(announcementId = null) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'announcementModal';
+            
+            let announcement = null;
+            if (announcementId) {
+                announcement = collegeAnnouncements.find(a => a.id === announcementId);
+            }
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${announcement ? 'Edit Announcement' : 'Add New Announcement'}</h2>
+                        <span class="close" onclick="closeAnnouncementModal()">&times;</span>
+                    </div>
+                    <form onsubmit="saveAnnouncement(event, ${announcement ? announcement.id : 'null'})">
+                        <div class="form-group">
+                            <label for="announcementTitle">Title *</label>
+                            <input type="text" id="announcementTitle" name="announcementTitle" value="${announcement ? announcement.title : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="announcementContent">Content *</label>
+                            <textarea id="announcementContent" name="announcementContent" rows="4" required>${announcement ? announcement.content : ''}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="announcementPriority">Priority</label>
+                            <select id="announcementPriority" name="announcementPriority">
+                                <option value="low" ${announcement && announcement.priority === 'low' ? 'selected' : ''}>Low</option>
+                                <option value="medium" ${announcement && announcement.priority === 'medium' ? 'selected' : ''}>Medium</option>
+                                <option value="high" ${announcement && announcement.priority === 'high' ? 'selected' : ''}>High</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="announcementAuthor">Author</label>
+                            <input type="text" id="announcementAuthor" name="announcementAuthor" value="${announcement ? announcement.author : 'Admin'}" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="closeAnnouncementModal()">Cancel</button>
+                            <button type="submit" class="btn-primary">${announcement ? 'Update' : 'Save'} Announcement</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+        }
+
+        function closeAnnouncementModal() {
+            const modal = document.getElementById('announcementModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function saveAnnouncement(event, announcementId = null) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const announcementData = {
+                title: formData.get('announcementTitle'),
+                content: formData.get('announcementContent'),
+                priority: formData.get('announcementPriority'),
+                author: formData.get('announcementAuthor'),
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            if (announcementId) {
+                // Edit existing announcement
+                const index = collegeAnnouncements.findIndex(a => a.id === announcementId);
+                if (index !== -1) {
+                    collegeAnnouncements[index] = { ...collegeAnnouncements[index], ...announcementData };
+                    alert('Announcement updated successfully!');
+                }
+            } else {
+                // Add new announcement
+                const newId = collegeAnnouncements.length > 0 ? Math.max(...collegeAnnouncements.map(a => a.id)) + 1 : 1;
+                const newAnnouncement = {
+                    id: newId,
+                    ...announcementData
+                };
+                collegeAnnouncements.push(newAnnouncement);
+                alert('Announcement added successfully!');
+            }
+            
+            closeAnnouncementModal();
+            loadAnnouncements(); // Refresh the announcements list
+        }
+
+        function saveDepartment(event, departmentId) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const departmentData = {
+                id: formData.get('departmentCode'),
+                name: formData.get('departmentName'),
+                hod: formData.get('departmentHOD'),
+                totalStudents: parseInt(formData.get('departmentStudents')) || 0,
+                totalTeachers: parseInt(formData.get('departmentTeachers')) || 0,
+                description: formData.get('departmentDescription')
+            };
+            
+            if (departmentId) {
+                // Edit existing department
+                const index = collegeDepartments.findIndex(d => d.id === departmentId);
+                if (index !== -1) {
+                    collegeDepartments[index] = { ...collegeDepartments[index], ...departmentData };
+                    alert('Department updated successfully!');
+                }
+            } else {
+                // Add new department
+                const newDepartment = {
+                    ...departmentData
+                };
+                collegeDepartments.push(newDepartment);
+                alert('Department added successfully!');
+            }
+            
+            closeDepartmentModal();
+            loadDepartments(); // Refresh the departments table
+        }
+
+        function saveTeacher(event, teacherId) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const teacherData = {
+                name: formData.get('teacherName'),
+                department: formData.get('teacherDepartment'),
+                email: formData.get('teacherEmail'),
+                phone: formData.get('teacherPhone'),
+                designation: formData.get('teacherDesignation'),
+                qualification: formData.get('teacherQualification'),
+                experience: formData.get('teacherExperience')
+            };
+            
+            if (teacherId) {
+                // Edit existing teacher
+                const index = collegeTeachers.findIndex(t => t.id === teacherId);
+                if (index !== -1) {
+                    collegeTeachers[index] = { ...collegeTeachers[index], ...teacherData };
+                    alert('Teacher updated successfully!');
+                }
+            } else {
+                // Add new teacher
+                const newId = 'T' + (collegeTeachers.length + 1).toString().padStart(3, '0');
+                const newTeacher = {
+                    id: newId,
+                    ...teacherData
+                };
+                collegeTeachers.push(newTeacher);
+                alert('Teacher added successfully!');
+            }
+            
+            closeTeacherModal();
+            loadTeachers(); // Refresh the teachers table
+        }
+
+        // Helper functions for various actions
+        function editTeacher(id) {
+            showTeacherModal(id);
+        }
+
+        function deleteTeacher(id) {
+            if (confirm('Are you sure you want to delete this teacher?')) {
+                alert(`Teacher ${id} has been deleted`);
+            }
+        }
+
+        function editCourse(id) {
+            showCourseModal(id);
+        }
+
+        function deleteCourse(id) {
+            if (confirm('Are you sure you want to delete this course?')) {
+                alert(`Course ${id} has been deleted`);
+            }
+        }
+
+        function editDepartment(id) {
+            showDepartmentModal(id);
+        }
+
+        function deleteDepartment(id) {
+            if (confirm('Are you sure you want to delete this department?')) {
+                alert(`Department ${id} has been deleted`);
+            }
+        }
+
+        function editAnnouncement(id) {
+            showAnnouncementModal(id);
+        }
+
+        function deleteAnnouncement(id) {
+            if (confirm('Are you sure you want to delete this announcement?')) {
+                const index = collegeAnnouncements.findIndex(a => a.id === id);
+                if (index !== -1) {
+                    collegeAnnouncements.splice(index, 1);
+                    alert('Announcement deleted successfully!');
+                    loadAnnouncements(); // Refresh the announcements list
+                }
+            }
+        }
+
+        function generateReport(type) {
+            alert(`Generating ${type} report... This would create and download the report`);
+        }
+
+        function showAttendanceReportModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'attendanceReportModal';
+            
+            // Generate weekly attendance data
+            const weeklyData = generateWeeklyAttendanceData();
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Weekly Attendance Report</h2>
+                        <span class="close" onclick="closeAttendanceReportModal()">&times;</span>
+                    </div>
+                    <div class="report-content">
+                        <div class="report-summary">
+                            <div class="summary-stats">
+                                <div class="summary-stat">
+                                    <h3>Overall Attendance</h3>
+                                    <p class="stat-number">93.8%</p>
+                                </div>
+                                <div class="summary-stat">
+                                    <h3>Total Students</h3>
+                                    <p class="stat-number">1,247</p>
+                                </div>
+                                <div class="summary-stat">
+                                    <h3>Average Daily Present</h3>
+                                    <p class="stat-number">1,170</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="weekly-table-container">
+                            <h3>Daily Attendance Breakdown</h3>
+                            <table class="attendance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Present</th>
+                                        <th>Absent</th>
+                                        <th>Percentage</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${weeklyData.map(day => `
+                                        <tr>
+                                            <td>${day.date}</td>
+                                            <td>${day.present}</td>
+                                            <td>${day.absent}</td>
+                                            <td>${day.percentage}%</td>
+                                            <td><span class="status-badge ${day.status}">${day.status}</span></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="department-breakdown">
+                            <h3>Department-wise Attendance</h3>
+                            <div class="department-stats">
+                                ${collegeDepartments.map(dept => {
+                                    const deptAttendance = Math.floor(Math.random() * 10) + 90; // 90-99%
+                                    return `
+                                        <div class="dept-stat">
+                                            <h4>${dept.name}</h4>
+                                            <p>${deptAttendance}%</p>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn-secondary" onclick="closeAttendanceReportModal()">Close</button>
+                            <button class="btn-primary" onclick="downloadAttendanceReport()">
+                                <i class="fas fa-download"></i> Download PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+        }
+
+        function closeAttendanceReportModal() {
+            const modal = document.getElementById('attendanceReportModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function generateWeeklyAttendanceData() {
+            const today = new Date();
+            const weekData = [];
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                
+                const present = Math.floor(Math.random() * 50) + 1150; // 1150-1199
+                const absent = 1247 - present;
+                const percentage = Math.round((present / 1247) * 100);
+                const status = percentage >= 95 ? 'Excellent' : percentage >= 90 ? 'Good' : percentage >= 85 ? 'Average' : 'Poor';
+                
+                weekData.push({
+                    date: date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+                    present: present,
+                    absent: absent,
+                    percentage: percentage,
+                    status: status
+                });
+            }
+            
+            return weekData;
+        }
+
+        function downloadAttendanceReport() {
+            alert('Attendance report downloaded successfully! This would generate a PDF file.');
+            closeAttendanceReportModal();
+        }
+
+        function showStudentModal(studentId = null) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'studentModal';
+            
+            let student = null;
+            if (studentId) {
+                student = [...forwardedStudents, ...approvedStudents].find(s => s.id === studentId);
+            }
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${student ? 'Edit Student' : 'Add New Student'}</h2>
+                        <span class="close" onclick="closeStudentModal()">&times;</span>
+                    </div>
+                    <form onsubmit="saveStudent(event, ${student ? student.id : 'null'})">
+                        <div class="form-group">
+                            <label for="studentRollNo">Roll Number *</label>
+                            <input type="text" id="studentRollNo" name="studentRollNo" value="${student ? student.rollNo : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentName">Full Name *</label>
+                            <input type="text" id="studentName" name="studentName" value="${student ? student.name : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentDepartment">Department *</label>
+                            <select id="studentDepartment" name="studentDepartment" required>
+                                <option value="">Select Department</option>
+                                ${collegeDepartments.map(dept => 
+                                    `<option value="${dept.name}" ${student && student.department === dept.name ? 'selected' : ''}>${dept.name}</option>`
+                                ).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentYear">Year *</label>
+                            <select id="studentYear" name="studentYear" required>
+                                <option value="">Select Year</option>
+                                <option value="1st Year" ${student && student.year === '1st Year' ? 'selected' : ''}>1st Year</option>
+                                <option value="2nd Year" ${student && student.year === '2nd Year' ? 'selected' : ''}>2nd Year</option>
+                                <option value="3rd Year" ${student && student.year === '3rd Year' ? 'selected' : ''}>3rd Year</option>
+                                <option value="4th Year" ${student && student.year === '4th Year' ? 'selected' : ''}>4th Year</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentEmail">Email</label>
+                            <input type="email" id="studentEmail" name="studentEmail" value="${student ? (student.email || '') : ''}" placeholder="student@vvit.ac.in">
+                        </div>
+                        <div class="form-group">
+                            <label for="studentPhone">Phone</label>
+                            <input type="tel" id="studentPhone" name="studentPhone" value="${student ? (student.phone || '') : ''}" placeholder="+91 98765 43210">
+                        </div>
+                        <div class="form-group">
+                            <label for="studentStatus">Status</label>
+                            <select id="studentStatus" name="studentStatus">
+                                <option value="pending" ${student && student.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="approved" ${student && student.status === 'approved' ? 'selected' : ''}>Approved</option>
+                                <option value="rejected" ${student && student.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="closeStudentModal()">Cancel</button>
+                            <button type="submit" class="btn-primary">${student ? 'Update Student' : 'Add Student'}</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+        }
+
+        function closeStudentModal() {
+            const modal = document.getElementById('studentModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function saveStudent(event, studentId = null) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const studentData = {
+                rollNo: formData.get('studentRollNo'),
+                name: formData.get('studentName'),
+                department: formData.get('studentDepartment'),
+                year: formData.get('studentYear'),
+                email: formData.get('studentEmail'),
+                phone: formData.get('studentPhone'),
+                status: formData.get('studentStatus'),
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            if (studentId) {
+                // Edit existing student
+                let student = forwardedStudents.find(s => s.id === studentId);
+                let studentArray = 'forwardedStudents';
+                
+                if (!student) {
+                    student = approvedStudents.find(s => s.id === studentId);
+                    studentArray = 'approvedStudents';
+                }
+                
+                if (student) {
+                    const index = studentArray === 'forwardedStudents' ? 
+                        forwardedStudents.findIndex(s => s.id === studentId) :
+                        approvedStudents.findIndex(s => s.id === studentId);
+                    
+                    if (index !== -1) {
+                        if (studentArray === 'forwardedStudents') {
+                            forwardedStudents[index] = { ...forwardedStudents[index], ...studentData };
+                        } else {
+                            approvedStudents[index] = { ...approvedStudents[index], ...studentData };
+                        }
+                        alert('Student updated successfully!');
+                    }
+                }
+            } else {
+                // Add new student
+                const newId = Math.max(...forwardedStudents.map(s => s.id), ...approvedStudents.map(s => s.id)) + 1;
+                const newStudent = {
+                    id: newId,
+                    ...studentData
+                };
+                
+                if (studentData.status === 'approved') {
+                    approvedStudents.push(newStudent);
+                } else {
+                    forwardedStudents.push(newStudent);
+                }
+                alert('Student added successfully!');
+            }
+            
+            closeStudentModal();
+            updateStats(); // Update dashboard statistics
+            if (document.querySelector('.dashboard-content').innerHTML.includes('Students')) {
+                loadForwardedStudents(); // Refresh the students list if currently viewing
+            }
+        }
+
+        function showReportModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'reportModal';
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Generate Reports</h2>
+                        <span class="close" onclick="closeReportModal()">&times;</span>
+                    </div>
+                    <div class="report-options">
+                        <div class="report-category">
+                            <h3>Academic Reports</h3>
+                            <div class="report-grid">
+                                <div class="report-option" onclick="generateAcademicReport('student')">
+                                    <i class="fas fa-user-graduate"></i>
+                                    <h4>Student Report</h4>
+                                    <p>Complete student enrollment and academic performance data</p>
+                                </div>
+                                <div class="report-option" onclick="generateAcademicReport('teacher')">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                    <h4>Faculty Report</h4>
+                                    <p>Faculty details, qualifications, and department-wise distribution</p>
+                                </div>
+                                <div class="report-option" onclick="generateAcademicReport('course')">
+                                    <i class="fas fa-book"></i>
+                                    <h4>Course Report</h4>
+                                    <p>Course offerings, enrollments, and department-wise course data</p>
+                                </div>
+                                <div class="report-option" onclick="generateAcademicReport('department')">
+                                    <i class="fas fa-building"></i>
+                                    <h4>Department Report</h4>
+                                    <p>Department-wise statistics and performance metrics</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="report-category">
+                            <h3>Administrative Reports</h3>
+                            <div class="report-grid">
+                                <div class="report-option" onclick="generateAdminReport('attendance')">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <h4>Attendance Report</h4>
+                                    <p>Weekly and monthly attendance statistics</p>
+                                </div>
+                                <div class="report-option" onclick="generateAdminReport('announcement')">
+                                    <i class="fas fa-bullhorn"></i>
+                                    <h4>Announcement Report</h4>
+                                    <p>Recent announcements and communication history</p>
+                                </div>
+                                <div class="report-option" onclick="generateAdminReport('overview')">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <h4>College Overview</h4>
+                                    <p>Complete college statistics and performance summary</p>
+                                </div>
+                                <div class="report-option" onclick="generateAdminReport('financial')">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <h4>Financial Report</h4>
+                                    <p>Fee collection, expenses, and financial analytics</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="report-category">
+                            <h3>Custom Reports</h3>
+                            <div class="report-grid">
+                                <div class="report-option" onclick="generateCustomReport('performance')">
+                                    <i class="fas fa-chart-line"></i>
+                                    <h4>Performance Analytics</h4>
+                                    <p>Student and faculty performance trends</p>
+                                </div>
+                                <div class="report-option" onclick="generateCustomReport('comparison')">
+                                    <i class="fas fa-balance-scale"></i>
+                                    <h4>Comparative Analysis</h4>
+                                    <p>Department-wise comparison and benchmarking</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-actions">
+                        <button class="btn-secondary" onclick="closeReportModal()">Cancel</button>
+                        <button class="btn-primary" onclick="generateAllReports()">
+                            <i class="fas fa-download"></i> Generate All Reports
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+        }
+
+        function closeReportModal() {
+            const modal = document.getElementById('reportModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function generateAcademicReport(type) {
+            let reportData = {};
+            let reportTitle = '';
+            
+            switch(type) {
+                case 'student':
+                    reportData = {
+                        totalStudents: approvedStudents.length + forwardedStudents.length,
+                        approvedStudents: approvedStudents.length,
+                        pendingStudents: forwardedStudents.length,
+                        departmentWise: {},
+                        yearWise: {}
+                    };
+                    
+                    // Calculate department-wise distribution
+                    [...approvedStudents, ...forwardedStudents].forEach(student => {
+                        if (!reportData.departmentWise[student.department]) {
+                            reportData.departmentWise[student.department] = 0;
+                        }
+                        reportData.departmentWise[student.department]++;
+                        
+                        if (!reportData.yearWise[student.year]) {
+                            reportData.yearWise[student.year] = 0;
+                        }
+                        reportData.yearWise[student.year]++;
+                    });
+                    
+                    reportTitle = 'Student Academic Report';
+                    break;
+                    
+                case 'teacher':
+                    reportData = {
+                        totalTeachers: collegeTeachers.length,
+                        departmentWise: {},
+                        designationWise: {}
+                    };
+                    
+                    collegeTeachers.forEach(teacher => {
+                        if (!reportData.departmentWise[teacher.department]) {
+                            reportData.departmentWise[teacher.department] = 0;
+                        }
+                        reportData.departmentWise[teacher.department]++;
+                        
+                        if (!reportData.designationWise[teacher.designation]) {
+                            reportData.designationWise[teacher.designation] = 0;
+                        }
+                        reportData.designationWise[teacher.designation]++;
+                    });
+                    
+                    reportTitle = 'Faculty Academic Report';
+                    break;
+                    
+                case 'course':
+                    reportData = {
+                        totalCourses: collegeCourses.length,
+                        departmentWise: {},
+                        courseTypes: {}
+                    };
+                    
+                    collegeCourses.forEach(course => {
+                        if (!reportData.departmentWise[course.department]) {
+                            reportData.departmentWise[course.department] = 0;
+                        }
+                        reportData.departmentWise[course.department]++;
+                        
+                        const courseType = course.name.includes('Lab') ? 'Laboratory' : 
+                                         course.name.includes('Theory') ? 'Theory' : 'Mixed';
+                        if (!reportData.courseTypes[courseType]) {
+                            reportData.courseTypes[courseType] = 0;
+                        }
+                        reportData.courseTypes[courseType]++;
+                    });
+                    
+                    reportTitle = 'Course Academic Report';
+                    break;
+                    
+                case 'department':
+                    reportData = {
+                        totalDepartments: collegeDepartments.length,
+                        departments: collegeDepartments.map(dept => ({
+                            name: dept.name,
+                            totalStudents: dept.totalStudents,
+                            totalTeachers: dept.totalTeachers,
+                            hod: dept.hod
+                        }))
+                    };
+                    
+                    reportTitle = 'Department Academic Report';
+                    break;
+            }
+            
+            showReportPreview(reportTitle, reportData, type);
+        }
+
+        function generateAdminReport(type) {
+            let reportData = {};
+            let reportTitle = '';
+            
+            switch(type) {
+                case 'attendance':
+                    const weeklyData = generateWeeklyAttendanceData();
+                    reportData = {
+                        overallAttendance: '93.8%',
+                        totalStudents: 1247,
+                        weeklyData: weeklyData,
+                        departmentWise: collegeDepartments.map(dept => ({
+                            name: dept.name,
+                            attendance: Math.floor(Math.random() * 10) + 90
+                        }))
+                    };
+                    reportTitle = 'Attendance Administrative Report';
+                    break;
+                    
+                case 'announcement':
+                    reportData = {
+                        totalAnnouncements: collegeAnnouncements.length,
+                        priorityWise: {},
+                        recentAnnouncements: collegeAnnouncements.slice(0, 5)
+                    };
+                    
+                    collegeAnnouncements.forEach(announcement => {
+                        if (!reportData.priorityWise[announcement.priority]) {
+                            reportData.priorityWise[announcement.priority] = 0;
+                        }
+                        reportData.priorityWise[announcement.priority]++;
+                    });
+                    
+                    reportTitle = 'Announcement Administrative Report';
+                    break;
+                    
+                case 'overview':
+                    reportData = {
+                        totalStudents: approvedStudents.length + forwardedStudents.length,
+                        totalTeachers: collegeTeachers.length,
+                        totalCourses: collegeCourses.length,
+                        totalDepartments: collegeDepartments.length,
+                        totalAnnouncements: collegeAnnouncements.length,
+                        attendanceRate: '93.8%',
+                        departments: collegeDepartments
+                    };
+                    reportTitle = 'College Overview Report';
+                    break;
+                    
+                case 'financial':
+                    reportData = {
+                        totalRevenue: '₹2,45,00,000',
+                        totalExpenses: '₹1,85,00,000',
+                        netProfit: '₹60,00,000',
+                        feeCollection: '₹2,20,00,000',
+                        otherIncome: '₹25,00,000',
+                        departmentWiseRevenue: collegeDepartments.map(dept => ({
+                            name: dept.name,
+                            revenue: Math.floor(Math.random() * 5000000) + 2000000
+                        }))
+                    };
+                    reportTitle = 'Financial Administrative Report';
+                    break;
+            }
+            
+            showReportPreview(reportTitle, reportData, type);
+        }
+
+        function generateCustomReport(type) {
+            let reportData = {};
+            let reportTitle = '';
+            
+            switch(type) {
+                case 'performance':
+                    reportData = {
+                        studentPerformance: {
+                            excellent: Math.floor(Math.random() * 200) + 300,
+                            good: Math.floor(Math.random() * 300) + 400,
+                            average: Math.floor(Math.random() * 200) + 200,
+                            needsImprovement: Math.floor(Math.random() * 100) + 50
+                        },
+                        facultyPerformance: collegeTeachers.map(teacher => ({
+                            name: teacher.name,
+                            department: teacher.department,
+                            rating: (Math.random() * 2 + 3).toFixed(1),
+                            studentsTaught: Math.floor(Math.random() * 200) + 50
+                        }))
+                    };
+                    reportTitle = 'Performance Analytics Report';
+                    break;
+                    
+                case 'comparison':
+                    reportData = {
+                        departmentComparison: collegeDepartments.map(dept => ({
+                            name: dept.name,
+                            studentCount: dept.totalStudents,
+                            teacherCount: dept.totalTeachers,
+                            studentTeacherRatio: (dept.totalStudents / dept.totalTeachers).toFixed(1),
+                            performance: Math.floor(Math.random() * 20) + 80
+                        }))
+                    };
+                    reportTitle = 'Comparative Analysis Report';
+                    break;
+            }
+            
+            showReportPreview(reportTitle, reportData, type);
+        }
+
+        function showReportPreview(title, data, type) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'reportPreviewModal';
+            
+            let reportContent = '';
+            
+            switch(type) {
+                case 'student':
+                    reportContent = `
+                        <div class="report-summary">
+                            <h3>Student Statistics</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-number">${data.totalStudents}</span>
+                                    <span class="stat-label">Total Students</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">${data.approvedStudents}</span>
+                                    <span class="stat-label">Approved</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">${data.pendingStudents}</span>
+                                    <span class="stat-label">Pending</span>
+                                </div>
+                            </div>
+                            
+                            <h4>Department-wise Distribution</h4>
+                            <div class="department-stats">
+                                ${Object.entries(data.departmentWise).map(([dept, count]) => `
+                                    <div class="dept-stat">
+                                        <span class="dept-name">${dept}</span>
+                                        <span class="dept-count">${count} students</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'teacher':
+                    reportContent = `
+                        <div class="report-summary">
+                            <h3>Faculty Statistics</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-number">${data.totalTeachers}</span>
+                                    <span class="stat-label">Total Faculty</span>
+                                </div>
+                            </div>
+                            
+                            <h4>Department-wise Distribution</h4>
+                            <div class="department-stats">
+                                ${Object.entries(data.departmentWise).map(([dept, count]) => `
+                                    <div class="dept-stat">
+                                        <span class="dept-name">${dept}</span>
+                                        <span class="dept-count">${count} faculty</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'attendance':
+                    reportContent = `
+                        <div class="report-summary">
+                            <h3>Attendance Overview</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-number">${data.overallAttendance}</span>
+                                    <span class="stat-label">Overall Attendance</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">${data.totalStudents}</span>
+                                    <span class="stat-label">Total Students</span>
+                                </div>
+                            </div>
+                            
+                            <h4>Weekly Attendance</h4>
+                            <table class="attendance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Present</th>
+                                        <th>Absent</th>
+                                        <th>Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${data.weeklyData.map(day => `
+                                        <tr>
+                                            <td>${day.date}</td>
+                                            <td>${day.present}</td>
+                                            <td>${day.absent}</td>
+                                            <td>${day.percentage}%</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    break;
+                    
+                default:
+                    reportContent = `
+                        <div class="report-summary">
+                            <h3>Report Generated Successfully</h3>
+                            <p>Your ${title} has been prepared with the following data:</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+            }
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${title}</h2>
+                        <span class="close" onclick="closeReportPreviewModal()">&times;</span>
+                    </div>
+                    <div class="report-preview-content">
+                        ${reportContent}
+                    </div>
+                    <div class="report-actions">
+                        <button class="btn-secondary" onclick="closeReportPreviewModal()">Close</button>
+                        <button class="btn-primary" onclick="downloadReport('${title}', ${JSON.stringify(data).replace(/"/g, '&quot;')})">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+        }
+
+        function closeReportPreviewModal() {
+            const modal = document.getElementById('reportPreviewModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function downloadReport(title, data) {
+            alert(`${title} downloaded successfully! This would generate a PDF file with all the report data.`);
+            closeReportPreviewModal();
+        }
+
+        function generateAllReports() {
+            alert('All reports are being generated and will be downloaded as a ZIP file. This includes:\n\n• Student Academic Report\n• Faculty Academic Report\n• Course Academic Report\n• Department Academic Report\n• Attendance Administrative Report\n• Announcement Administrative Report\n• College Overview Report\n• Financial Administrative Report\n• Performance Analytics Report\n• Comparative Analysis Report');
+            closeReportModal();
+        }
+
+        // Add active class to nav items
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.parentElement.classList.add('active');
+            });
+        });
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+        });
+    </script>
+</body>
+</html> 

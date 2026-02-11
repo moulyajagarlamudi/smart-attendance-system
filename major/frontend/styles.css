@@ -1,0 +1,162 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f7fa;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-panel {
+    flex: 1;
+    background: #fff;
+    padding: 60px 40px;
+    border-radius: 12px 0 0 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    max-width: 500px;
+}
+
+.left-panel h2 {
+    margin-top: 0;
+    color: #2a3f7c;
+}
+
+.left-panel p {
+    color: #444;
+    font-size: 1.1em;
+    margin-bottom: 18px;
+}
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e6ecf5;
+    border-radius: 0 12px 12px 0;
+    min-width: 350px;
+    min-height: 400px;
+}
+
+.login-box {
+    background: #fff;
+    padding: 36px 32px 28px 32px;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(42,63,124,0.08);
+    width: 100%;
+    max-width: 350px;
+}
+
+.login-box h3 {
+    margin-top: 0;
+    color: #2a3f7c;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #2a3f7c;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    border: 1px solid #bfc9da;
+    border-radius: 5px;
+    background: #f4f7fa;
+    font-size: 1em;
+    color: #2a3f7c;
+    outline: none;
+    transition: border 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border: 1.5px solid #2a3f7c;
+}
+
+.captcha-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.captcha-text {
+    font-weight: bold;
+    color: #2a3f7c;
+    background: #e6ecf5;
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-size: 1.1em;
+    letter-spacing: 2px;
+}
+
+.forgot-row {
+    text-align: right;
+    margin-bottom: 18px;
+}
+
+.forgot {
+    color: #2a3f7c;
+    text-decoration: none;
+    font-size: 0.98em;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px 0;
+    background: #2a3f7c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.login-btn:hover {
+    background: #1d2956;
+}
+
+.logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+    margin-bottom: 18px;
+}
+.university-logo {
+    max-width: 220px;
+    height: auto;
+    display: block;
+}
+
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        padding: 30px 0;
+    }
+    .left-panel, .right-panel {
+        border-radius: 12px 12px 0 0;
+        max-width: 100%;
+    }
+    .right-panel {
+        border-radius: 0 0 12px 12px;
+    }
+} 

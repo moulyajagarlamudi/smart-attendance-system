@@ -1,0 +1,57 @@
+body.cert-page {
+  font-family: 'Inter', sans-serif;
+  background-color: #f0f4f8;
+  padding: 40px;
+  color: #333;
+}
+
+.cert-container {
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+
+.cert-container h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+input[type="file"] {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.cert-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.cert-img {
+  width: 180px;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.cert-pdf {
+  display: block;
+  background: #ecf0f1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: #2c3e50;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-btn {
+  margin-top: 30px;
+  display: inline-block;
+  text-decoration: none;
+  color: #3498db;
+  font-weight: 600;
+}

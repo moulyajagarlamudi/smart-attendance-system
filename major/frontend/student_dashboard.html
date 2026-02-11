@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="studentdashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-bg">
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="https://www.vvitu.ac.in/src/assets/images/VVIT_logo.png" alt="VVIT Logo" class="sidebar-logo-img">
+      </div>
+      <nav>
+        <ul>
+          <li class="active"><a href="profile.html">Profile</a></li>
+          <li><a href="attendance.html">Attendance</a></li>
+          <li><a href="certifications.html">Certifications</a></li>
+          <li><a href="semsters.html">Semester</a></li>
+          <li><a href="assignment.html">Assignment</a></li>
+          <li><a href="todo.html">Task List</a></li>
+          <li><a href="notes.html">Notes</a></li>
+          <li><a href="result.html">Results</a></li>
+          <li><a href="home.html">Log out</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="greeting">Hello Archana</div>
+        <div class="user-info">
+          <span class="user-name">Archana</span>
+          <span class="user-role">Student (A001)</span>
+          <img src="https://i.pinimg.com/736x/52/61/bd/5261bd492ef52666d60258a067239007.jpg" class="user-avatar" />
+        </div>
+      </header>
+      <section class="dashboard-main">
+        <!-- Main dashboard content -->
+        <div class="card" id="welcomeCard">
+          <h2>Welcome to Student Dashboard</h2>
+    
+        </div>
+        <div class="card" id="attendanceCalendarSection" style="margin-top:32px; display:none;">
+          <h2>Attendance Calendar</h2>
+          <div style="font-size:1.1em;font-weight:600;margin-bottom:8px;">July 2025</div>
+          <div class="attendance-legend" style="margin-bottom:12px;">
+            <span style="display:inline-block;width:18px;height:18px;background:#22c55e;border-radius:4px;margin-right:6px;vertical-align:middle;"></span> Present
+            <span style="display:inline-block;width:18px;height:18px;background:#ef4444;border-radius:4px;margin:0 12px 0 18px;vertical-align:middle;"></span> Absent
+            <span style="display:inline-block;width:18px;height:18px;background:#f59e42;border-radius:4px;margin:0 12px 0 18px;vertical-align:middle;"></span> Holiday
+            <span style="display:inline-block;width:18px;height:18px;background:#a78bfa;border-radius:4px;margin:0 12px 0 18px;vertical-align:middle;"></span> Sunday
+          </div>
+          <table class="attendance-calendar" style="width:100%;border-collapse:collapse;text-align:center;">
+            <thead>
+              <tr>
+                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+              </tr>
+            </thead>
+            <tbody id="calendarBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Enhanced Attendance Tracker Module -->
+        <div class="card" id="attendanceTrackerSection" style="margin-top:32px; display:none;">
+          <h2>📊 Attendance Tracker</h2>
+          
+          <!-- Navigation Tabs -->
+          <div class="attendance-tabs" style="margin-bottom: 20px;">
+            <button class="tab-btn active" onclick="showTab('daily')">Daily View</button>
+            <button class="tab-btn" onclick="showTab('period')">Period-wise</button>
+            <button class="tab-btn" onclick="showTab('monthly')">Monthly Summary</button>
+            <button class="tab-btn" onclick="showTab('semester')">Semester Summary</button>
+            <button class="tab-btn" onclick="showTab('export')">Export Report</button>
+          </div>
+
+          <!-- Daily Attendance Tab -->
+          <div id="dailyTab" class="tab-content active">
+            <div class="date-selector" style="margin-bottom: 20px;">
+              <label for="attendanceDate">Select Date:</label>
+              <input type="date" id="attendanceDate" onchange="loadDailyAttendance()">
+            </div>
+            <div id="dailyAttendanceContent">
+              <div class="attendance-summary" style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <h3>Today's Summary</h3>
+                <div class="summary-stats">
+                  <span class="stat-item">Present: <strong id="presentCount">0</strong></span>
+                  <span class="stat-item">Absent: <strong id="absentCount">0</strong></span>
+                  <span class="stat-item">Percentage: <strong id="attendancePercentage">0%</strong></span>
+                </div>
+              </div>
+              <div id="periodAttendanceList"></div>
+            </div>
+          </div>
+
+          <!-- Period-wise Attendance Tab -->
+          <div id="periodTab" class="tab-content">
+            <div class="period-controls" style="margin-bottom: 20px;">
+              <label for="periodDate">Date:</label>
+              <input type="date" id="periodDate" onchange="loadPeriodAttendance()">
+              <label for="periodSelect" style="margin-left: 15px;">Period:</label>
+              <select id="periodSelect" onchange="loadPeriodAttendance()">
+                <option value="1">Period 1 (8:00-9:00)</option>
+                <option value="2">Period 2 (9:00-10:00)</option>
+                <option value="3">Period 3 (10:15-11:15)</option>
+                <option value="4">Period 4 (11:15-12:15)</option>
+                <option value="5">Period 5 (1:00-2:00)</option>
+                <option value="6">Period 6 (2:00-3:00)</option>
+              </select>
+            </div>
+            <div id="periodAttendanceContent"></div>
+          </div>
+
+          <!-- Monthly Summary Tab -->
+          <div id="monthlyTab" class="tab-content">
+            <div class="month-selector" style="margin-bottom: 20px;">
+              <label for="monthYear">Select Month:</label>
+              <input type="month" id="monthYear" onchange="loadMonthlySummary()">
+            </div>
+            <div id="monthlySummaryContent">
+              <div class="monthly-stats" style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3>Monthly Statistics</h3>
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <div class="stat-number" id="monthlyPresent">0</div>
+                    <div class="stat-label">Days Present</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-number" id="monthlyAbsent">0</div>
+                    <div class="stat-label">Days Absent</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-number" id="monthlyPercentage">0%</div>
+                    <div class="stat-label">Attendance %</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-number" id="monthlyHolidays">0</div>
+                    <div class="stat-label">Holidays</div>
+                  </div>
+                </div>
+              </div>
+              <div id="monthlyChart"></div>
+            </div>
+          </div>
+
+          <!-- Semester Summary Tab -->
+          <div id="semesterTab" class="tab-content">
+            <div class="semester-selector" style="margin-bottom: 20px;">
+              <label for="semesterSelect">Select Semester:</label>
+              <select id="semesterSelect" onchange="loadSemesterSummary()">
+                <option value="2025-1">Semester 1 (July-Dec 2025)</option>
+                <option value="2025-2">Semester 2 (Jan-June 2025)</option>
+                <option value="2024-2">Semester 2 (Jan-June 2024)</option>
+              </select>
+            </div>
+            <div id="semesterSummaryContent">
+              <div class="semester-stats" style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3>Semester Statistics</h3>
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <div class="stat-number" id="semesterPresent">0</div>
+                    <div class="stat-label">Days Present</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-number" id="semesterAbsent">0</div>
+                    <div class="stat-label">Days Absent</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-number" id="semesterPercentage">0%</div>
+                    <div class="stat-label">Attendance %</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-number" id="semesterHolidays">0</div>
+                    <div class="stat-label">Holidays</div>
+                  </div>
+                </div>
+              </div>
+              <div id="semesterChart"></div>
+            </div>
+          </div>
+
+          <!-- Export Report Tab -->
+          <div id="exportTab" class="tab-content">
+            <div class="export-controls" style="margin-bottom: 20px;">
+              <label for="exportMonth">Select Month:</label>
+              <input type="month" id="exportMonth">
+              <button onclick="exportAttendanceReport()" class="export-btn">📄 Export PDF Report</button>
+            </div>
+            <div id="exportPreview"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+// Demo attendance data for July 2025
+const attendanceData = {
+  '2025-07-01': 'present', '2025-07-02': 'present', '2025-07-03': 'absent', '2025-07-04': 'present', '2025-07-05': 'holiday',
+  '2025-07-06': 'present', '2025-07-07': 'present', '2025-07-08': 'absent', '2025-07-09': 'present', '2025-07-10': 'present',
+  '2025-07-11': 'holiday', '2025-07-12': 'present', '2025-07-13': 'present', '2025-07-14': 'absent', '2025-07-15': 'present',
+  '2025-07-16': 'present', '2025-07-17': 'present', '2025-07-18': 'holiday', '2025-07-19': 'present', '2025-07-20': 'absent',
+  '2025-07-21': 'present', '2025-07-22': 'present', '2025-07-23': 'present', '2025-07-24': 'holiday', '2025-07-25': 'present',
+  '2025-07-26': 'present', '2025-07-27': 'absent', '2025-07-28': 'present', '2025-07-29': 'present', '2025-07-30': 'holiday',
+  '2025-07-31': 'present'
+};
+function renderCalendar() {
+  const daysInMonth = 31;
+  const firstDay = new Date(2025, 6, 1).getDay(); // July 2025
+  let html = '';
+  let day = 1;
+  for (let week = 0; week < 6; week++) {
+    html += '<tr>';
+    for (let d = 0; d < 7; d++) {
+      if ((week === 0 && d < firstDay) || day > daysInMonth) {
+        html += '<td></td>';
+      } else {
+        const dateStr = `2025-07-${day.toString().padStart(2,'0')}`;
+        let status = attendanceData[dateStr] || '';
+        let color = '';
+        if (d === 0) color = '#a78bfa'; // Sunday is purple
+        else if (status === 'present') color = '#22c55e';
+        else if (status === 'absent') color = '#ef4444';
+        else if (status === 'holiday') color = '#f59e42';
+        html += `<td style='background:${color};border-radius:6px;cursor:pointer;' onclick='showAttendanceDetail("${dateStr}","${status}")'>${day}</td>`;
+        day++;
+      }
+    }
+    html += '</tr>';
+    if (day > daysInMonth) break;
+  }
+  document.getElementById('calendarBody').innerHTML = html;
+}
+function showAttendanceDetail(date, status) {
+  let statusText = '';
+  if (status === 'present') statusText = 'Present (Green)';
+  else if (status === 'absent') statusText = 'Absent (Red)';
+  else if (status === 'holiday') statusText = 'Holiday (Orange)';
+  else if (new Date(date).getDay() === 0) statusText = 'Sunday (Purple)';
+  else statusText = 'No record';
+  alert(`Date: ${date}\nStatus: ${statusText}`);
+}
+// Enhanced Attendance Tracker Data
+const periodAttendanceData = {
+  '2025-07-01': {
+    1: 'present', 2: 'present', 3: 'present', 4: 'present', 5: 'present', 6: 'present'
+  },
+  '2025-07-02': {
+    1: 'present', 2: 'present', 3: 'absent', 4: 'present', 5: 'present', 6: 'present'
+  },
+  '2025-07-03': {
+    1: 'absent', 2: 'absent', 3: 'absent', 4: 'absent', 5: 'absent', 6: 'absent'
+  },
+  '2025-07-04': {
+    1: 'present', 2: 'present', 3: 'present', 4: 'present', 5: 'present', 6: 'present'
+  },
+  '2025-08-01': {
+    1: 'present', 2: 'present', 3: 'present', 4: 'present', 5: 'present', 6: 'present'
+  },
+  '2025-08-02': {
+    1: 'present', 2: 'absent', 3: 'present', 4: 'present', 5: 'present', 6: 'present'
+  },
+  '2025-09-01': {
+    1: 'present', 2: 'present', 3: 'present', 4: 'absent', 5: 'present', 6: 'present'
+  },
+  '2025-09-02': {
+    1: 'present', 2: 'present', 3: 'present', 4: 'present', 5: 'present', 6: 'present'
+  },
+  '2025-10-01': {
+    1: 'absent', 2: 'present', 3: 'present', 4: 'present', 5: 'present', 6: 'present'
+  },
+  '2025-10-02': {
+    1: 'present', 2: 'present', 3: 'present', 4: 'present', 5: 'present', 6: 'present'
+  },
+  '2025-11-01': {
+    1: 'present', 2: 'present', 3: 'present', 4: 'present', 5: 'absent', 6: 'present'
+  },
+  '2025-11-02': {
+    1: 'present', 2: 'present', 3: 'present', 4: 'present', 5: 'present', 6: 'present'
+  },
+  '2025-12-01': {
+    1: 'present', 2: 'present', 3: 'present', 4: 'present', 5: 'present', 6: 'present'
+  },
+  '2025-12-02': {
+    1: 'present', 2: 'present', 3: 'present', 4: 'present', 5: 'present', 6: 'present'
+  }
+};
+
+// Semester attendance data
+const semesterAttendanceData = {
+  '2025-1': {
+    months: ['2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12'],
+    name: 'Semester 1 (July-Dec 2025)',
+    totalDays: 120,
+    presentDays: 95,
+    absentDays: 15,
+    holidayDays: 10
+  },
+  '2025-2': {
+    months: ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06'],
+    name: 'Semester 2 (Jan-June 2025)',
+    totalDays: 110,
+    presentDays: 88,
+    absentDays: 12,
+    holidayDays: 10
+  },
+  '2024-2': {
+    months: ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06'],
+    name: 'Semester 2 (Jan-June 2024)',
+    totalDays: 115,
+    presentDays: 92,
+    absentDays: 13,
+    holidayDays: 10
+  }
+};
+
+// Tab Management
+function showTab(tabName) {
+  // Hide all tab contents
+  const tabContents = document.querySelectorAll('.tab-content');
+  tabContents.forEach(content => content.classList.remove('active'));
+  
+  // Remove active class from all buttons
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  tabButtons.forEach(btn => btn.classList.remove('active'));
+  
+  // Show selected tab
+  document.getElementById(tabName + 'Tab').classList.add('active');
+  event.target.classList.add('active');
+  
+  // Load data for the selected tab
+  switch(tabName) {
+    case 'daily':
+      loadDailyAttendance();
+      break;
+    case 'period':
+      loadPeriodAttendance();
+      break;
+    case 'monthly':
+      loadMonthlySummary();
+      break;
+    case 'semester':
+      loadSemesterSummary();
+      break;
+    case 'export':
+      loadExportPreview();
+      break;
+  }
+}
+
+// Daily Attendance Functions
+function loadDailyAttendance() {
+  const date = document.getElementById('attendanceDate').value || new Date().toISOString().split('T')[0];
+  const dayData = periodAttendanceData[date] || {};
+  
+  let presentCount = 0;
+  let absentCount = 0;
+  
+  const periods = [
+    { id: 1, name: 'Period 1 (8:00-9:00)', subject: 'ML' },
+    { id: 2, name: 'Period 2 (9:00-10:00)', subject: 'DL' },
+    { id: 3, name: 'Period 3 (10:15-11:15)', subject: 'BT' },
+    { id: 4, name: 'Period 4 (11:15-12:15)', subject: 'CSE' },
+    { id: 5, name: 'Period 5 (1:00-2:00)', subject: 'BDA' },
+    { id: 6, name: 'Period 6 (2:00-3:00)', subject: 'Project' }
+  ];
+  
+  let html = '<div class="period-list">';
+  periods.forEach(period => {
+    const status = dayData[period.id] || 'not-marked';
+    if (status === 'present') presentCount++;
+    if (status === 'absent') absentCount++;
+    
+    const statusClass = status === 'present' ? 'status-present' : 
+                       status === 'absent' ? 'status-absent' : 'status-not-marked';
+    const statusText = status === 'present' ? '✅ Present' : 
+                      status === 'absent' ? '❌ Absent' : '⏳ Not Marked';
+    
+    html += `
+      <div class="period-item ${statusClass}">
+        <div class="period-info">
+          <strong>${period.name}</strong>
+          <span class="subject">${period.subject}</span>
+        </div>
+        <div class="period-status">${statusText}</div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  
+  document.getElementById('periodAttendanceList').innerHTML = html;
+  document.getElementById('presentCount').textContent = presentCount;
+  document.getElementById('absentCount').textContent = absentCount;
+  document.getElementById('attendancePercentage').textContent = 
+    presentCount + absentCount > 0 ? Math.round((presentCount / (presentCount + absentCount)) * 100) + '%' : '0%';
+}
+
+// Period-wise Attendance Functions
+function loadPeriodAttendance() {
+  const date = document.getElementById('periodDate').value || new Date().toISOString().split('T')[0];
+  const period = document.getElementById('periodSelect').value;
+  const dayData = periodAttendanceData[date] || {};
+  const status = dayData[period] || 'not-marked';
+  
+  const periodNames = {
+    1: 'Period 1 (8:00-9:00) - Mathematics',
+    2: 'Period 2 (9:00-10:00) - Physics',
+    3: 'Period 3 (10:15-11:15) - Chemistry',
+    4: 'Period 4 (11:15-12:15) - English',
+    5: 'Period 5 (1:00-2:00) - Computer Science',
+    6: 'Period 6 (2:00-3:00) - Lab Session'
+  };
+  
+  const statusText = status === 'present' ? '✅ Present' : 
+                    status === 'absent' ? '❌ Absent' : '⏳ Not Marked';
+  const statusClass = status === 'present' ? 'status-present' : 
+                     status === 'absent' ? 'status-absent' : 'status-not-marked';
+  
+  document.getElementById('periodAttendanceContent').innerHTML = `
+    <div class="period-detail ${statusClass}">
+      <h3>${periodNames[period]}</h3>
+      <p><strong>Date:</strong> ${date}</p>
+      <p><strong>Status:</strong> ${statusText}</p>
+      <p><strong>Time:</strong> ${periodNames[period].split('(')[1].split(')')[0]}</p>
+    </div>
+  `;
+}
+
+// Monthly Summary Functions
+function loadMonthlySummary() {
+  const monthYear = document.getElementById('monthYear').value || '2025-07';
+  const [year, month] = monthYear.split('-');
+  
+  let presentDays = 0;
+  let absentDays = 0;
+  let holidayDays = 0;
+  
+  // Calculate statistics for the month
+  Object.keys(periodAttendanceData).forEach(date => {
+    if (date.startsWith(monthYear)) {
+      const dayData = periodAttendanceData[date];
+      const hasPresent = Object.values(dayData).some(status => status === 'present');
+      const hasAbsent = Object.values(dayData).some(status => status === 'absent');
+      
+      if (hasPresent && !hasAbsent) presentDays++;
+      else if (hasAbsent) absentDays++;
+    }
+  });
+  
+  // Count holidays (Sundays)
+  const daysInMonth = new Date(year, month, 0).getDate();
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month - 1, day);
+    if (date.getDay() === 0) holidayDays++;
+  }
+  
+  const totalWorkingDays = daysInMonth - holidayDays;
+  const percentage = totalWorkingDays > 0 ? Math.round((presentDays / totalWorkingDays) * 100) : 0;
+  
+  document.getElementById('monthlyPresent').textContent = presentDays;
+  document.getElementById('monthlyAbsent').textContent = absentDays;
+  document.getElementById('monthlyPercentage').textContent = percentage + '%';
+  document.getElementById('monthlyHolidays').textContent = holidayDays;
+  
+  // Create tabular format for monthly attendance
+  const tableHtml = `
+    <div class="monthly-table-container">
+      <h3>Monthly Attendance Details</h3>
+      <div class="table-wrapper">
+        <table class="monthly-attendance-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Day</th>
+              <th>Period 1<br>(8:00-9:00)</th>
+              <th>Period 2<br>(9:00-10:00)</th>
+              <th>Period 3<br>(10:15-11:15)</th>
+              <th>Period 4<br>(11:15-12:15)</th>
+              <th>Period 5<br>(1:00-2:00)</th>
+              <th>Period 6<br>(2:00-3:00)</th>
+              <th>Daily Status</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${generateMonthlyTableRows(monthYear, daysInMonth)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+  document.getElementById('monthlyChart').innerHTML = tableHtml;
+}
+
+// Helper function to generate table rows for monthly summary
+function generateMonthlyTableRows(monthYear, daysInMonth) {
+  const [year, month] = monthYear.split('-');
+  let rows = '';
+  
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month - 1, day);
+    const dateStr = `${monthYear}-${day.toString().padStart(2, '0')}`;
+    const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+    const isSunday = date.getDay() === 0;
+    const dayData = periodAttendanceData[dateStr] || {};
+    
+    if (isSunday) {
+      // Sunday - show as holiday
+      rows += `
+        <tr class="holiday-row">
+          <td>${day}</td>
+          <td>${dayName}</td>
+          <td colspan="6" class="holiday-cell">Sunday - Holiday</td>
+          <td class="holiday-status">Holiday</td>
+          <td>-</td>
+        </tr>
+      `;
+    } else {
+      // Regular day - show period-wise attendance
+      let presentCount = 0;
+      let absentCount = 0;
+      let periodCells = '';
+      
+      for (let period = 1; period <= 6; period++) {
+        const status = dayData[period] || 'not-marked';
+        if (status === 'present') presentCount++;
+        if (status === 'absent') absentCount++;
+        
+        const statusClass = status === 'present' ? 'present-cell' : 
+                           status === 'absent' ? 'absent-cell' : 'not-marked-cell';
+        const statusText = status === 'present' ? '✅' : 
+                          status === 'absent' ? '❌' : '⏳';
+        
+        periodCells += `<td class="${statusClass}">${statusText}</td>`;
+      }
+      
+      const totalPeriods = presentCount + absentCount;
+      const dailyPercentage = totalPeriods > 0 ? Math.round((presentCount / totalPeriods) * 100) : 0;
+      const dailyStatus = presentCount > absentCount ? 'Present' : 
+                         absentCount > presentCount ? 'Absent' : 
+                         totalPeriods === 0 ? 'Not Marked' : 'Mixed';
+      const statusClass = dailyStatus === 'Present' ? 'present-status' : 
+                         dailyStatus === 'Absent' ? 'absent-status' : 'mixed-status';
+      
+      rows += `
+        <tr>
+          <td>${day}</td>
+          <td>${dayName}</td>
+          ${periodCells}
+          <td class="${statusClass}">${dailyStatus}</td>
+          <td>${dailyPercentage}%</td>
+        </tr>
+      `;
+    }
+  }
+  
+  return rows;
+}
+
+// Semester Summary Functions
+function loadSemesterSummary() {
+  const semesterId = document.getElementById('semesterSelect').value || '2025-1';
+  const semesterData = semesterAttendanceData[semesterId];
+  
+  if (!semesterData) {
+    document.getElementById('semesterSummaryContent').innerHTML = '<p>No data available for selected semester.</p>';
+    return;
+  }
+  
+  const percentage = Math.round((semesterData.presentDays / (semesterData.presentDays + semesterData.absentDays)) * 100);
+  
+  document.getElementById('semesterPresent').textContent = semesterData.presentDays;
+  document.getElementById('semesterAbsent').textContent = semesterData.absentDays;
+  document.getElementById('semesterPercentage').textContent = percentage + '%';
+  document.getElementById('semesterHolidays').textContent = semesterData.holidayDays;
+  
+  // Create tabular format for semester attendance
+  const tableHtml = `
+    <div class="semester-table-container">
+      <h3>Semester Attendance Details - ${semesterData.name}</h3>
+      <div class="table-wrapper">
+        <table class="semester-attendance-table">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Total Days</th>
+              <th>Present Days</th>
+              <th>Absent Days</th>
+              <th>Holidays</th>
+              <th>Working Days</th>
+              <th>Attendance %</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${generateSemesterTableRows(semesterId)}
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="semester-summary-table" style="margin-top: 30px;">
+        <h4>Overall Semester Summary</h4>
+        <div class="table-wrapper">
+          <table class="semester-summary-table">
+            <thead>
+              <tr>
+                <th>Period</th>
+                <th>Total Classes</th>
+                <th>Present</th>
+                <th>Absent</th>
+                <th>Attendance %</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${generateSemesterPeriodSummary(semesterId)}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('semesterChart').innerHTML = tableHtml;
+}
+
+// Helper function to generate table rows for semester summary
+function generateSemesterTableRows(semesterId) {
+  const semesterData = semesterAttendanceData[semesterId];
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                     'July', 'August', 'September', 'October', 'November', 'December'];
+  let rows = '';
+  
+  semesterData.months.forEach(monthYear => {
+    const [year, month] = monthYear.split('-');
+    const monthName = monthNames[parseInt(month) - 1];
+    const daysInMonth = new Date(year, month, 0).getDate();
+    
+    // Calculate attendance for this month
+    let presentDays = 0;
+    let absentDays = 0;
+    let holidayDays = 0;
+    
+    // Count holidays (Sundays)
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(year, month - 1, day);
+      if (date.getDay() === 0) holidayDays++;
+    }
+    
+    // Count attendance from period data
+    Object.keys(periodAttendanceData).forEach(date => {
+      if (date.startsWith(monthYear)) {
+        const dayData = periodAttendanceData[date];
+        const hasPresent = Object.values(dayData).some(status => status === 'present');
+        const hasAbsent = Object.values(dayData).some(status => status === 'absent');
+        
+        if (hasPresent && !hasAbsent) presentDays++;
+        else if (hasAbsent) absentDays++;
+      }
+    });
+    
+    const workingDays = daysInMonth - holidayDays;
+    const percentage = workingDays > 0 ? Math.round((presentDays / workingDays) * 100) : 0;
+    const status = percentage >= 75 ? 'Good' : percentage >= 60 ? 'Average' : 'Poor';
+    const statusClass = status === 'Good' ? 'status-good' : status === 'Average' ? 'status-average' : 'status-poor';
+    
+    rows += `
+      <tr>
+        <td><strong>${monthName} ${year}</strong></td>
+        <td>${daysInMonth}</td>
+        <td class="present-cell">${presentDays}</td>
+        <td class="absent-cell">${absentDays}</td>
+        <td class="holiday-cell">${holidayDays}</td>
+        <td>${workingDays}</td>
+        <td class="${percentage >= 75 ? 'present-cell' : percentage >= 60 ? 'mixed-cell' : 'absent-cell'}">${percentage}%</td>
+        <td class="${statusClass}">${status}</td>
+      </tr>
+    `;
+  });
+  
+  return rows;
+}
+
+// Helper function to generate period-wise summary for semester
+function generateSemesterPeriodSummary(semesterId) {
+  const semesterData = semesterAttendanceData[semesterId];
+  const periods = [
+    { id: 1, name: 'Period 1 (8:00-9:00)', subject: 'Mathematics' },
+    { id: 2, name: 'Period 2 (9:00-10:00)', subject: 'Physics' },
+    { id: 3, name: 'Period 3 (10:15-11:15)', subject: 'Chemistry' },
+    { id: 4, name: 'Period 4 (11:15-12:15)', subject: 'English' },
+    { id: 5, name: 'Period 5 (1:00-2:00)', subject: 'Computer Science' },
+    { id: 6, name: 'Period 6 (2:00-3:00)', subject: 'Lab Session' }
+  ];
+  
+  let rows = '';
+  
+  periods.forEach(period => {
+    let totalClasses = 0;
+    let presentCount = 0;
+    let absentCount = 0;
+    
+    // Calculate attendance for this period across all semester months
+    semesterData.months.forEach(monthYear => {
+      Object.keys(periodAttendanceData).forEach(date => {
+        if (date.startsWith(monthYear)) {
+          const dayData = periodAttendanceData[date];
+          const status = dayData[period.id];
+          if (status === 'present' || status === 'absent') {
+            totalClasses++;
+            if (status === 'present') presentCount++;
+            if (status === 'absent') absentCount++;
+          }
+        }
+      });
+    });
+    
+    const percentage = totalClasses > 0 ? Math.round((presentCount / totalClasses) * 100) : 0;
+    const status = percentage >= 75 ? 'Good' : percentage >= 60 ? 'Average' : 'Poor';
+    const statusClass = status === 'Good' ? 'status-good' : status === 'Average' ? 'status-average' : 'status-poor';
+    
+    rows += `
+      <tr>
+        <td><strong>${period.name}</strong><br><small>${period.subject}</small></td>
+        <td>${totalClasses}</td>
+        <td class="present-cell">${presentCount}</td>
+        <td class="absent-cell">${absentCount}</td>
+        <td class="${percentage >= 75 ? 'present-cell' : percentage >= 60 ? 'mixed-cell' : 'absent-cell'}">${percentage}%</td>
+        <td class="${statusClass}">${status}</td>
+      </tr>
+    `;
+  });
+  
+  return rows;
+}
+
+// Export Functions
+function loadExportPreview() {
+  const monthYear = document.getElementById('exportMonth').value || '2025-07';
+  document.getElementById('exportPreview').innerHTML = `
+    <div class="export-preview">
+      <h3>Export Preview for ${monthYear}</h3>
+      <p>This will generate a comprehensive PDF report including:</p>
+      <ul>
+        <li>Daily attendance records</li>
+        <li>Period-wise breakdown</li>
+        <li>Monthly statistics</li>
+        <li>Attendance percentage</li>
+        <li>Holiday information</li>
+      </ul>
+    </div>
+  `;
+}
+
+function exportAttendanceReport() {
+  const monthYear = document.getElementById('exportMonth').value;
+  if (!monthYear) {
+    alert('Please select a month to export');
+    return;
+  }
+  
+  // Simulate PDF generation
+  alert(`Generating PDF report for ${monthYear}...\n\nThis would create a comprehensive attendance report with all the data for the selected month.`);
+  
+  // In a real implementation, this would call a backend API to generate PDF
+  console.log('Exporting attendance report for:', monthYear);
+}
+
+// Sidebar Attendance click logic
+const sidebarLinks = document.querySelectorAll('.sidebar nav ul li a');
+sidebarLinks.forEach(link => {
+  if (link.textContent.trim() === 'Attendance') {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('welcomeCard').style.display = 'none';
+      document.getElementById('attendanceCalendarSection').style.display = 'none';
+      document.getElementById('attendanceTrackerSection').style.display = 'block';
+      
+      // Set default date to today
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('attendanceDate').value = today;
+      document.getElementById('periodDate').value = today;
+      document.getElementById('monthYear').value = today.substring(0, 7);
+      document.getElementById('exportMonth').value = today.substring(0, 7);
+      
+      // Set default semester
+      document.getElementById('semesterSelect').value = '2025-1';
+      
+      // Load initial data
+      loadDailyAttendance();
+    });
+  } else {
+    link.addEventListener('click', function() {
+      document.getElementById('attendanceCalendarSection').style.display = 'none';
+      document.getElementById('attendanceTrackerSection').style.display = 'none';
+      document.getElementById('welcomeCard').style.display = 'block';
+    });
+  }
+});
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_KEY",
+    authDomain: "YOUR_DOMAIN",
+    databaseURL: "YOUR_DB_URL",
+    projectId: "YOUR_ID",
+    storageBucket: "YOUR_BUCKET",
+    messagingSenderId: "YOUR_SENDER",
+    appId: "YOUR_APP"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db   = firebase.database();
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const rollNo = localStorage.getItem("studentRollNo");
+
+    if (!rollNo) {
+      alert("Not logged in");
+      window.location.href = "student_login.html";
+      return;
+    }
+
+    const res = await fetch(`http://localhost:4000/student/${rollNo}`);
+    const student = await res.json();
+
+    // Fill profile section
+    document.getElementById("studentName").innerText = student.name;
+    document.getElementById("studentRollNo").innerText = rollNo;
+    document.getElementById("studentPhoto").src = student.photo;
+
+    // Example for attendance
+    document.getElementById("attendancePercent").innerText = student.attendance + "%";
+  });
+
+  <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const rollNo = localStorage.getItem("studentRollNo");
+
+    if (!rollNo) {
+      alert("Not logged in");
+      window.location.href = "student_login.html";
+      return;
+    }
+
+    const res = await fetch(`http://localhost:4000/student/${rollNo}`);
+    const student = await res.json();
+
+    // Fill profile section
+    document.getElementById("studentName").innerText = student.name;
+    document.getElementById("studentRollNo").innerText = rollNo;
+    document.getElementById("studentPhoto").src = student.photo;
+
+    // Example for attendance
+    document.getElementById("attendancePercent").innerText = student.attendance + "%";
+  });
+
+<!-- Example HTML -->
+<div>
+  <h2 id="studentName"></h2>
+  <p>Roll No: <span id="studentRollNo"></span></p>
+  <img id="studentPhoto" width="120" height="120">
+  <p>Attendance: <span id="attendancePercent"></span></p>
+</div>
+</script>
+</body>
+</html>
