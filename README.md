@@ -2,47 +2,148 @@
 
 ## Overview
 
-The Smart Attendance System is a web-based application designed to digitize and streamline student attendance management. It provides a structured platform for tracking attendance records, managing academic information, and improving administrative efficiency.
+Smart Attendance System is a full-stack web application developed to digitize and streamline attendance management in educational institutions. The system supports multiple roles including Admin, HOD, Teacher, and Student, each with dedicated dashboards and functionalities.
 
-This project demonstrates full-stack development capabilities, including RESTful API design, backend development, frontend integration, authentication handling, and database management.
+The project demonstrates backend API development, role-based UI design, authentication handling, and structured frontend architecture.
 
 ---
 
-## Key Features
+## Features
 
-### Authentication
-- User registration and login
-- Secure credential handling
-- Session-based or token-based authentication (based on implementation)
+### Authentication & Roles
+- Student login and registration
+- Teacher login and registration
+- Admin login
+- HOD login
+- Role selection system
 
 ### Attendance Management
-- Monthly attendance tracking
-- Attendance summary dashboard
-- Leave application submission
-- Academic information display (routine, notifications, results)
+- Mark and view attendance
+- New attendance entry
+- Student dashboard attendance tracking
+- Teacher attendance handling
 
-### System Design
-- RESTful API structure
-- Modular project organization
-- Clean separation between frontend and backend
-- Scalable architecture for future enhancements
+### Academic Management
+- Assignment management
+- Notes upload/view
+- Results display
+- Certificates section
+- Semester view
+- Announcements
 
 ---
 
 ## Technology Stack
 
-**Frontend**
+### Backend
+- Python
+- FastAPI
+- Uvicorn
+
+### Frontend
 - HTML
 - CSS
 - JavaScript
 
-**Backend**
-- Python (FastAPI)
+### Server / Runtime
+- Node.js (package.json, index.js)
 
-**Database**
-- Firebase Realtime Database
-
-**Version Control**
-- Git and GitHub
+### Version Control
+- Git & GitHub
 
 ---
+
+## Project Structure
+smart-attendance-system/
+│
+├── major/
+│ ├── backend/
+│ │ ├── main.py
+│ │ └── pycache/
+│ │
+│ ├── frontend/
+│ │ ├── admin_login.html
+│ │ ├── student_login.html
+│ │ ├── teacher_login.html
+│ │ ├── attendance.html
+│ │ ├── dashboard files
+│ │ ├── CSS files
+│ │ └── image assets
+│ │
+│ ├── index.js
+│ ├── package.json
+│ ├── package-lock.json
+│ ├── requirements.txt
+│ └── .gitignore
+│
+└── README.md
+
+---
+
+## Installation & Setup
+
+### 1. Clone Repository
+
+
+git clone https://github.com/moulyajagarlamudi/smart-attendance-system.git
+
+cd smart-attendance-system/major
+
+---
+
+### 2. Backend Setup (FastAPI)
+
+Create virtual environment:
+
+python -m venv venv
+
+Activate:
+
+Windows:
+
+venv\Scripts\activate
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Run backend server:
+
+uvicorn backend.main:app --reload
+
+---
+
+### 3. Frontend Setup
+
+Open frontend HTML files directly in browser  
+OR  
+Run Node server:
+
+npm install
+node index.js
+
+---
+
+## Architecture Notes
+
+- Role-based frontend separation
+- Dedicated dashboards per user type
+- Backend API handling attendance logic
+- Modular folder separation (backend/frontend)
+- Scalable structure for adding new modules
+
+---
+
+## Improvements Planned
+
+- JWT-based authentication
+- Database normalization
+- Role-based access control at backend level
+- Deployment using Docker
+- Production hosting
+
+---
+
+## Author
+
+GitHub: https://github.com/moulyajagarlamudi
